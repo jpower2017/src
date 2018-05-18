@@ -227,19 +227,19 @@ export const createAddeparBloombergSubmission = jwt => {
   return apolloFetch({ query }).then(res => res.data);
 };
 
-export const createPendingSubmission = (jwt, a, b, c) => {
+// mutation updatePerson($userUUID:String,$input:PersonInput) {
+//  UpdatePerson(userUUID:$userUUID,input:$input) {
+export const createPendingSubmission = (jwt, a, b) => {
   console.log("HTTP createPendingSubmission");
   const query = `
-     mutation createPendingSubmission {
-      CreatePendingSubmission {
-      uuid
-    }
+     mutation createPendingSubmission($input:PendingInput!) {
+      CreatePendingSubmission(input:$input)
   }
   `;
   const variables = {
-    teamWorkID: a,
-    possessive: b,
-    date: c
+    //teamworkID: a,
+    //  date: b
+    input: { teamworkID: a, date: b }
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {
@@ -252,19 +252,17 @@ export const createPendingSubmission = (jwt, a, b, c) => {
   });
   return apolloFetch({ query, variables }).then(res => res.data);
 };
-export const createUpdateSubmission = (jwt, a, b, c) => {
+export const createUpdateSubmission = (jwt, a, b) => {
   console.log("HTTP createUpdateSubmission");
   const query = `
-     mutation createUpdateSubmission {
-      CreateUpdateSubmission {
-      uuid
-    }
+     mutation createUpdateSubmission($input:PendingInput!) {
+      CreateUpdateSubmission(input:$input)
   }
   `;
   const variables = {
-    teamWorkID: a,
-    possessive: b,
-    date: c
+    //  teamworkID: a,
+    //  date: b
+    input: { teamworkID: a, date: b }
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {
@@ -276,6 +274,26 @@ export const createUpdateSubmission = (jwt, a, b, c) => {
     next();
   });
   return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const createPendingReport = jwt => {
+  console.log("HTTP createPendingReport");
+  const query = `
+     mutation createPendingReport  {
+      CreatePendingReport
+  }
+  `;
+
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query }).then(res => res.data);
 };
 
 //UpdatePresence(userUUID: String, input: PresenceInput)

@@ -89,7 +89,7 @@ class Nav extends Component {
     );
     /* hack to show Joe all apps */
     if (this.props.login === "jpower@bluesprucecapital.com") {
-      return data;
+      //  return data;
     }
     return R.filter(
       x =>

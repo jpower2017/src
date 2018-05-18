@@ -36,7 +36,7 @@ export default class FormPendingList extends Component {
     this.state = {
       personValue: this.props.dataPerson[0]["value"],
       date: "today",
-      dateFormat: moment().format("M/D/YY"),
+      dateFormat: moment().format("YYYYMMDD"),
       list: "pending",
       summary: [],
       tab: "Individual",
@@ -53,28 +53,32 @@ export default class FormPendingList extends Component {
       case "yesterday":
         dateFormat = moment()
           .subtract(1, "days")
-          .format("M/D/YY");
+          .format("YYYYMMDD");
         break;
       case "today":
-        dateFormat = moment().format("M/D/YY");
+        dateFormat = moment().format("YYYYMMDD");
         break;
       case "tomorrow":
         dateFormat = moment()
           .add(1, "days")
-          .format("M/D/YY");
+          .format("YYYYMMDD");
         break;
       default:
     }
     this.setState({ date: index, dateFormat: dateFormat });
   };
   handleList = (event, index, value) => {
+    console.log("handleList " + [index, value]);
     this.setState({ list: index });
   };
   handleReport = value => {
     console.log("ForPendingList handleReport");
+    console.log(this.props.data[this.state.personValue].teamWorkID);
+    console.log(this.state.dateFormat);
+    console.log(this.state.list);
+    console.log("end");
     this.props.onSelect(
       this.props.data[this.state.personValue].teamWorkID,
-      this.props.data[this.state.personValue].possessive,
       this.state.dateFormat,
       this.state.list
     );
@@ -88,7 +92,7 @@ export default class FormPendingList extends Component {
   };
   handleReportIris = () => {
     console.log("handleReportIris");
-    this.props.onSelect(null, null, null, "iris");
+    this.props.onSelect(null, null, "iris");
     let temp = [];
     temp = this.state.summary;
     const descript = `Iris' list, shown date of ${this.state.date},`;
@@ -111,7 +115,7 @@ export default class FormPendingList extends Component {
         d =
           moment()
             .subtract(1, "days")
-            .format("M/D/YY") +
+            .format("YYYYMMDD") +
           " " +
           "(Yesterday)";
         break;
@@ -119,12 +123,12 @@ export default class FormPendingList extends Component {
         d =
           moment()
             .add(1, "days")
-            .format("M/D/YY") +
+            .format("YYYYMMDD") +
           " " +
           "(Tomorrow)";
         break;
       default:
-        d = moment().format("M/D/YY") + " " + "(Today)";
+        d = moment().format("YYYYMMDD") + " " + "(Today)";
     }
     return d;
   };

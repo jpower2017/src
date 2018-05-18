@@ -4,41 +4,28 @@ import { Log, LogTable } from "../../../utils/utils";
 
 //export const SUBMIT_PENDING = "SUBMIT_PENDING";
 
-export const submitPending = (
-  teamWorkID,
-  possessive,
-  dateFormat,
-  list
-) => async (dispatch, getState) => {
+export const submitPending = (teamWorkID, dateFormat, list) => async (
+  dispatch,
+  getState
+) => {
   let result;
-  Log(
-    "PENDING ACTION submitPending f " +
-      [teamWorkID, possessive, dateFormat, list]
+  console.log(
+    "SUBMITPENDIN ACTION submitPending f " + [teamWorkID, dateFormat, list]
   );
   const token = getState().notifications.token;
   const login = getState().notifications.login;
   if (list == "iris") {
     console.log("list eq iris");
-    //HTTP.createIrisReport
-    return;
-  }
-  if (list == "pending") {
-    result = await HTTP.createPendingSubmission(
-      token,
-      teamWorkID,
-      possessive,
-      dateFormat
-    );
+    result = await HTTP.createPendingReport(token);
+  } else if (list == "pending") {
+    console.log("list eq pending");
+    result = await HTTP.createPendingSubmission(token, teamWorkID, dateFormat);
   } else {
-    result = await HTTP.createUpdateSubmission(
-      token,
-      teamWorkID,
-      possessive,
-      dateFormat
-    );
+    console.log("list is else ie update");
+    result = await HTTP.createUpdateSubmission(token, teamWorkID, dateFormat);
   }
 
-  console.log("Pending result: " + JSON.stringify(result));
+  console.log("HTTP result: " + JSON.stringify(result));
   /*
   const json = {
     id: 33,

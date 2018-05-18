@@ -1,4 +1,3 @@
-/* no favorite field for nodes */
 export const data1 = [
   {
     id: 1,
@@ -51,7 +50,8 @@ export const data1 = [
     show: true,
     leaf: true,
     favorite: false,
-    endpoint: "/pendingList"
+    endpoint: "/pendingList",
+    allow: "CreatePendingSubmission"
   },
   {
     id: 11,
