@@ -340,7 +340,6 @@ class InOffice extends Component {
         </div>
         {!this.state.adminView &&
           this.props.data.map((x, i) => this.showRow(x, i))}
-        //this.state.data.map((x, i) => this.showRow(x, i))}
         {this.state.adminView &&
           this.state.adminData.map((x, i) => this.showAdminRow(x, i))}
       </div>
