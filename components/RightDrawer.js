@@ -53,57 +53,60 @@ class RightDrawer extends React.Component {
             opacity: navDrawerOpen ? "1" : "0",
             backgroundColor: "blueGrey400"
           }}
+          autoWidth={false}
           swipeAreaWidth={30}
         >
-          <span
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center"
-            }}
-          >
-            <RaisedButton
-              label="Dismiss all"
-              secondary={true}
-              onClick={() => this.handleRemoveAll()}
-            />
-            <Badge
-              onClick={handleChangeRequestNavDrawer}
-              badgeContent={this.state.numOfNotifications}
-              badgeStyle={
-                this.state.numOfNotifications
-                  ? {
-                      backgroundColor: "#f58c32",
-                      top: 16,
-                      right: 8,
-                      height: 15
-                    }
-                  : {
-                      backgroundColor: "#4e82af",
-                      top: 16,
-                      right: 8,
-                      height: 15
-                    }
-              }
-              primary={true}
-            >
-              {this.state.numOfNotifications ? (
-                <NotificationsIcon style={{ color: white }} />
-              ) : (
-                <NotificationsNone style={{ color: white }} />
-              )}
-            </Badge>{" "}
-            <HighLightOff
-              onClick={handleChangeRequestNavDrawer}
-              className="svg_icons-small-screen"
+          <div>
+            <span
               style={{
-                color: "white",
-                paddingLeft: "20px"
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center"
               }}
-            />
-          </span>
-          <hr />
-          <NotificationsContainer onData={this.handleNotificationData} />
+            >
+              <RaisedButton
+                label="Dismiss all"
+                secondary={true}
+                onClick={() => this.handleRemoveAll()}
+              />
+              <Badge
+                onClick={handleChangeRequestNavDrawer}
+                badgeContent={this.state.numOfNotifications}
+                badgeStyle={
+                  this.state.numOfNotifications
+                    ? {
+                        backgroundColor: "#f58c32",
+                        top: 16,
+                        right: 8,
+                        height: 15
+                      }
+                    : {
+                        backgroundColor: "#4e82af",
+                        top: 16,
+                        right: 8,
+                        height: 15
+                      }
+                }
+                primary={true}
+              >
+                {this.state.numOfNotifications ? (
+                  <NotificationsIcon style={{ color: white }} />
+                ) : (
+                  <NotificationsNone style={{ color: white }} />
+                )}
+              </Badge>{" "}
+              <HighLightOff
+                onClick={handleChangeRequestNavDrawer}
+                className="svg_icons-small-screen"
+                style={{
+                  color: "white",
+                  paddingLeft: "20px"
+                }}
+              />
+            </span>
+            <hr />
+            <NotificationsContainer onData={this.handleNotificationData} />
+          </div>
         </Drawer>
       </div>
     );

@@ -23,7 +23,7 @@ const store = configureStore();
 class App extends React.Component {
   constructor(props) {
     super(props);
-    //  console.log("App.constructor");
+    console.log("App.constructor date: " + "521 11 17");
     Log("App constructor 205pm");
     this.state = {
       navDrawerOpen: false,

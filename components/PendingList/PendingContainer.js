@@ -9,21 +9,18 @@ const data = [
   { name: "Cathy", possessive: `Cathy's`, teamWorkID: "167404", value: 2 },
   { name: "Chris", possessive: `Chris'`, teamWorkID: "168651", value: 3 },
   { name: "Dale", possessive: `Dale's`, teamWorkID: "167405", value: 4 },
-  { name: "Joe", possessive: `Joeys's`, teamWorkID: "123", value: 5 }
+  { name: "Alex", teamworkID: "222160", possessive: `Alex’s`, value: 5 }
 ];
 class PendingContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       /* ROLES == 'adminSubmitter" || "submitter"'*/
-      //role: "adminSubmitter"
-      //role: "submitter"
     };
   }
   getDataSubmitter = data => {
-    console.log("getDatSub");
-    console.log(R.filter(x => x.name == this.props.firstName, data));
-    return R.filter(x => x.name == this.props.firstName, data);
+    const d = R.find(x => x.name == this.props.firstName, data);
+    return d ? d : data[0];
   };
   render() {
     return (
@@ -49,7 +46,9 @@ const mapStateToProps = (state, ownProps) => ({
         state.notifications.user.permissions.mutations
       )
     : null,
-  firstName: state.notifications.user.firstName,
+  firstName: state.notifications.user.firstName
+    ? state.notifications.user.firstName
+    : null,
   adminSubmitter: R.contains(
     "CreatePendingReport",
     state.notifications.user.permissions.mutations

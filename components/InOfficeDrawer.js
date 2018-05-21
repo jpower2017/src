@@ -24,17 +24,24 @@ class InOfficeDrawer extends React.Component {
   render() {
     let { navDrawerOpen, handleChangeRequestNavDrawer } = this.props;
     return (
-      <div>
-        <Drawer
-          docked={true}
-          open={navDrawerOpen}
-          openSecondary={true}
-          width={375}
+      <Drawer
+        docked={true}
+        open={navDrawerOpen}
+        openSecondary={true}
+        width={375}
+        style={{
+          opacity: navDrawerOpen ? "1" : "0",
+          backgroundColor: "blueGrey400"
+        }}
+        swipeAreaWidth={30}
+        autoWidth={false}
+      >
+        <div
           style={{
-            opacity: navDrawerOpen ? "1" : "0",
-            backgroundColor: "blueGrey400"
+            position: "relative",
+            overflow: "hidden",
+            width: "100%"
           }}
-          swipeAreaWidth={30}
         >
           <span
             style={{
@@ -50,7 +57,8 @@ class InOfficeDrawer extends React.Component {
               style={{
                 color: "white",
                 paddingLeft: "20px",
-                paddingRight: "20px"
+                paddingRight: "20px",
+                cursor: "pointer"
               }}
             />
           </span>
@@ -58,8 +66,8 @@ class InOfficeDrawer extends React.Component {
           <InOffice
             handleChangeRequestNavDrawer={handleChangeRequestNavDrawer}
           />
-        </Drawer>
-      </div>
+        </div>
+      </Drawer>
     );
   }
 }

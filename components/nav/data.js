@@ -9,12 +9,30 @@ export const data1 = [
   },
   {
     id: 2,
-    name: "FlowWright",
+    name: "FlowWright Login",
     level: 1,
     show: true,
     leaf: true,
     favorite: false,
     endpoint: "/flowWright"
+  },
+  {
+    id: 3,
+    name: "FlowWright Task",
+    level: 1,
+    show: true,
+    leaf: true,
+    favorite: false,
+    endpoint: "/flowWright2"
+  },
+  {
+    id: 4,
+    name: "FlowWright Form",
+    level: 1,
+    show: true,
+    leaf: true,
+    favorite: false,
+    endpoint: "/flowWright3"
   },
   {
     id: 7,

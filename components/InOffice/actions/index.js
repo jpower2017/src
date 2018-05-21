@@ -46,7 +46,7 @@ export const updatePerson = (id, invisible, presenceToken) => async (
   //userUUID = getState().notifications.user.uuid;
   const jsn = {
     isInvisible: invisible,
-    presenceToken: presenceToken ? presenceToken : "ERROR CAN NOT BE NULL"
+    presenceToken: presenceToken ? presenceToken : null
   };
   console.log(JSON.stringify(jsn));
   const presenseUpdate = await HTTP.updatePerson(token, id, jsn);

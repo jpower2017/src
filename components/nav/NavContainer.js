@@ -14,7 +14,7 @@ class NavContainer extends Component {
     let { closeSelf } = this.props;
     return (
       <div style={{ padding: "10px" }}>
-        {this.props.user && (
+        {this.props.login && (
           <Nav
             preferences={this.props.preferences}
             setFavs={this.props.setFavorites}
@@ -27,18 +27,15 @@ class NavContainer extends Component {
     );
   }
 }
-//  adminData: state.presence.rows
-//  ? R.sort(R.ascend(R.prop("firstName")), state.presence.rows)
-//  : null,
 const mapStateToProps = (state, ownProps) => ({
-  user: state.presence.rows ? state.notifications : null,
-  preferences: state.presence.rows
+  user: state.notifications.user ? state.notifications.user : null,
+  preferences: state.notifications.user
     ? state.notifications.user.preferences
     : null,
-  authorizations: state.presence.rows
+  authorizations: state.notifications.user
     ? state.notifications.user.permissions
     : null,
-  login: state.notifications ? state.notifications.login : null
+  login: state.notifications.login ? state.notifications.login : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setFavorites: arr => {

@@ -49,8 +49,26 @@ class MainPage extends Component {
             path="/flowWright"
             render={() => (
               <Iframe
-                url="https://bsc.flowwright.com/cDevWorkflow/LoginPage.aspx?ReturnUrl=%2fcDevWorkflow%2f&header=null"
+                url="https://bsc.flowwright.com/cDevWorkflow/LoginPage.aspx?ReturnUrl=%2fcDevWorkflow%2f"
                 title="FlowWright"
+              />
+            )}
+          />
+          <Route
+            path="/flowWright2"
+            render={() => (
+              <Iframe
+                url="https://bsc.flowwright.com/cDevWorkflow/ConfigTasks.aspx?displayHeader=no"
+                title="FlowWright General User Task View"
+              />
+            )}
+          />
+          <Route
+            path="/flowWright3"
+            render={() => (
+              <Iframe
+                url="https://bsc.flowwright.com/cDevWorkflow/RenderForm.aspx?formDefID=f6e94043-9590-4bd5-9303-6d8ca6135b6d&mode=submit&workflowDefID=c0d6b7f7-ab82-48af-b0be-f61dd8a3f86b&formIDVar=fmJobRequisitionInstId&displayHeader=no"
+                title="FlowWright Form to Start FLow"
               />
             )}
           />

@@ -277,7 +277,7 @@ const mapStateToProps = (state, ownProps) => ({
     ? state.notifications.notifications
     : null,
   lastUpdated: state.notifications.lastUpdated,
-  allowPresence: state.presence.rows
+  allowPresence: state.notifications.user
     ? R.contains(
         "UpdatePresence",
         state.notifications.user.permissions.mutations

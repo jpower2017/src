@@ -34,7 +34,7 @@ export default class FormPendingList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      personValue: this.props.dataPerson[0]["value"],
+      personValue: this.props.dataPerson["value"],
       date: "today",
       dateFormat: moment().format("YYYYMMDD"),
       list: "pending",
@@ -47,7 +47,6 @@ export default class FormPendingList extends Component {
     this.setState({ personValue: value });
   };
   handleDate = (event, index, value) => {
-    console.log("handleDate " + [index, value]);
     let dateFormat;
     switch (index) {
       case "yesterday":
@@ -68,15 +67,9 @@ export default class FormPendingList extends Component {
     this.setState({ date: index, dateFormat: dateFormat });
   };
   handleList = (event, index, value) => {
-    console.log("handleList " + [index, value]);
     this.setState({ list: index });
   };
   handleReport = value => {
-    console.log("ForPendingList handleReport");
-    console.log(this.props.data[this.state.personValue].teamWorkID);
-    console.log(this.state.dateFormat);
-    console.log(this.state.list);
-    console.log("end");
     this.props.onSelect(
       this.props.data[this.state.personValue].teamWorkID,
       this.state.dateFormat,
@@ -91,7 +84,6 @@ export default class FormPendingList extends Component {
     this.setState({ summary: temp });
   };
   handleReportIris = () => {
-    console.log("handleReportIris");
     this.props.onSelect(null, null, "iris");
     let temp = [];
     temp = this.state.summary;
@@ -139,7 +131,6 @@ export default class FormPendingList extends Component {
     });
   };
   renderTab = value => {
-    console.log("renderTab value: " + value);
     const sty = (a, b) => {
       return a == b
         ? {
@@ -208,14 +199,13 @@ export default class FormPendingList extends Component {
     );
   };
   */
-  showPersonDD = (data, dataPerson) => {
-    console.log("this.state.personValue " + this.state.personValue);
+  showPersonDD = data => {
     return (
       <div style={styles.widget}>
         {this.getWidgetHeader("Person")}
         <div>
           <DropDownMenu
-            value={this.state.personValue}
+            value={this.state.personValue || 0}
             onChange={this.handleChangePerson}
             style={styles.customWidth}
             autoWidth={false}
@@ -337,7 +327,7 @@ export default class FormPendingList extends Component {
               padding: "20px"
             }}
           >
-            {tab == "Individual" && this.showPersonDD(data, dataPerson)}
+            {tab == "Individual" && this.showPersonDD(data)}
             {tab == "Individual" && this.showDateWidget()}
             {tab == "Individual" && this.showWhichList()}
           </div>
