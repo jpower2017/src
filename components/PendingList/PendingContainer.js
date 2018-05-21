@@ -9,7 +9,8 @@ const data = [
   { name: "Cathy", possessive: `Cathy's`, teamWorkID: "167404", value: 2 },
   { name: "Chris", possessive: `Chris'`, teamWorkID: "168651", value: 3 },
   { name: "Dale", possessive: `Dale's`, teamWorkID: "167405", value: 4 },
-  { name: "Alex", teamworkID: "222160", possessive: `Alex’s`, value: 5 }
+  { name: "Alex", possessive: `Alex’s`, teamworkID: "222160", value: 5 },
+  { name: "Brad", possessive: `Brad’s`, teamworkID: "222163", value: 6 }
 ];
 class PendingContainer extends Component {
   constructor(props) {
