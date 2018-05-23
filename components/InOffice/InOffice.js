@@ -59,7 +59,7 @@ class InOffice extends Component {
   }
 
   tick = data => {
-    console.log("tick()");
+    //  console.log("tick()");
     let hr, now, date;
     now = Moment.utc().valueOf();
     //  console.log("now " + now);

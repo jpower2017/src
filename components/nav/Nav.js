@@ -70,9 +70,11 @@ class Nav extends Component {
     return R.find(R.propEq("id", id))(this.state.data);
   }
   setObjProp = (prop, item, value) => {
+    console.log("setObjProp " + [prop, item, value]);
     let a = R.find(x => x.id == item, this.state.data);
     a[prop] = value;
-    //console.table(this.state.data);
+    console.table(this.state.data);
+    this.setState({ data: this.state.data });
   };
   getArrayofAuthApps(data, filterObj) {
     console.log("getArrayofAuthApps f");
@@ -88,7 +90,7 @@ class Nav extends Component {
       )
     );
     /* hack to show Joe all apps */
-    console.log("LOGIN... " + this.props.login);
+    //  console.log("LOGIN... " + this.props.login);
     if (this.props.login === "jpower@bluesprucecapital.com") {
       return data;
     }
@@ -180,13 +182,16 @@ class Nav extends Component {
       "addtofavs f this.state.currentSelectionLeaf " +
         this.state.currentSelectionLeaf
     );
+    console.log(this.state.showFavorites);
     /// do: instead of  return if csl is false, add first child.
     ///adding first child as true on click only to bypass this return
     /*
     if (!this.state.currentSelectionLeaf) {
       return;
     }*/
+    console.log(this.state.currentSelection);
     let obj = this.getObj(this.state.currentSelection);
+    console.log(JSON.stringify(obj));
     if (obj.leaf) {
       this.setObjProp("favorite", this.state.currentSelection, true);
     }
@@ -202,7 +207,9 @@ class Nav extends Component {
     console.log("saveFavs");
     const isFav = x => x == true;
     let b = R.filter(x => isFav(x.favorite), this.state.data);
+    console.table(b);
     let favs = R.map(x => x.id, b);
+    console.table(favs);
     this.props.setFavs(favs);
   };
 
@@ -263,9 +270,10 @@ class Nav extends Component {
     let obj = this.getObj(n);
     this.props.history.push(`${obj.endpoint}`);
   };
-  renderFavs = () => {
-    const o = R.filter(x => x.favorite === true, this.state.data);
-    //console.log("renderFavs f filtered-- " + JSON.stringify(o));
+  renderFavs = data => {
+    const o = R.filter(x => x.favorite === true, data);
+    console.table(o);
+    console.log("renderFavs f filtered-- " + JSON.stringify(o));
     return o.map(x => (
       <div
         style={{
@@ -512,7 +520,7 @@ class Nav extends Component {
       <div style={{ padding: "0px" }}>
         {this.renderTitleBarFavs()}
         {this.props.preferences && !this.state.bInitCalled && setInit()}
-        {this.state.showFavorites && this.renderFavs()}
+        {this.state.showFavorites && this.renderFavs(this.state.data)}
         {this.renderMainNavHeader()}
         <div className={cssLevel1}>
           {this.state.items1.map((item1, index) => (

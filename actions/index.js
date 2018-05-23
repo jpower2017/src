@@ -47,8 +47,8 @@ export const getNotifications = () => async dispatch => {
       dispatch(saveTokenAndLogin(token, login));
       const data = await HTTP.getPortalUsers(token, login);
       const portalUsers = R.prop("PortalUsers", data);
-      console.log("ALL PORTAL USERS...");
-      console.table(portalUsers);
+      //  console.log("ALL PORTAL USERS...");
+      //console.table(portalUsers);
       dispatch(receivePortalUsers(portalUsers));
     }
   });

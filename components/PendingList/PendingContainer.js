@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { submitPending } from "./actions";
 import FormPendingList from "./FormPendingList";
 const data = [
-  { name: "Emily", possessive: `Emily's`, teamWorkID: "130182", value: 0 },
+  { name: "Alex", possessive: `Alex’s`, teamWorkID: "222160", value: 0 },
   { name: "Bianca", possessive: `Bianca's`, teamWorkID: "167406", value: 1 },
-  { name: "Cathy", possessive: `Cathy's`, teamWorkID: "167404", value: 2 },
-  { name: "Chris", possessive: `Chris'`, teamWorkID: "168651", value: 3 },
-  { name: "Dale", possessive: `Dale's`, teamWorkID: "167405", value: 4 },
-  { name: "Alex", possessive: `Alex’s`, teamworkID: "222160", value: 5 },
-  { name: "Brad", possessive: `Brad’s`, teamworkID: "222163", value: 6 }
+  { name: "Brad", possessive: `Brad’s`, teamWorkID: "222163", value: 2 },
+  { name: "Cathy", possessive: `Cathy's`, teamWorkID: "167404", value: 3 },
+  { name: "Chris", possessive: `Chris'`, teamWorkID: "168651", value: 4 },
+  { name: "Dale", possessive: `Dale's`, teamWorkID: "167405", value: 5 },
+  { name: "Emily", possessive: `Emily's`, teamWorkID: "130182", value: 6 }
 ];
 class PendingContainer extends Component {
   constructor(props) {

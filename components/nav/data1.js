@@ -44,6 +44,14 @@ export const data1 = [
     endpoint: "/boxtoken"
   },
   {
+    id: 8,
+    name: "TEST LEVEL1",
+    level: 1,
+    show: true,
+    leaf: false,
+    endpoint: "/testlevel1"
+  },
+  {
     id: 9,
     name: "Positive Pay",
     level: 1,
@@ -128,7 +136,26 @@ export const data2 = [
     endpoint: "/investments/kaily",
     parentName: "Investments"
   },
-
+  {
+    id: 205,
+    name: "TESTLEVEL2A",
+    parentId: 8,
+    level: 2,
+    show: false,
+    leaf: true,
+    favorite: false,
+    endpoint: "/testlevel1/testlevel2A"
+  },
+  {
+    id: 206,
+    name: "TESTLEVEL2B",
+    parentId: 8,
+    level: 2,
+    show: false,
+    leaf: false,
+    favorite: false,
+    endpoint: "/testlevel1/testlevel2B"
+  },
   {
     id: 210,
     name: "Export to Bloomberg",
@@ -153,4 +180,32 @@ export const data2 = [
   }
 ];
 
-export const data3 = [];
+export const data3 = [
+  {
+    id: 301,
+    name: "TESTLEVEL3A",
+    parentId: 206,
+    level: 3,
+    show: false,
+    leaf: true,
+    endpoint: "/testlevel1/testlevel2B/testllevel3A"
+  },
+  {
+    id: 302,
+    name: "TESTLEVEL3B",
+    parentId: 206,
+    level: 3,
+    show: false,
+    leaf: true,
+    endpoint: "/testlevel1/testlevel2B/testllevel3B"
+  },
+  {
+    id: 303,
+    name: "TESTLEVEL3C",
+    parentId: 206,
+    level: 3,
+    show: false,
+    leaf: true,
+    endpoint: "/testlevel1/testlevel2B/testllevel3C"
+  }
+];
