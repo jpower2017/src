@@ -3,7 +3,7 @@ import * as R from "ramda";
 import { connect } from "react-redux";
 import { updatePresence, updatePerson } from "./actions";
 import InOffice from "./InOffice";
-import { Log, LogTable } from "../../utils/utils";
+import { Log, LogTable, getEndPoints } from "../../utils/utils";
 //import { data } from "./data";
 
 const filterBroomfield = rows => {
@@ -78,7 +78,7 @@ const mapStateToProps = (state, ownProps) => ({
     ? R.sort(R.ascend(R.prop("firstName")), state.presence.rows)
     : null,
   isAdmin: state.presence.rows
-    ? R.contains("UpdatePerson", state.notifications.user.permissions.mutations)
+    ? R.contains("UpdatePerson", getEndPoints(state.notifications.user.roles))
     : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({

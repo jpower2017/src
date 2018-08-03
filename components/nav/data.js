@@ -35,6 +35,16 @@ export const data1 = [
     endpoint: "/flowWright3"
   },
   {
+    id: 5,
+    name: "New request",
+    level: 1,
+    show: true,
+    leaf: true,
+    favorite: false,
+    endpoint: "/flowWrightAPI",
+    allow: "Work Flow Admin"
+  },
+  {
     id: 7,
     name: "BoxToken",
     level: 1,
@@ -80,6 +90,15 @@ export const data1 = [
     leaf: true,
     favorite: false,
     endpoint: "/boxtokenNative"
+  },
+  {
+    id: 13,
+    name: "G-log Input",
+    level: 1,
+    show: true,
+    leaf: true,
+    favorite: false,
+    endpoint: "/glogInput"
   }
 ];
 

@@ -9,6 +9,8 @@ import {
 } from "./actions";
 import Grid from "./Grid";
 import { columns } from "./common/data";
+import { getEndPoints } from "../../utils/utils";
+
 let to1;
 class GridContainer extends Component {
   componentDidMount() {
@@ -75,13 +77,13 @@ const mapStateToProps = (state, ownProps) => ({
   allowed: state.banks.bankOneName
     ? R.contains(
         "PositivePayBanks",
-        state.notifications.user.permissions.queries
+        getEndPoints(state.notifications.user.roles)
       )
     : null,
   submitAllowed: state.banks.bankOneName
     ? R.contains(
         "CreatePositivePaySubmission",
-        state.notifications.user.permissions.mutations
+        getEndPoints(state.notifications.user.roles)
       )
     : null,
   loaded: state.banks.bankOne ? state.banks.loaded : false

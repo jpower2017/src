@@ -59,3 +59,23 @@ export const sentenceCase = str => {
   let upper = R.toUpper(b[0]);
   return upper + b[1];
 };
+export const getEndPoints = data => {
+  const getMutes = data => {
+    let a = R.map(x => x.permissions.mutations, data);
+    return R.flatten(a);
+  };
+  const getQueries = data => {
+    let b = R.map(x => x.permissions.queries, data);
+    return R.flatten(b);
+  };
+  const getRoles = data => {
+    return R.map(x => x.name, data);
+  };
+  let mutes = getMutes(data);
+  let qs = getQueries(data);
+  let gR = getRoles(data);
+  //  console.log("gR " + JSON.stringify(gR));
+  //  console.log("auth w/roles " + JSON.stringify([...mutes, ...qs, ...gR]));
+
+  return [...mutes, ...qs, ...gR];
+};

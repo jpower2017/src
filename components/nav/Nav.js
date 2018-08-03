@@ -80,25 +80,15 @@ class Nav extends Component {
     console.log("getArrayofAuthApps f");
     console.table(data);
     //  console.table(R.prop("queries", filterObj));
-    const dataQueried = R.prop("queries", filterObj);
-    const dataMutation = R.prop("mutations", filterObj);
-    console.table(
-      R.filter(
-        x =>
-          R.contains(x.allow, dataQueried) || R.contains(x.allow, dataMutation),
-        data
-      )
-    );
+    //const dataQueried = R.prop("queries", filterObj);
+    //  const dataMutation = R.prop("mutations", filterObj);
+    console.table(R.filter(x => R.contains(x.allow, filterObj), data));
     /* hack to show Joe all apps */
     //  console.log("LOGIN... " + this.props.login);
     if (this.props.login === "jpower@bluesprucecapital.com") {
       return data;
     }
-    return R.filter(
-      x =>
-        R.contains(x.allow, dataQueried) || R.contains(x.allow, dataMutation),
-      data
-    );
+    return R.filter(x => R.contains(x.allow, filterObj), data);
     /* temp */
     //return data;
     /**/

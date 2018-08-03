@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import R from "ramda";
 import Nav from "./Nav.js";
 import { connect } from "react-redux";
 import { saveFavs } from "../../actions";
+import { getEndPoints } from "../../utils/utils";
 
 class NavContainer extends Component {
   constructor(props) {
@@ -30,10 +32,10 @@ class NavContainer extends Component {
 const mapStateToProps = (state, ownProps) => ({
   user: state.notifications.user ? state.notifications.user : null,
   preferences: state.notifications.user
-    ? state.notifications.user.preferences
+    ? state.notifications.preferences
     : null,
   authorizations: state.notifications.user
-    ? state.notifications.user.permissions
+    ? getEndPoints(state.notifications.user.roles)
     : null,
   login: state.notifications.login ? state.notifications.login : null
 });

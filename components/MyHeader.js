@@ -22,6 +22,7 @@ import "./MyHeader.css";
 import Mail from "material-ui/svg-icons/communication/contact-mail";
 import Presence from "material-ui/svg-icons/notification/tap-and-play";
 import "./Tooltip.css";
+import { getEndPoints } from "../utils/utils";
 
 const style = {
   appBar: {
@@ -278,10 +279,7 @@ const mapStateToProps = (state, ownProps) => ({
     : null,
   lastUpdated: state.notifications.lastUpdated,
   allowPresence: state.notifications.user
-    ? R.contains(
-        "UpdatePresence",
-        state.notifications.user.permissions.mutations
-      )
+    ? R.contains("UpdatePresence", getEndPoints(state.notifications.user.roles))
     : null
 });
 

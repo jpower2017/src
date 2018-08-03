@@ -3,6 +3,7 @@ import * as R from "ramda";
 import { connect } from "react-redux";
 import { submitPending } from "./actions";
 import FormPendingList from "./FormPendingList";
+import { getEndPoints } from "../../utils/utils";
 const data = [
   { name: "Alex", possessive: `Alex’s`, teamWorkID: "222160", value: 0 },
   { name: "Bianca", possessive: `Bianca's`, teamWorkID: "167406", value: 1 },
@@ -41,10 +42,10 @@ class PendingContainer extends Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  allowed: state.notifications.user.permissions.mutations
+  allowed: state.notifications.user
     ? R.contains(
         "CreatePendingSubmission",
-        state.notifications.user.permissions.mutations
+        getEndPoints(state.notifications.user.roles)
       )
     : null,
   firstName: state.notifications.user.firstName
@@ -52,7 +53,7 @@ const mapStateToProps = (state, ownProps) => ({
     : null,
   adminSubmitter: R.contains(
     "CreatePendingReport",
-    state.notifications.user.permissions.mutations
+    getEndPoints(state.notifications.user.roles)
   )
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({

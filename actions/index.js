@@ -34,15 +34,16 @@ export const getNotifications = () => async dispatch => {
       const newURL = window.location.href.split("?")[0];
       window.history.pushState("object", document.title, newURL);
       const decoded = JwtDecode(verifiedJwt.body.token);
-      Log("DECODED " + JSON.stringify(decoded));
+      console.log("DECODED " + JSON.stringify(decoded));
       const id = decoded.uuid;
       login = decoded.login;
-      Log("login " + decoded.login);
+      console.log("login " + decoded.login);
       token = verifiedJwt.body.token;
       uuid = id;
       //const prefs = await HTTP.setPreferences(verifiedJwt.body.token, uuid);
       const userData = await HTTP.getUser(token, login);
-      LogTable(userData);
+      console.log(JSON.stringify(userData));
+      console.table(userData);
       dispatch(receiveUser(userData));
       dispatch(saveTokenAndLogin(token, login));
       const data = await HTTP.getPortalUsers(token, login);
@@ -129,6 +130,7 @@ export const saveFavs = prefs => async (dispatch, getState) => {
   const p = prefs.toString();
   const jsn = { preferences: p };
   dispatch(saveFavsAction(p));
+  console.log("saveFavs json " + JSON.stringify(jsn));
   const pf = await HTTP.setPreferences(token, uuid, login, jsn);
   //const row = await HTTP.deleteRow(id);
 };

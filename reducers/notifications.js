@@ -21,6 +21,7 @@ import {
 import { banks } from "../components/PositivePay/reducers";
 import { addepar } from "../components/Addepar/reducers";
 import { presence } from "../components/InOffice/reducers";
+import { glogInput } from "../components/GlogInput/reducers";
 
 /* ROD hack  TEMPORARY */
 /*
@@ -121,7 +122,8 @@ const rootReducer = combineReducers({
   notifications,
   banks,
   addepar,
-  presence
+  presence,
+  glogInput
 });
 export default rootReducer;
 //export default notifications;

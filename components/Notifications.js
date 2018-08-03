@@ -66,7 +66,7 @@ class Notifications extends Component {
           paddingLeft: "6px",
           paddingBottom: "20px",
           margin: "5px",
-          width: "320px"
+          width: "280px"
         };
         break;
       default:
@@ -78,7 +78,7 @@ class Notifications extends Component {
           paddingLeft: "6px",
           paddingBottom: "20px",
           margin: "5px",
-          width: "300px"
+          width: "280px"
         };
     }
     return temp;

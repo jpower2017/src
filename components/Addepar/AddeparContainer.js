@@ -3,7 +3,7 @@ import * as R from "ramda";
 import { connect } from "react-redux";
 import { getAddepar, submitNewRow } from "./actions";
 import CardAddepar from "./CardAddepar";
-
+import { getEndPoints } from "../../utils/utils";
 class AddeparContainer extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ const mapStateToProps = (state, ownProps) => ({
   allowed: state.addepar.received
     ? R.contains(
         "AddeparBloombergSubmissions",
-        state.notifications.user.permissions.queries
+        getEndPoints(state.notifications.user.roles)
       )
     : null,
   loaded: state.addepar.received ? state.addepar.loaded : null
