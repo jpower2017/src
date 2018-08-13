@@ -96,7 +96,7 @@ class TableContainer extends Component {
       this.props.rows
     );
     */
-
+    this.props.bubbleUp(id);
     this.props.onselected(id, item);
     this.props.GEI_add_recip();
     edit && this.props.setView("details");

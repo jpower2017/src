@@ -53,7 +53,7 @@ class GiftsPartiesContainer extends Component {
     };
     R.contains(x, R.map(x => x.id, tempParties)) ? remove() : add();
     gift.parties = newParties;
-    this.props.updateSecondary(gift, "gifts");
+    this.props.updateSecondary(gift, "gifts", x);
   };
   render() {
     return (
@@ -159,8 +159,8 @@ const mapStateToProps = (state, ownProps) => ({
     : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSecondary: (payload, node) => {
-    dispatch(updateSecondary(payload, node));
+  updateSecondary: (payload, node, assocID) => {
+    dispatch(updateSecondary(payload, node, assocID));
   },
   onNew: payload => {
     dispatch(addNew(payload));

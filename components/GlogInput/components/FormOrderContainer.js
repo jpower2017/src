@@ -23,17 +23,19 @@ class FormOrderContainer extends Component {
   render() {
     return (
       <div>
-        <Form
-          fields={this.getFields("order")}
-          data={this.props.data}
-          onSave={this.props.onSave}
-          statuses={statuses}
-          //  onHandle={this.props.addSearch}
-          //  onHandle2={this.props.addSearch2}
+        {this.props.data ? (
+          <Form
+            fields={this.getFields("order")}
+            data={this.props.data}
+            onSave={this.props.onSave}
+            statuses={statuses}
+            //  onHandle={this.props.addSearch}
+            //  onHandle2={this.props.addSearch2}
 
-          //  title={this.props.title}
-          //onNew={() => this.props.onNew(this.props.node)}
-        />
+            //  title={this.props.title}
+            //onNew={() => this.props.onNew(this.props.node)}
+          />
+        ) : null}
       </div>
     );
   }
@@ -50,13 +52,14 @@ const getOrder = (gifts, searchID, orders) => {
   //R.find(x => x.id ===state.glogInput.searchID,state.glogInput.gifts)
 };
 const mapStateToProps = (state, ownProps) => ({
-  data: state.glogInput.searchID
-    ? getOrder(
-        state.glogInput.gifts,
-        state.glogInput.searchID,
-        state.glogInput.orders
-      )
-    : null
+  data:
+    state.glogInput.searchID != 0.01
+      ? getOrder(
+          state.glogInput.gifts,
+          state.glogInput.searchID,
+          state.glogInput.orders
+        )
+      : null
 
   //title: this.props.data ? "Data for item selected" : "Select item"
 });

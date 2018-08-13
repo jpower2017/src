@@ -15,14 +15,12 @@ export const statuses = [
 export const columnsGiftEventInstance = [
   { name: "event", title: "EVENT", type: "string", order: 1 },
   { name: "date", title: "DATE", type: "string", order: 2 },
-  { name: "recipients", title: "RECIPIENTS", type: "string", order: 3 },
-  { name: "giftHistory", title: "# GIFTS", type: "string", order: 4 }
+  { name: "recipients", title: "RECIPIENTS", type: "string", order: 3 }
 ];
 
 export const columnsPerson = [
   { name: "placeholder", title: "", type: "string", order: 1 },
-  { name: "firstName", title: "FIRST", type: "string", order: 2 },
-  { name: "lastName", title: "LAST", type: "string", order: 3 },
+  { name: "name", title: "NAME", type: "string", order: 2 },
   { name: "phone", title: "PHONE", type: "string", order: 4 },
   { name: "dob", title: "DOB", type: "date", order: 5 }
 ];
@@ -97,18 +95,23 @@ export const fieldsPerson = [
   { name: "dod", title: "Date of death", type: "date" }
 ];
 export const fieldsOrgs = [{ name: "name", title: "Name" }];
-export const fieldsAnimals = [{ name: "name", title: "Animal name" }];
+export const fieldsAnimals = [
+  { name: "name", title: "Animal name" },
+  { name: "type", title: "Animal type" }
+];
 export const fieldsGroups = [{ name: "name", title: "Name" }];
-export const fieldsRequests = [{ name: "name", title: "Name" }];
+export const fieldsRequests = [
+  { name: "registryStatus", title: "Registry status" },
+  { name: "requestNotes", title: "Request Notes", uiType: "textArea" }
+];
 export const fieldsLog = [
   { name: "logField1", title: "Log Field 1" },
   { name: "logField2", title: "Log Field 2" }
 ];
 export const fieldsGift = [
   { name: "value", title: "Value", type: "string", order: 1 },
-  { name: "type", title: "Type", type: "string", order: 2 },
-  { name: "description", title: "Description", type: "string", order: 3 },
-  { name: "requestNotes", title: "Request Notes", type: "string", order: 4 }
+  { name: "giftNotes", title: "Gift Notes", type: "string", order: 2 },
+  { name: "description", title: "Description", type: "string", order: 3 }
 ];
 export const fieldsLocation = [
   {

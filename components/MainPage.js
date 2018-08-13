@@ -15,7 +15,8 @@ import ComingSoon from "./ComingSoon";
 import WelcomeScreen from "./WelcomeScreen/WelcomeScreen";
 //import FlowWrightIntiateAPI from "./test/FlowWright-initate-api";
 import WorkflowHR from "./WorkflowHR/App.js";
-import GlogInput from "./GlogInput/App.js";
+import GlogInput from "./GlogInput/components/Main";
+import QuickAccess from "./QuickAccess/Form";
 
 class MainPage extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class MainPage extends Component {
         {this.props.open ? <Empty /> : null}
         {this.props.location.pathname == "/portal/" ? <WelcomeScreen /> : null}
         <Switch>
+          <Route path="/quickAccess" component={QuickAccess} />
           <Route path="/presence" component={InOfficeContainer} />
           <Route path="/boxtokenNative" component={BoxToken} />
           <Route path="/positivePay" component={PositivePay} />
@@ -48,19 +50,19 @@ class MainPage extends Component {
           <Route path="/testlevel1" component={Empty} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/investments" component={Investments} />
-          <Route path="/flowWrightAPI" component={WorkflowHR} />
+          <Route path="/workflow/newHireRequest" component={WorkflowHR} />
           <Route path="/glogInput" component={GlogInput} />
           <Route
-            path="/flowWright"
+            path="/workflow/dashboard"
             render={() => (
               <Iframe
-                url="https://workflow-qa.bluesprucecapital.net/cDevWorkflow/LoginPage.aspx?ReturnUrl=%2fcDevWorkflow%2f"
+                url="https://workflow-qa.bluesprucecapital.net/cDevWorkflow/ConfigInstances.aspx?displayheader=no"
                 title="FlowWright"
               />
             )}
           />
           <Route
-            path="/flowWright2"
+            path="/workflow/myTasks"
             render={() => (
               <Iframe
                 url="https://workflow-qa.bluesprucecapital.net/cDevWorkflow/ConfigTasks.aspx?displayHeader=no"
@@ -68,15 +70,7 @@ class MainPage extends Component {
               />
             )}
           />
-          <Route
-            path="/flowWright3"
-            render={() => (
-              <Iframe
-                url="https://workflow-qa.bluesprucecapital.net/cDevWorkflow/RenderForm.aspx?formDefID=f6e94043-9590-4bd5-9303-6d8ca6135b6d&mode=submit&workflowDefID=c0d6b7f7-ab82-48af-b0be-f61dd8a3f86b&formIDVar=fmJobRequisitionInstId&displayHeader=no"
-                title="FlowWright Form to Start FLow"
-              />
-            )}
-          />
+
           <Route
             path="/pending"
             render={() => (

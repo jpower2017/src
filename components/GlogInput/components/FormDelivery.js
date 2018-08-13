@@ -97,6 +97,7 @@ class FormDelivery extends Component {
     this.setState({ saveEnabled: true });
   };
   handleNewLoc = (obj, node, bool) => {
+    console.log("FormDelivery handleNewLoc " + [obj, node, bool]);
     this.props.onAdd(obj, node, bool);
     this.changeGiftLocation(obj.id, "location");
   };

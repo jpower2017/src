@@ -94,7 +94,7 @@ class Summary extends Component {
               <ListWidget
                 title={"Gift requests"}
                 data={props.dataRequests}
-                primaryText={"name"}
+                primaryText={"requestNotes"}
                 color={props.muiTheme.palette.accent4Color}
                 color2={props.muiTheme.palette.accent5Color}
                 color3={props.muiTheme.palette.primary3Color}
@@ -117,7 +117,6 @@ class Summary extends Component {
                 onclick={id => this.handleClickRecipients(id)}
                 ondelete={this.props.ondelete}
                 onAdd={() => this.props.onAdd("gifts")}
-                //onAdd={() => this.handleClickRecipients(1)}
                 bDelete={true}
                 secondaryText1={"parties"}
                 secondaryText2={"requests"}

@@ -15,17 +15,19 @@ class FormContainer extends Component {
   render() {
     return (
       <div>
-        <FormDelivery
-          fields={this.getFields("delivery")}
-          data={this.props.data}
-          onSave={this.props.onSave}
-          onSaveGiftLocation={this.props.onSaveGiftLocation}
-          locations={this.props.locations}
-          giftID={this.props.giftID}
-          onType={this.props.onType}
-          onAdd={this.props.onAdd}
-          gift={this.props.gift}
-        />
+        {this.props.data ? (
+          <FormDelivery
+            fields={this.getFields("delivery")}
+            data={this.props.data}
+            onSave={this.props.onSave}
+            onSaveGiftLocation={this.props.onSaveGiftLocation}
+            locations={this.props.locations}
+            giftID={this.props.giftID}
+            onType={this.props.onType}
+            onAdd={this.props.onAdd}
+            gift={this.props.gift}
+          />
+        ) : null}
       </div>
     );
   }
@@ -57,13 +59,14 @@ const getValues = arrObj => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  data: state.glogInput.searchID
-    ? getDelivery(
-        state.glogInput.gifts,
-        state.glogInput.searchID,
-        state.glogInput.deliveries
-      )
-    : null,
+  data:
+    state.glogInput.searchID != 0.01
+      ? getDelivery(
+          state.glogInput.gifts,
+          state.glogInput.searchID,
+          state.glogInput.deliveries
+        )
+      : null,
 
   giftID: R.prop(
     "id",

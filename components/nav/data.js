@@ -1,48 +1,30 @@
 export const data1 = [
   {
+    id: 14,
+    name: "Quick Access",
+    level: 1,
+    show: true,
+    leaf: true,
+    favorite: false,
+    endpoint: "/quickAccess"
+  },
+  {
+    id: 15,
+    name: "Workflow",
+    level: 1,
+    show: true,
+    leaf: false,
+    favorite: false,
+    endpoint: "/workflow/dashboard",
+    allow: "Workflow User"
+  },
+  {
     id: 1,
     name: "Investments",
     level: 1,
     show: true,
     leaf: false,
     endpoint: "/investments/portfolio"
-  },
-  {
-    id: 2,
-    name: "FlowWright Login",
-    level: 1,
-    show: true,
-    leaf: true,
-    favorite: false,
-    endpoint: "/flowWright"
-  },
-  {
-    id: 3,
-    name: "FlowWright Task",
-    level: 1,
-    show: true,
-    leaf: true,
-    favorite: false,
-    endpoint: "/flowWright2"
-  },
-  {
-    id: 4,
-    name: "FlowWright Form",
-    level: 1,
-    show: true,
-    leaf: true,
-    favorite: false,
-    endpoint: "/flowWright3"
-  },
-  {
-    id: 5,
-    name: "New request",
-    level: 1,
-    show: true,
-    leaf: true,
-    favorite: false,
-    endpoint: "/flowWrightAPI",
-    allow: "Work Flow Admin"
   },
   {
     id: 7,
@@ -169,6 +151,42 @@ export const data2 = [
     favorite: false,
     endpoint: "/addepar/intacct",
     parentName: "Addepar"
+  },
+  {
+    id: 212,
+    name: "Dashboard",
+    parentId: 15,
+    level: 2,
+    show: false,
+    leaf: true,
+    favorite: false,
+    endpoint: "/workflow/dashboard",
+    parentName: "Workflow",
+    allow: "Workflow Admin"
+  },
+  {
+    id: 213,
+    name: "My Tasks",
+    parentId: 15,
+    level: 2,
+    show: false,
+    leaf: true,
+    favorite: false,
+    endpoint: "/workflow/myTasks",
+    parentName: "Workflow",
+    allow: "Workflow User"
+  },
+  {
+    id: 214,
+    name: "New Hire Request",
+    parentId: 15,
+    level: 2,
+    show: false,
+    leaf: true,
+    favorite: false,
+    endpoint: "/workflow/newHireRequest",
+    parentName: "Workflow",
+    allow: "Workflow HR"
   }
 ];
 

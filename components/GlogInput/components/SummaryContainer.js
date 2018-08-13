@@ -9,6 +9,7 @@ import {
   updateGiftInstance,
   ondelete,
   loadData,
+  getData,
   setSearchID,
   setRequestID,
   setAction
@@ -17,6 +18,36 @@ import Summary from "./Summary";
 import { events, registryStatuses } from "../common/data";
 
 const t = "test";
+
+const addEventDayAndMonth = val => {
+  console.log("addEventDayandMonth");
+  console.log(val);
+  if (val.date && val.date.length) {
+    let eventMonth = val.date[0].split("/")[0];
+    eventMonth = eventMonth.length == 2 ? eventMonth : `0${eventMonth}`;
+    let eventDay = val.date[0].split("/")[1];
+    eventDay = eventDay.length == 2 ? eventDay : `0${eventDay}`;
+    let eventYear = val.date[0].split("/")[2];
+    eventYear = eventYear.length == 2 ? eventYear : `0${eventYear}`;
+    console.log("addEventDayAndMonth f");
+    console.log({
+      ...val,
+      eventMonth: eventMonth,
+      eventDay: eventDay,
+      eventYear: eventYear
+    });
+    return {
+      ...val,
+      eventMonth: eventMonth,
+      eventDay: eventDay,
+      eventYear: eventYear
+    };
+  } else {
+    console.log("addEventDayAndMonth ELSE");
+    return val;
+  }
+};
+
 class SummaryContainer extends Component {
   constructor(props) {
     super(props);
@@ -40,16 +71,20 @@ class SummaryContainer extends Component {
     };
     this.props.onEvt(newObj);
   }
-  /*
-  updateToggle(value) {
-    console.log("updatetoggle value: " + value);
+
+  updateToggle(gei) {
+    console.log("updatetoggle gei: " + JSON.stringify(gei));
+    let recurring = R.prop("recurring", gei)[0];
+    console.log("recurring " + recurring);
+    recurring = recurring ? [0] : [1];
+    console.log("newRecurring " + recurring);
     const newObj = {
-      ...this.props.giftEventInstance,
-      recurring: value
+      ...gei,
+      recurring: recurring
     };
     this.props.onEvt(newObj);
   }
-  */
+
   evt(value) {
     const newObj = {
       ...this.props.giftEventInstance,
@@ -98,21 +133,17 @@ class SummaryContainer extends Component {
     if (node == "requests") {
       this.props.setRequestID(id);
     }
-    if (id == 1) {
-      this.props.setAction("create");
-    } else {
-      this.props.setAction("edit");
-    }
-
+    this.props.setAction("edit");
     this.props.onclick();
   }
   onAdd(node) {
-    this.props.onSearchRow(0.1);
     this.props.setNode(node);
+    this.props.onSearchRow(0.1);
     this.props.setAction("create");
     this.props.onclick();
   }
   render() {
+    const { giftEventInstance } = this.props;
     return (
       <div>
         {this.props.dataPeople ? (
@@ -134,8 +165,7 @@ class SummaryContainer extends Component {
             onNew={() => this.props.onselected(uuidv4())}
             onclick2={this.props.setNode}
             onDialog={this.props.onDialog}
-            ontoggle={value => this.updateToggle(value)}
-            //ondelete={i => console.log("ondelete container " + i)}
+            ontoggle={x => this.updateToggle(giftEventInstance)}
             ondelete={this.props.ondelete}
             onAdd={value => this.onAdd(value)}
             //setRequestID={value => this.props.setRequestID(value)}
@@ -256,15 +286,17 @@ const mapStateToProps = (state, ownProps) => ({
       )
     : null
 });
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSearchRow: id => {
     dispatch(setSearchID(id));
   },
   loadData: () => {
     dispatch(loadData());
+    dispatch(getData());
   },
   setNode: x => {
-    console.log("SC setNode");
+    console.log("SC setNode x: " + x);
     dispatch(setNode(x));
   },
   onselected: (id, obj) => {
@@ -273,8 +305,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onEvt: val => {
     console.log("onEvt val: " + JSON.stringify(val));
-    console.log(R.prop("title", events[val]));
-    dispatch(updateGiftInstance(val));
+
+    dispatch(updateGiftInstance(addEventDayAndMonth(val)));
   },
   ondelete: val => {
     dispatch(ondelete(val));

@@ -9,25 +9,19 @@ import GiftsContainer from "./GiftsContainer";
 import RequestsContainer from "./RequestsContainer";
 
 class DialogModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { open: false };
-  }
-
+  state = {
+    open: false
+  };
   componentWillReceiveProps(nextProps) {
-    //  nextProps.open && this.handleOpen();
-    console.log(
-      "DIALOG componentWillReceiveProps " + [nextProps.open, nextProps.scrn]
-    );
+    nextProps.open && this.handleOpen();
   }
 
   handleOpen = () => {
-    console.log("Dialog handleOpen");
     this.setState({ open: true });
   };
 
   handleClose = () => {
-    //this.setState({ open: false });
+    this.setState({ open: false });
     this.props.handleClick();
   };
 
@@ -62,7 +56,7 @@ class DialogModal extends React.Component {
           actions={actions}
           modal={false}
           onRequestClose={this.handleClose}
-          open={this.props.open}
+          open={this.state.open}
           autoDetectWindowHeight={false}
           autoScrollBodyContent
           contentStyle={{

@@ -37,17 +37,21 @@ class FormContainer extends Component {
   render() {
     return (
       <div>
-        <Form
-          fields={this.getFields(this.props.node)}
-          data={this.props.data}
-          onSave={this.props.onSave}
-          onHandle={this.props.addSearch}
-          //onHandle2={this.props.addSearch2}
-          onHandle2={this.props.bubbleUp}
-          node={this.props.node}
-          onNew={this.onNew}
-          showNew={this.props.showNew}
-        />
+        {this.props.node ? (
+          <Form
+            fields={this.getFields(this.props.node)}
+            data={this.props.data}
+            onSave={this.props.onSave}
+            onHandle={this.props.addSearch}
+            //onHandle2={this.props.addSearch2}
+            onHandle2={this.props.bubbleUp}
+            node={this.props.node}
+            onNew={this.onNew}
+            showNew={this.props.showNew}
+          />
+        ) : (
+          <div>Loading</div>
+        )}
       </div>
     );
   }
@@ -79,6 +83,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(addSearch2());
   },
   onNew: () => {
+    console.log("calling addNew via FormContainer");
     dispatch(addNew());
   }
 });

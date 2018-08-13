@@ -1,7 +1,7 @@
 const subForms1 = [
   {
     name: "subform",
-    title: "Legal name",
+    title: "Legal Name",
     fields: [
       { name: "FirstName", title: "First name", required: true },
       { name: "MiddleInitial", title: "Middle initial" },
@@ -10,7 +10,7 @@ const subForms1 = [
   },
   {
     name: "subform",
-    title: "Home address",
+    title: "Home Address",
     fields: [
       { name: "Street", title: "Street" },
       { name: "Apt", title: "Apt or suite" },
@@ -34,12 +34,13 @@ const subForms1 = [
   },
   {
     name: "subform",
-    title: "Personal contact information",
+    title: "Personal Contact Information",
     fields: [
       {
         name: "Email",
         title: "Personal email",
-        type: "email"
+        type: "email",
+        required: true
       },
       { name: "PersonalMobilePhone", title: "Mobile phone", type: "phone" },
       { name: "HomePhone", title: "Home phone", type: "phone" },
@@ -62,7 +63,7 @@ const subForms1 = [
         ]
       },
       {
-        name: "FLSAStatus",
+        name: "ethnicity",
         title: "Ethnicity",
         type: "ethnicity",
         uiType: "dd",
@@ -124,6 +125,7 @@ export const subForms2 = [
         name: "LegalEntity",
         title: "Legal entity",
         type: "legalEntity",
+        required: true,
         uiType: "dd",
         uiOptions: [
           { name: "", title: "Select legal entity", value: "" },
@@ -153,6 +155,7 @@ export const subForms2 = [
         name: "Division",
         title: "Division",
         type: "division",
+        required: true,
         uiType: "dd",
         uiOptions: [
           { name: "", title: "Select division", value: "" },
@@ -178,8 +181,8 @@ export const subForms2 = [
           },
           {
             name: "financeAndIT",
-            title: "Finance and IT Operations",
-            value: "Finance and IT Operations"
+            title: "Finance & IT Operations",
+            value: "Finance & IT Operations"
           }
         ]
       },
@@ -187,6 +190,7 @@ export const subForms2 = [
         name: "Department",
         title: "Department",
         type: "department",
+        required: true,
         uiType: "dd",
         uiOptions: [
           { name: "", title: "Select department", value: "" },
@@ -197,8 +201,8 @@ export const subForms2 = [
           },
           {
             name: "it",
-            title: "Information Technology and Security",
-            value: "Information Technology and Security"
+            title: "Information Technology & Security",
+            value: "Information Technology & Security"
           },
           {
             name: "fiancial",
@@ -248,6 +252,7 @@ export const subForms2 = [
         name: "WorkLocation",
         title: "Work location",
         type: "workLocation",
+        required: true,
         uiType: "dd",
         uiOptions: [
           { name: "", title: "Select work location", value: "" },
@@ -306,6 +311,7 @@ export const subForms2 = [
         name: "Supervisor",
         title: "Supervisor",
         uiType: "dd",
+        required: true,
         uiOptions: [
           { name: "", title: "Select supervisor", value: "" },
           { name: "thorn", title: "Andrea Thorn", value: "Andrea Thorn" },
@@ -343,6 +349,7 @@ export const subForms2 = [
         name: "EmploymentType",
         title: "Employment type",
         uiType: "dd",
+        required: true,
         uiOptions: [
           { name: "", title: "Select employment type", value: "" },
           {
@@ -361,6 +368,7 @@ export const subForms2 = [
         name: "FullOrPartTime",
         title: "Full or part time",
         uiType: "dd",
+        required: true,
         uiOptions: [
           { name: "", title: "Select full or part time", value: "" },
           { name: "one", title: "Full-Time", value: "Full-Time" },
@@ -375,6 +383,7 @@ export const subForms2 = [
         name: "HourlyOrSalary",
         title: "Hourly or salary",
         uiType: "dd",
+        required: true,
         uiOptions: [
           { name: "", title: "Select hourly or salary", value: "" },
           { name: "one", title: "Hourly", value: "Hourly" },
@@ -391,7 +400,7 @@ export const subForms2 = [
         uiType: "dd",
         uiOptions: [
           { name: "", title: "Select hours per week", value: "" },
-          { name: "one", title: "0-30", value: 1 },
+          { name: "one", title: "0-30", value: "0-30" },
           {
             name: "two",
             title: "30-40",
@@ -408,6 +417,7 @@ export const subForms2 = [
         name: "FLSAStatus",
         title: "FLSA status",
         uiType: "dd",
+        required: true,
         uiOptions: [
           { name: "", title: "Select FLSA", value: "" },
           { name: "one", title: "Exempt", value: "Exempt" },
@@ -449,6 +459,7 @@ const subForms3 = [
         name: "IsManager",
         title: "Is a manager",
         uiType: "dd",
+        required: true,
         uiOptions: [
           { name: "", title: "Select: is a manager", value: "" },
           { name: "one", title: "Yes", value: "Yes" },
@@ -463,6 +474,7 @@ const subForms3 = [
         name: "IsCandidateViaAgency",
         title: "Candidate found via agency",
         uiType: "dd",
+        required: true,
         uiOptions: [
           { name: "", title: "Select candidate agency", value: "" },
           { name: "one", title: "Yes", value: "Yes" },
@@ -477,7 +489,7 @@ const subForms3 = [
   },
   {
     name: "subform",
-    title: "Preferred name",
+    title: "Preferred Name",
     fields: [
       { name: "txtFirstNamePreferred", title: "First lastName" },
       { name: "txtMiddleInitialPreferred", title: "Middle initial" },
@@ -491,7 +503,8 @@ const subForms3 = [
       {
         name: "FinalCompensation",
         title: "Final compensation",
-        type: "currency"
+        type: "currency",
+        required: true
       },
       { name: "BonusPotential", title: "Bonus potential", type: "currency" },
       { name: "SigningBonus", title: "Signing bonus", type: "currency" }

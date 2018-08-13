@@ -66,7 +66,7 @@ class RequestsForm extends Component {
               bubbleUp={this.props.bubbleUp}
               bubbleNew={() => console.log("trap it.  bubbleNew REQUESTS Form")}
             />
-            <div>
+            <div style={{ opacity: props.onLoad ? 0.3 : 1 }}>
               <ListSingleLevel
                 data={this.props.requests}
                 title={"Requests"}
@@ -75,12 +75,13 @@ class RequestsForm extends Component {
                 requestID={this.props.requestID}
               />
             </div>
-
-            <RequestsPartiesContainer
-              onselect={x => this.onSelectParties(x)}
-              groups={this.props.groups}
-              multiSelect={true}
-            />
+            <div style={{ opacity: props.onLoad ? 0.3 : 1 }}>
+              <RequestsPartiesContainer
+                onselect={x => this.onSelectParties(x)}
+                groups={this.props.groups}
+                multiSelect={true}
+              />
+            </div>
           </div>
         </div>
       </Paper>

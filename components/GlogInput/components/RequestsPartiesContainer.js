@@ -28,13 +28,22 @@ class PartiesContainer extends Component {
   */
   parse = (people, orgs, animals, selectedGroups, allGroups) => {
     console.log("parse parties container");
+    let newRows = [];
     let rows = [...people, ...orgs, ...animals, ...selectedGroups];
     const addRowAndChild = row => {
-      rows = [...rows, { ...row.children[0], level: 1 }];
+      if (row && row.children) {
+        newRows = [...newRows, row];
+        if (!row.children.length) {
+          return;
+        }
+        newRows = [...newRows, { ...row.children[0], level: 1 }];
+      } else {
+        newRows = [...newRows, row];
+      }
+      return newRows;
     };
-    R.map(x => (x.children ? addRowAndChild(x) : x), rows);
-    //  console.table(rows);
-    return rows;
+    R.map(x => addRowAndChild(x), rows);
+    return newRows;
   };
   onSelectRequest = (x, obj) => {
     console.log("onSelectRequest x,obj " + [x, JSON.stringify(obj)]);
@@ -54,7 +63,7 @@ class PartiesContainer extends Component {
     //  console.log(R.contains(x, R.map(x => x.id, tempRequest.recipients)));
 
     tempRequest.recipients = newRecips;
-    this.props.updateSecondary(tempRequest, "requests");
+    this.props.updateSecondary(tempRequest, "requests", x);
   };
   render() {
     return (
@@ -173,8 +182,8 @@ const mapStateToProps = (state, ownProps) => ({
     : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSecondary: (payload, node) => {
-    dispatch(updateSecondary(payload, node));
+  updateSecondary: (payload, node, assocID) => {
+    dispatch(updateSecondary(payload, node, assocID));
   },
   onNew: payload => {
     dispatch(addNew(payload));

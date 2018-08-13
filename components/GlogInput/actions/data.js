@@ -1,13 +1,13 @@
 export const person = {
   firstName: "",
   lastName: "",
-  fullName: "",
+  name: "",
   selected: true,
   submit: "",
   gender: "",
+  phone: "",
   dob: "",
   email: "",
-  phone: "",
   pob: "",
   worksFor: [],
   worksAt: [],
@@ -18,9 +18,8 @@ export const person = {
 
 export const gift = {
   value: "",
-  type: "",
   description: "",
-  requestNotes: "",
+  giftNotes: "",
   selected: true,
   requests: [],
   parties: []
@@ -32,13 +31,15 @@ export const org = {
   selected: true
 };
 export const animal = {
-  name: ""
+  name: "",
+  type: ""
 };
 export const group = {
   name: ""
 };
 export const request = {
-  name: "",
+  registryStatus: "",
+  requestNotes: "",
   recipients: []
 };
 export const location = {

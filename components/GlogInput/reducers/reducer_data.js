@@ -36,12 +36,13 @@ export const giftEventInstances = [
     ],
     registry: [0],
     recurring: [1],
+    eventMonth: "09",
     notes: ["notes here and here for project id 21"]
   },
   {
     id: 22,
     event: [10],
-    date: ["9.23.33"],
+    date: ["9/23/33"],
     requests: [],
     recipients: [
       {
@@ -56,12 +57,13 @@ export const giftEventInstances = [
     ],
     registry: [1],
     recurring: [1],
+    eventMonth: "09",
     notes: [""]
   },
   {
     id: 23,
     event: [1],
-    date: ["6.8"],
+    date: ["6/8/08"],
     requests: [],
     recipients: [
       {
@@ -81,12 +83,13 @@ export const giftEventInstances = [
     ],
     registry: [0],
     recurring: [1],
+    eventMonth: "06",
     notes: [""]
   },
   {
     id: 24,
     event: [2],
-    date: ["6.17"],
+    date: ["6/17/17"],
     requests: [],
     recipients: [
       {
@@ -106,6 +109,7 @@ export const giftEventInstances = [
     ],
     registry: [0],
     recurring: [1],
+    eventMonth: "06",
     notes: [""]
   }
 ];
@@ -113,19 +117,18 @@ export const dataGroups = [
   {
     id: 501,
     name: "Group1",
-    selected: "false",
+    selected: false,
     children: [{ id: 502, name: "name group2", type: "group" }]
   },
   {
     id: 502,
     name: "Group2",
-    selected: "false",
+    selected: false,
     children: [{ id: 150, name: "name person5 ", type: "person" }]
   },
 
   { id: 511, name: "Group11", selected: "false", children: [] }
 ];
-
 export const dataPeople = [
   {
     id: 121,
@@ -193,15 +196,22 @@ export const dataPeople = [
 export const dataRequests = [
   {
     id: 601,
-    name: "Request1",
+    registryStatus: "regStatus1",
+    requestNotes: "req notes 1",
     recipients: [{ id: 121, name: "Adel Last1" }]
   },
   {
     id: 602,
-    name: "Request2",
+    registryStatus: "regStatus2",
+    requestNotes: "req notes 2",
     recipients: [{ id: 121, name: "Adel Last1" }, { id: 123, name: "Carmen" }]
   },
-  { id: 603, name: "Request3", recipients: [] }
+  {
+    id: 603,
+    registryStatus: "regStatus3",
+    requestNotes: "req notes 3",
+    recipients: []
+  }
 ];
 export const dataGifts = [
   {
@@ -432,18 +442,21 @@ export const dataAnimals = [
     id: 401,
     name: "fluffy",
     address: "addy1",
+    type: "dog",
     selected: false
   },
   {
     id: 402,
     name: "bonkers",
     address: "addy2",
+    type: "cat",
     selected: false
   },
 
   {
     id: 403,
     name: "Justify",
+    type: "horse",
     address: "addy3"
   }
 ];

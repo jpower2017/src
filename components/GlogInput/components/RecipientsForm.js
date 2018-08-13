@@ -62,6 +62,7 @@ class SearchForm extends Component {
               <TableContainer
                 filterStr={this.state.filterStr}
                 noFilter={!this.props.hideSearch}
+                bubbleUp={() => this.setState({ showForm: true })}
               />
             )}
             {(this.state.showForm || action == "edit") && (

@@ -3,7 +3,7 @@ import Checkbox from "material-ui/Checkbox";
 import * as R from "ramda";
 import { typography } from "material-ui/styles";
 import Paper from "material-ui/Paper";
-import GlobalStyles from "../../styles";
+import GlobalStyles from "../../../styles";
 import { grey400, cyan600, white } from "material-ui/styles/colors";
 import ListRow from "./ListRow";
 
@@ -21,30 +21,14 @@ const styles = {
   }
 };
 
-export default class ListSingleLevel extends Component {
+export default class List extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selected: [],
-      multiSelect: this.props.multiSelect
-    };
+    this.state = {};
   }
   componentDidMount() {}
-  onselect(x, obj) {
-    if (this.state.multiSelect) {
-      console.log("contains " + R.contains(x, this.state.selected));
-      let arr = this.state.selected;
-      !R.contains(x, this.state.selected)
-        ? this.setState({ selected: [...this.state.selected, x] })
-        : this.setState({
-            selected: R.filter(y => y !== x, arr)
-          });
-    } else {
-      this.setState({ selected: [x] });
-    }
-
-    this.props.onselect(x, obj);
-  }
+  onselect(x, obj) {}
+  /*
   bHighlight = (id, selected, objRequest, requestID, field = "recipients") => {
     console.log(
       "bHighlight " + [id, selected, JSON.stringify(objRequest), requestID]
@@ -70,37 +54,37 @@ export default class ListSingleLevel extends Component {
 
     return show;
   };
+  */
   render() {
-    const { data, request, requestID } = this.props;
+    const { data, title } = this.props;
     return (
-      <Paper
-        zDepth={GlobalStyles.depth.n}
-        style={(styles.paper, { backgroundColor: "#A4AECB" })}
-      >
-        <div style={{ height: "400px", minWidth: "200px", maxWidth: "400px" }}>
+      <Paper zDepth={2} style={(styles.paper, { backgroundColor: "" })}>
+        <div
+          style={{
+            height: "400px",
+            minWidth: "275px",
+            maxWidth: "600px"
+          }}
+        >
           <div
             style={{
-              backgroundColor: "#DF5C33",
+              //backgroundColor: "#DF5C33",
+              backgroundColor: "#23A596",
               color: "#ffffff",
               fontWeight: typography.fontWeightLight,
-              padding: "8px",
-              fontSize: 18
+              fontSize: 20,
+              fontVariant: "small-caps",
+              paddingTop: "8px",
+              paddingBottom: "4px"
             }}
           >
-            {this.props.title}
+            <div style={{ marginLeft: "10px" }}>{title}</div>
           </div>
           {data.map(x => (
             <ListRow
               data={x}
-              label={x.name ? x.name : x.requestNotes}
+              label={x.name}
               onselect={(x, obj) => this.onselect(x, obj)}
-              bHighlight={this.bHighlight(
-                x.id,
-                this.state.selected,
-                request,
-                requestID,
-                this.props.field
-              )}
             />
           ))}
         </div>

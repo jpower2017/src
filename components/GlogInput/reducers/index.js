@@ -23,7 +23,8 @@ import {
   GLOG_ADD_SEARCH,
   GLOG_ADD_SEARCH2,
   UPDATE_GEI_INSTANCE_REQUEST,
-  GLOG_SET_ACTION
+  GLOG_SET_ACTION,
+  GLOG_SET_VAR
 } from "../actions";
 import {
   dataGifts,
@@ -74,7 +75,7 @@ export const glogInput = (state = [], action) => {
         //  locations:
       };
     case GLOG_SET_VIEW:
-      console.log("REDUCER SET_VIEW");
+      console.log("REDUCER GLOG_SET_VIEW");
       return {
         ...state,
         view: action.view
@@ -84,6 +85,11 @@ export const glogInput = (state = [], action) => {
       return {
         ...state,
         action: action.payload
+      };
+    case GLOG_SET_VAR:
+      return {
+        ...state,
+        [action.variable]: action.payload
       };
     case GLOG_SET_NODE:
       console.log("REDUCER SET_NODE " + action.node);
@@ -121,7 +127,9 @@ export const glogInput = (state = [], action) => {
             registry: [0],
             recurring: [true],
             requests: [],
-            notes: []
+            notes: [""],
+            eventMonth: [],
+            eventDay: []
           }
         ],
         searchID: null
@@ -185,7 +193,13 @@ export const glogInput = (state = [], action) => {
       };
     case GLOG_ADD:
       console.log("REDUCER ADD");
-      id = uuidv4();
+      let containsID = R.prop("id", action.payload);
+      console.log("containsID " + containsID);
+      if (containsID) {
+        id = R.prop("id", action.payload);
+      } else {
+        id = uuidv4();
+      }
       return {
         ...state,
         [action.node]: action.addID

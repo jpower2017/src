@@ -7,7 +7,8 @@ import RaisedButton from "material-ui/RaisedButton";
 const fieldsIntl = [
   { name: "streetAddress1", title: "Street address 1", value: 0 },
   { name: "streetAddress2", title: "Street address 2", value: 1 },
-  { name: "streetAddress3", title: "Street address 3", value: 2 }
+  { name: "streetAddress3", title: "Street address 3", value: 2 },
+  { name: "streetAddress4", title: "Street address 4", value: 3 }
 ];
 
 export default class FormDeliveryIntl extends Component {
@@ -20,7 +21,8 @@ export default class FormDeliveryIntl extends Component {
       id: uuidv4(),
       streetAddress1: this.state.streetAddress1,
       streetAddress2: this.state.streetAddress2,
-      streetAddress3: this.state.streetAddress3
+      streetAddress3: this.state.streetAddress3,
+      streetAddress4: this.state.streetAddress4
     };
   }
   getValue = z => {

@@ -14,10 +14,6 @@ class Form extends Component {
     };
   }
   componentDidMount() {
-    if (this.props.showNew) {
-      this.props.onNew();
-    }
-
     this.state = { data: this.props.data };
   }
   componentWillReceiveProps(nextProps) {
@@ -36,11 +32,7 @@ class Form extends Component {
     //this.props.onSave(this.state.data);
   };
   getValue = z => {
-    console.log("getValue z " + JSON.stringify(z));
     let field = R.prop("name", z);
-    console.log("field " + field);
-    console.log(this.props.data);
-    console.log(R.prop(field, this.props.data));
     return R.prop(field, this.props.data);
   };
   childChange = (val, name) => {
@@ -48,8 +40,15 @@ class Form extends Component {
     console.log("val name : " + [val, name]);
     console.log(JSON.stringify({ ...this.state.data, [name]: val }));
     //console.log("this.props.data " + this.props.data);
-    this.setState({ data: { ...this.props.data, [name]: val } });
-    this.props.onSave({ ...this.props.data, [name]: val });
+    let newObj = { ...this.props.data, [name]: val };
+    if (name == "firstName") {
+      newObj = { ...newObj, name: `${val} ${this.props.data["lastName"]}` };
+    } else if (name == "lastName") {
+      newObj = { ...newObj, name: `${this.props.data["firstName"]} ${val}` };
+    }
+    this.setState({ data: newObj });
+
+    this.props.onSave(newObj);
     this.setState({ saveEnabled: true });
   };
   onNew = () => {
@@ -112,6 +111,7 @@ class Form extends Component {
                   data={this.getValue(x)}
                   change={this.childChange}
                   type={x.type}
+                  multiLine={x.uiType}
                 />
               ))}
           </div>

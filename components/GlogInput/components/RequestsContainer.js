@@ -23,6 +23,7 @@ class RecipientsContainer extends Component {
           bubbleUp={this.props.GEI_add_request}
           requestID={this.props.requestID}
           action={this.props.action}
+          onLoad={this.props.onLoad}
         />
       </div>
     );
@@ -44,7 +45,8 @@ const mapStateToProps = (state, ownProps) => ({
       )
     : null,
   requestID: state.glogInput.requestID,
-  action: state.glogInput.action ? state.glogInput.action : null
+  action: state.glogInput.action ? state.glogInput.action : null,
+  onLoad: state.glogInput.searchID === 0.1
   //groups:state.glogInput.groups ?state.glogInput.groups : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({

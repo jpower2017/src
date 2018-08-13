@@ -77,7 +77,7 @@ export default class Events extends Component {
           <Toggle
             label="Recurring"
             labelStyle={styles.labelStyle}
-            defaultToggled={this.props.gei.recurring}
+            defaultToggled={this.props.gei.recurring[0]}
             style={styles.block}
             onToggle={(event, isInputChecked) =>
               this.props.ontoggle([isInputChecked])
@@ -101,7 +101,7 @@ export default class Events extends Component {
         <div>
           <TextField
             hintText="Text here"
-            floatingLabelText=" NOTES: MultiLine   "
+            floatingLabelText="GIFT EVENT NOTES: (multi line)   "
             multiLine={true}
             rows={2}
             style={{

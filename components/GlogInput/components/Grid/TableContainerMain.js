@@ -6,6 +6,8 @@ import { rowSubmit, setView, setSelectedRow } from "../../actions";
 import Table from "./Table/Table";
 import { columnsGiftEventInstance, events } from "../../common/data";
 
+/* could R.pick row obj keys from here instand of RowMain */
+
 class TableContainer extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +26,9 @@ class TableContainer extends Component {
     console.log("TableContainerMain CDM");
     this.props.getDataForComp();
   }
-
+  componentWillRecieveProps(nextProps) {
+    console.log("TC CWRP nextProps.rows " + nextProps.rows);
+  }
   sortColumns = columns => {
     return R.sort(R.ascend(R.prop("order")), columns);
   };
@@ -219,7 +223,7 @@ const getEventName = obj => {
     event: [title]
   };
 };
-const clean = (instances, people, orgs, groups, animals) => {
+const clean = (instances, people, orgs, groups, animals, mainFilter) => {
   console.log("TCM clean f");
   console.log("instances");
   console.table(instances);
@@ -228,16 +232,23 @@ const clean = (instances, people, orgs, groups, animals) => {
   console.log("orgs");
   console.log(orgs);
   const giftInstances = R.map(R.compose(getEventName, getGiftCount), instances);
+  const wholeList = R.map(
+    x => convertRecipients(x, people, orgs, groups, animals),
+    giftInstances
+  );
   console.table(
     R.map(
       x => convertRecipients(x, people, orgs, groups, animals),
       giftInstances
     )
   );
-  return R.map(
-    x => convertRecipients(x, people, orgs, groups, animals),
-    giftInstances
-  );
+  const filterList = (mainFilter, wholeList) => {
+    return !mainFilter
+      ? wholeList
+      : R.filter(x => x.eventMonth === mainFilter, wholeList);
+  };
+
+  return filterList(mainFilter, wholeList);
 };
 const mapStateToProps = (state, ownProps) => ({
   node: state.glogInput.node ? state.glogInput.node : null,
@@ -252,7 +263,8 @@ const mapStateToProps = (state, ownProps) => ({
         state.glogInput.people,
         state.glogInput.orgs,
         state.glogInput.groups,
-        state.glogInput.animals
+        state.glogInput.animals,
+        state.glogInput.mainFilter
       )
     : null,
   totalRows: state.glogInput.giftEventInstances

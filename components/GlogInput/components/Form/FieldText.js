@@ -73,7 +73,8 @@ class FieldText extends Component {
           floatingLabelText={obj.title}
           errorText={this.validate(this.state.data, this.props.type)}
           fullWidth={false}
-          multiLine={false}
+          multiLine={this.props.multiLine}
+          rows={this.props.multiLine ? 2 : 1}
           onChange={this.handleChange}
           name={obj.name}
           style={{ width: "250px", fontSize: "20px" }}

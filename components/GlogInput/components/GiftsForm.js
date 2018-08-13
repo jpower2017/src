@@ -3,7 +3,7 @@ import Paper from "material-ui/Paper";
 import * as R from "ramda";
 //import TableContainer from "./Grid/TableContainer";
 import FormContainer from "./Form/FormContainer";
-import StepperContainer from "./StepperContainer";
+import Stepper from "./Stepper";
 import ListWidget from "./ListWidget";
 import muiThemeable from "material-ui/styles/muiThemeable";
 import PivotContainerGifts from "./PivotContainerGifts";
@@ -15,14 +15,15 @@ class GiftsForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterStr: "",
-      createNew: true
+      createNew: this.props.action == "edit" ? true : false
     };
   }
-  filterStr = v => {
-    console.log("filterStr v " + v);
-    this.setState({ filterStr: v });
-  };
+  componentDidMount() {
+    this.state = {
+      createNew: this.props.action == "edit" ? true : false
+    };
+  }
+
   formSave = () => {
     this.props.bubbleUp();
     this.setState({ createNew: true });
@@ -33,7 +34,7 @@ class GiftsForm extends Component {
       : "Enter new gift details.  After saving it,  associate a request or parties to the gift.  Plus add V/O/D dets";
   };
   render() {
-    const { fields, title, muiTheme, action } = this.props;
+    const { title, muiTheme, action } = this.props;
     return (
       <Paper zDepth={1}>
         <h4>{this.getMessage(action)}</h4>
@@ -51,7 +52,8 @@ class GiftsForm extends Component {
             <div style={{ padding: "10px" }}>
               <FormContainer
                 bubbleUp={this.formSave}
-                bubbleNew={() => this.setState({ createNew: false })}
+                bubbleNew={() => this.setState({ createNew: true })}
+                hideCreateButton={action === "edit"}
               />
             </div>
             <div
@@ -82,7 +84,7 @@ class GiftsForm extends Component {
             </div>
             <div style={{ padding: "10px" }}>
               <div style={{ opacity: !this.state.createNew ? 0.3 : 1 }}>
-                <StepperContainer />
+                <Stepper />
               </div>
             </div>
           </div>

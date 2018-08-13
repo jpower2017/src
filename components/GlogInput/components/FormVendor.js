@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
+import AutoComplete from "material-ui/AutoComplete";
 
 class FormVendor extends Component {
   constructor(props) {
@@ -33,6 +34,12 @@ class FormVendor extends Component {
     return (
       <Paper zDepth={1}>
         <div style={{}}>
+          <AutoComplete
+            floatingLabelText="Type  search"
+            filter={AutoComplete.fuzzyFilter}
+            dataSource={R.map(x => x.name, this.props.vendors)}
+            maxSearchResults={5}
+          />
           {this.showTextF("Vendor name", data ? data.name : null)}
           {this.showTextF("Work #", data ? data.work : null)}
         </div>

@@ -330,17 +330,17 @@ export const updatePresence = (jwt, userUUID, input) => {
 };
 
 export const updatePerson = (jwt, userUUID, input) => {
-  Log("HTTP updatePerson " + userUUID + ",  " + JSON.stringify(input));
+  console.log("HTTP updatePerson " + userUUID + ",  " + JSON.stringify(input));
   //const jsn = { returnMessage: "test" };
   const query = `
-     mutation updatePerson($userUUID:String,$input:PersonInput) {
-      UpdatePerson(userUUID:$userUUID,input:$input) {
+     mutation updatePerson($personUUID:String,$input:PersonInput) {
+      UpdatePerson(personUUID:$personUUID,input:$input) {
         uuid
         isInvisible
         presenceToken
       } }`;
   const variables = {
-    userUUID: userUUID,
+    personUUID: userUUID,
     input: input
   };
   const apolloFetch = createApolloFetch({ uri });
@@ -469,6 +469,11 @@ export const getGiftEvents = (jwt, login) => {
           description
         }
       }
+      giftPersons{
+        uuid,
+        firstName,
+        lastName
+      }
     }
   }
 `;
@@ -518,6 +523,33 @@ export const getModuleConfiguration = (jwt, login) => {
   return apolloFetch({ query, variables }).then(res => res.data);
 };
 */
+export const createPerson = (jwt, login) => {
+  const tempJSON = {
+    firstName: "placeholder",
+    lastName: "placeholder"
+  };
+  const query = `
+       mutation createPerson($input:PersonInput) {
+        CreatePerson(input:$input) {
+                   uuid
+      }
+    }
+    `;
+  const variables = {
+    input: tempJSON
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
 export const createGiftEvent = (jwt, login) => {
   const tempJSON = {
     eventDay: "01",
@@ -536,6 +568,31 @@ export const createGiftEvent = (jwt, login) => {
     `;
   const variables = {
     input: tempJSON
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const createGiftEventPerson = (jwt, login, geiID, personID) => {
+  console.log("HTTP createGiftEventPerson gei, person " + [geiID, personID]);
+  const query = `
+       mutation createGiftEventPerson($giftEventUUID:String,$personUUID:String) {
+        CreateGiftEventPerson(giftEventUUID:$giftEventUUID,personUUID:$personUUID) {
+                   uuid
+      }
+    }
+    `;
+  const variables = {
+    giftEventUUID: geiID,
+    personUUID: personID
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {

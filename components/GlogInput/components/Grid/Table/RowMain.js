@@ -67,11 +67,10 @@ export default class Row extends React.Component {
   };
 
   renderCells = objData => {
-    console.log("RowMain renderCells");
     const ks = R.keys(objData);
     return R.map(
       x =>
-        R.contains(x, ["event", "date", "recipients", "giftHistory"]) && (
+        R.contains(x, ["event", "date", "recipients"]) && (
           <Cell data={objData[x]} />
         ),
       ks

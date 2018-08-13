@@ -53,7 +53,7 @@ class GiftsRequestsContainer extends Component {
     //  console.log(R.contains(x, R.map(x => x.id, tempRequest.recipients)));
 
     tempRequest.requests = newRecips;
-    this.props.updateSecondary(tempRequest, "gifts");
+    this.props.updateSecondary(tempRequest, "gifts", x);
   };
   render() {
     return (
@@ -166,8 +166,8 @@ const mapStateToProps = (state, ownProps) => ({
     : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSecondary: (payload, node) => {
-    dispatch(updateSecondary(payload, node));
+  updateSecondary: (payload, node, assocID) => {
+    dispatch(updateSecondary(payload, node, assocID));
   },
   onNew: payload => {
     dispatch(addNew(payload));

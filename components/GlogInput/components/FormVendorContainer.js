@@ -23,16 +23,18 @@ class FormContainer extends Component {
   render() {
     return (
       <div>
-        <Form
-          fields={this.getFields("vendor")}
-          data={this.props.data}
-          onSave={this.props.onSave}
-          //  onHandle={this.props.addSearch}
-          //  onHandle2={this.props.addSearch2}
+        {this.props.data ? (
+          <Form
+            fields={this.getFields("vendor")}
+            data={this.props.data}
+            onSave={this.props.onSave}
+            //  onHandle={this.props.addSearch}
+            //  onHandle2={this.props.addSearch2}
 
-          //  title={this.props.title}
-          //onNew={() => this.props.onNew(this.props.node)}
-        />
+            //  title={this.props.title}
+            //onNew={() => this.props.onNew(this.props.node)}
+          />
+        ) : null}
       </div>
     );
   }
@@ -40,6 +42,7 @@ class FormContainer extends Component {
 
 const getVendor = (gifts, searchID, vendors) => {
   console.log("getOrder");
+
   const gift = R.find(x => x.id === searchID, gifts);
   const vendorID = R.prop("vendor", gift);
 
@@ -47,13 +50,15 @@ const getVendor = (gifts, searchID, vendors) => {
   return R.find(x => x.id === vendorID, vendors);
 };
 const mapStateToProps = (state, ownProps) => ({
-  data: state.glogInput.searchID
-    ? getVendor(
-        state.glogInput.gifts,
-        state.glogInput.searchID,
-        state.glogInput.vendors
-      )
-    : null
+  data:
+    state.glogInput.searchID != 0.1
+      ? getVendor(
+          state.glogInput.gifts,
+          state.glogInput.searchID,
+          state.glogInput.vendors
+        )
+      : null,
+  vendors: state.glogInput.vendors
 
   //title: this.props.data ? "Data for item selected" : "Select item"
 });

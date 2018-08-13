@@ -57,7 +57,6 @@ class VerticalNonLinear extends React.Component {
 
   render() {
     const { stepIndex } = this.state;
-    const { vendors, delivery, order } = this.props;
 
     return (
       <Paper zDepth={2}>
@@ -68,7 +67,7 @@ class VerticalNonLinear extends React.Component {
                 Vendor
               </StepButton>
               <StepContent>
-                <FormVendorContainer data={vendors} />
+                <FormVendorContainer />
                 {this.renderStepActions(0)}
               </StepContent>
             </Step>
@@ -77,7 +76,7 @@ class VerticalNonLinear extends React.Component {
                 Order
               </StepButton>
               <StepContent>
-                <FormOrderContainer data={order} />
+                <FormOrderContainer />
 
                 {this.renderStepActions(1)}
               </StepContent>
@@ -87,7 +86,7 @@ class VerticalNonLinear extends React.Component {
                 Delivery
               </StepButton>
               <StepContent>
-                <FormDeliveryContainer data={delivery} />
+                <FormDeliveryContainer />
                 {this.renderStepActions(2)}
               </StepContent>
             </Step>

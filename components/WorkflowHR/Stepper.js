@@ -5,6 +5,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
 import Form from "./Form";
 
+import * as R from "ramda";
 /**
  * A basic vertical non-linear implementation
  */
@@ -17,9 +18,18 @@ class VerticalNonLinear extends React.Component {
       submitted: false
     };
   }
-
+  /*
+  requiredFormFields = data => {
+    console.log("requiredFormFields");
+    console.log(JSON.stringify(data[this.state.stepIndex].form));
+    let formData = data[this.state.stepIndex].form;
+    //let flat = R.flatten(data[this.state.stepIndex].form);
+    console.log(R.map(x => x.name, R.flatten(R.map(x => x.fields, formData))));
+  };
+  */
   handleNext = () => {
     const { stepIndex } = this.state;
+    //this.requiredFormFields(this.props.data);
     if (stepIndex < 2) {
       this.setState({ stepIndex: stepIndex + 1 });
     }
@@ -42,7 +52,13 @@ class VerticalNonLinear extends React.Component {
         submitted: false
       });
   };
-  renderStepActions(step) {
+  showEmptyFieldHeader = arr => {
+    return arr && arr.length ? "The following fields are not valid:" : "";
+  };
+  showEmptyFieldText = arr => {
+    return arr ? R.map(x => <div>{x}</div>, arr) : "";
+  };
+  renderStepActions(step, emptyReqFields) {
     return (
       <div style={{ margin: "12px 0", padding: "2px" }}>
         {step > 0 && (
@@ -66,15 +82,19 @@ class VerticalNonLinear extends React.Component {
         )}
 
         {step == 2 && (
-          <RaisedButton
-            label="Submit"
-            backgroundColor="#f58c32"
-            labelColor="#fff"
-            disableTouchRipple={true}
-            disableFocusRipple={true}
-            onClick={this.handleSubmit}
-            disabled={!this.props.allReqCompleted || this.state.submitted}
-          />
+          <div>
+            <RaisedButton
+              label="Submit"
+              backgroundColor="#f58c32"
+              labelColor="#fff"
+              disableTouchRipple={true}
+              disableFocusRipple={true}
+              onClick={this.handleSubmit}
+              disabled={!this.props.allReqCompleted || this.state.submitted}
+            />
+            <h4>{this.showEmptyFieldHeader(emptyReqFields)}</h4>
+            <div>{this.showEmptyFieldText(emptyReqFields)}</div>
+          </div>
         )}
         {this.state.submitted && (
           <span>
@@ -102,7 +122,7 @@ class VerticalNonLinear extends React.Component {
 
   render() {
     const { stepIndex } = this.state;
-    const { data } = this.props;
+    const { data, emptyReqFields } = this.props;
 
     return (
       <Paper zDepth={2}>
@@ -122,7 +142,7 @@ class VerticalNonLinear extends React.Component {
                       onselect={this.props.onselect}
                       inputData={this.props.inputData}
                     />
-                    {this.renderStepActions(i)}
+                    {this.renderStepActions(i, emptyReqFields)}
                   </StepContent>
                 </Step>
               );

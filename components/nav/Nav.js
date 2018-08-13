@@ -262,8 +262,8 @@ class Nav extends Component {
   };
   renderFavs = data => {
     const o = R.filter(x => x.favorite === true, data);
-    console.table(o);
-    console.log("renderFavs f filtered-- " + JSON.stringify(o));
+    //console.table(o);
+    //console.log("renderFavs f filtered-- " + JSON.stringify(o));
     return o.map(x => (
       <div
         style={{
