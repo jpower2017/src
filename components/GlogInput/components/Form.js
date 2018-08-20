@@ -3,18 +3,51 @@ import Paper from "material-ui/Paper";
 import * as R from "ramda";
 import FieldDropDown from "./FieldDropDown";
 import FieldText from "./FieldText";
+import AutoComplete from "material-ui/AutoComplete";
 
 class FormOrder extends Component {
   constructor(props) {
     super(props);
-    this.state = { saveEnabled: false };
+    this.state = {
+      saveEnabled: false,
+      dataSource: [],
+      searchText: "",
+      vendors: []
+    };
   }
   componentDidMount() {
     this.state = { data: this.props.data };
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({ tab: nextProps.selection });
+    console.log("CWRP");
+    console.log(JSON.stringify(nextProps.searchText));
+    this.setState({
+      tab: nextProps.selection
+    });
+    if (nextProps.searchText) {
+      this.setState({
+        vendors: R.map(x => x.name, nextProps.searchText)
+      });
+    }
   }
+
+  handleUpdateInput = searchText => {
+    this.props.bubbleUp(searchText);
+    this.setState({
+      searchText: searchText
+    });
+  };
+
+  handleNewRequest = x => {
+    console.log("Form handleNewRequest " + x);
+    if (!R.contains(x, this.state.vendors)) {
+      console.log("not in vendors");
+
+      //this.setState({ vendors: [...this.state.vendors, x] });
+    }
+
+    this.props.onSave({ ...this.props.data, name: x });
+  };
 
   getValue = z => {
     console.log("getValue z " + JSON.stringify(z));
@@ -38,7 +71,7 @@ class FormOrder extends Component {
           {fields &&
             fields.map(
               (x, i) =>
-                x.uiType ? (
+                x.uiType === "dropDown" ? (
                   data.status && (
                     <FieldDropDown
                       options={this.props.statuses}
@@ -47,6 +80,17 @@ class FormOrder extends Component {
                       onselect={value => this.childChange(value, "status")}
                     />
                   )
+                ) : x.uiType === "autoComplete" ? (
+                  <AutoComplete
+                    hintText="Search organizations"
+                    searchText={this.state.searchText}
+                    onUpdateInput={this.handleUpdateInput}
+                    onNewRequest={this.handleNewRequest}
+                    dataSource={this.state.vendors}
+                    //filter={(searchText, key) => key.indexOf(searchText) !== -1}
+                    filter={AutoComplete.fuzzyFilter}
+                    openOnFocus={true}
+                  />
                 ) : (
                   <FieldText
                     obj={x}

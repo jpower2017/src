@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as R from "ramda";
 import { connect } from "react-redux";
-import { setNode, GEI_add_recip, setSearchID } from "../actions";
+import { setNode, GEI_add_recip, setSearchID, searchNode } from "../actions";
 import RecipientsForm from "./RecipientsForm";
 
 class RecipientsContainer extends Component {
@@ -14,7 +14,7 @@ class RecipientsContainer extends Component {
   }
   onSelect(node) {
     this.props.setNode(node);
-    this.props.setSearchID(0.1);
+    //this.props.setSearchID(0.1);
   }
   render() {
     return (
@@ -22,6 +22,7 @@ class RecipientsContainer extends Component {
         <div>PARTIES</div>
         <RecipientsForm
           onselect={node => this.onSelect(node)}
+          onSearchText={this.props.onSearchNode}
           //  onHandle={this.props.GEI_add_recip}
           node={this.props.node}
           bubbleUp={this.props.GEI_add_recip}
@@ -46,6 +47,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   setSearchID: x => {
     dispatch(setSearchID(x));
+  },
+  onSearchNode: str => {
+    dispatch(searchNode(str));
   }
 });
 

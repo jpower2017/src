@@ -20,9 +20,7 @@ export const columnsGiftEventInstance = [
 
 export const columnsPerson = [
   { name: "placeholder", title: "", type: "string", order: 1 },
-  { name: "name", title: "NAME", type: "string", order: 2 },
-  { name: "phone", title: "PHONE", type: "string", order: 4 },
-  { name: "dob", title: "DOB", type: "date", order: 5 }
+  { name: "name", title: "NAME", type: "string", order: 2 }
 ];
 
 export const columnsOrg = [
@@ -80,21 +78,28 @@ export const events = [
   { name: "holidayCard", title: "Holiday Card", date: "", value: 14 }
 ];
 export const registryStatuses = [
-  { name: "active", title: "Active", value: 0 },
-  { name: "noList", title: "No list", value: 1 },
-  { name: "removed", title: "Removed", value: 2 }
+  { name: "yes", title: "Yes", value: 0 },
+  { name: "no", title: "No", value: 1 }
 ];
 export const fieldsPerson = [
   { name: "firstName", title: "First name" },
   { name: "lastName", title: "Last name" },
+  { name: "middleName", title: "Middle name" },
   { name: "gender", title: "Gender", type: "gender" },
-  { name: "dob", title: "Date of birth", type: "date" },
-  { name: "email", title: "Personal email", type: "email" },
-  { name: "phone", title: "Person phone #", type: "phone" },
-  { name: "pob", title: "Place of birth" },
-  { name: "dod", title: "Date of death", type: "date" }
+  { name: "birthDate", title: "Date of birth", type: "date" },
+  { name: "personalEmail", title: "Personal email", type: "email" },
+  { name: "personalMobile", title: "Personal mobile", type: "phone" }
 ];
-export const fieldsOrgs = [{ name: "name", title: "Name" }];
+export const fieldsOrgs = [
+  {
+    name: "name",
+    title: "Name"
+  },
+  {
+    name: "contactNumber",
+    title: "Contact number"
+  }
+];
 export const fieldsAnimals = [
   { name: "name", title: "Animal name" },
   { name: "type", title: "Animal type" }
@@ -102,7 +107,8 @@ export const fieldsAnimals = [
 export const fieldsGroups = [{ name: "name", title: "Name" }];
 export const fieldsRequests = [
   { name: "registryStatus", title: "Registry status" },
-  { name: "requestNotes", title: "Request Notes", uiType: "textArea" }
+  { name: "requestNotes", title: "Request Notes", uiType: "textArea" },
+  { name: "active", title: "Active" }
 ];
 export const fieldsLog = [
   { name: "logField1", title: "Log Field 1" },
@@ -133,21 +139,26 @@ export const fieldsLocation = [
 ];
 
 export const fieldsVendor = [
-  { name: "name", title: "Name" },
-  { name: "work", title: "Work number" }
+  { name: "name", title: "Name", uiType: "autoComplete" },
+  { name: "contactNumber", title: "Contact number" }
 ];
 export const fieldsDelivery = [
   { name: "attentionTo", title: "Attention to" },
-  { name: "trackingNum", title: "Tracking number" },
-  { name: "deliveryDate", title: "Delivery date" }
+  { name: "deliveryContactNumber", title: "Delivery contact #" },
+  { name: "deliveryTrackingNumber", title: "Delivery tracking #" },
+  { name: "confirmedDeliveryDate", title: "Confirmed delivery date" }
 ];
 export const fieldsOrder = [
-  { name: "status", title: "Status", uiType: "dropDown" },
+  { name: "status", title: "Order status", uiType: "dropDown" },
   { name: "orderNumber", title: "Order number" },
   { name: "orderDate", title: "Order date", type: "date" },
-  { name: "repName", title: "Rep name" },
-  { name: "repPhone", title: "Rep phone", type: "phone" },
-  { name: "repEmail", title: "Rep email" }
+  { name: "vendorRepresentativeName", title: "Vendor rep name" },
+  {
+    name: "vendorRepresentativePhone",
+    title: "Vendor rep phone",
+    type: "phone"
+  },
+  { name: "vendorRepresentativeEmail", title: "Vendor rep email" }
 ];
 export const dataLog = [
   { id: 1, logField1: "lf1" },

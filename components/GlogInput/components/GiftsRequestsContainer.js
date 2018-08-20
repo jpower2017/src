@@ -38,6 +38,10 @@ class GiftsRequestsContainer extends Component {
   };
   onSelectRequest = (x, obj) => {
     console.log("onSelectRequest x,obj " + [x, JSON.stringify(obj)]);
+    console.log(
+      "giftRequestGiftPayload " +
+        JSON.stringify(this.props.giftRequestGiftPayload)
+    );
     let newRecips;
     const tempRequest = this.props.request;
     const add = () => {
@@ -53,7 +57,12 @@ class GiftsRequestsContainer extends Component {
     //  console.log(R.contains(x, R.map(x => x.id, tempRequest.recipients)));
 
     tempRequest.requests = newRecips;
-    this.props.updateSecondary(tempRequest, "gifts", x);
+    this.props.updateSecondary(
+      tempRequest,
+      "gifts",
+      x,
+      this.props.giftRequestGiftPayload
+    );
   };
   render() {
     return (
@@ -166,8 +175,8 @@ const mapStateToProps = (state, ownProps) => ({
     : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSecondary: (payload, node, assocID) => {
-    dispatch(updateSecondary(payload, node, assocID));
+  updateSecondary: (payload, node, assocID, giftRequestGiftPayload) => {
+    dispatch(updateSecondary(payload, node, assocID, giftRequestGiftPayload));
   },
   onNew: payload => {
     dispatch(addNew(payload));

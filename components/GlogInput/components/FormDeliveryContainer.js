@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as R from "ramda";
 import { connect } from "react-redux";
-import { updateSecondary, onTypeGift, add2 } from "../actions";
+import { updateSecondary, onTypeGift, addLocation } from "../actions";
 import FormDelivery from "./FormDelivery";
 import { appLogic } from "../common/data";
 
@@ -95,7 +95,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(onTypeGift(payload, giftID));
   },
   onAdd: (payload, node, bool) => {
-    dispatch(add2(payload, node, bool));
+    dispatch(addLocation(payload, node, bool));
   }
 });
 

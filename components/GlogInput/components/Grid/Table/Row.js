@@ -29,9 +29,9 @@ export default class Row extends React.Component {
     };
   }
   componentDidMount() {
-    console.log("ROW CDM ");
-    console.log(JSON.stringify(this.props.data));
-    console.log(this.props.data.status);
+    //  console.log("ROW CDM ");
+    //  console.log(JSON.stringify(this.props.data));
+    //  console.log(this.props.data.status);
     this.setState({ status: this.props.data.status });
   }
   componentWillReceiveProps(nextProps) {
@@ -44,7 +44,9 @@ export default class Row extends React.Component {
   toggle() {
     console.log("ROW toggle");
     this.setState({ iconClick: !this.state.iconClick });
-    this.props.onclick(this.props.data.id);
+    this.props.onclick(
+      this.props.data.id ? this.props.data.id : this.props.data.uuid
+    );
   }
 
   handleChangeDD = (event, index, value) => {
@@ -106,8 +108,7 @@ export default class Row extends React.Component {
               "address",
               "fullName",
               "children",
-              "firstName",
-              "lastName"
+              "id"
             ]) && <Cell data={[objData[x]]} />,
       ks
     );

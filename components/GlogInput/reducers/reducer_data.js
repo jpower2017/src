@@ -420,20 +420,20 @@ export const dataOrgs = [
   {
     id: 301,
     name: "org1",
-    phone: "412-122-1234",
+    contactNumber: "412-122-1234",
     selected: false
   },
   {
     id: 302,
     name: "org2",
-    phone: "412-122-1234",
+    contactNumber: "412-122-1234",
     selected: false
   },
 
   {
     id: 303,
     name: "org3",
-    phone: "412-122-1234",
+    contactNumber: "412-122-1234",
     selected: false
   }
 ];

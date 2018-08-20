@@ -61,7 +61,7 @@ export default class Events extends Component {
         }}
       >
         <RaisedButton
-          label="SAVE & NEW"
+          label="NEW"
           backgroundColor={this.props.color}
           labelColor={"#fff"}
           style={{ margin: "15px" }}

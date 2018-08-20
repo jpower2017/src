@@ -24,11 +24,12 @@ class SearchForm extends Component {
       this.setState({ showForm: true });
     }
     this.setState({ filterStr: v });
+    this.props.onSearchText(v);
   };
   getMessage = action => {
     return action === "edit"
       ? `Edit parties selection`
-      : "Search for party below. If not found create a new entry to the right.";
+      : "Search for party below. If not found create a new entry.";
   };
   render() {
     const { action, node } = this.props;

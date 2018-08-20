@@ -49,7 +49,8 @@ class Summary extends Component {
             style={{
               color: "#fff",
               fontWeight: typography.fontWeightLight,
-              padding: "8px"
+              marginTop: "10px",
+              marginLeft: "10px"
             }}
           >
             Gift event instance

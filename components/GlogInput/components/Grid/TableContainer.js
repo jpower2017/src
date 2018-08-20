@@ -5,7 +5,8 @@ import {
   setView,
   setSearchID,
   setSelectedRow,
-  GEI_add_recip
+  GEI_add_recip,
+  addToNode
 } from "../../actions";
 import { getRows, getSelection } from "../../reducers";
 import Table from "./Table/Table";
@@ -96,8 +97,10 @@ class TableContainer extends Component {
       this.props.rows
     );
     */
+
+    this.props.addToNode(item);
     this.props.bubbleUp(id);
-    this.props.onselected(id, item);
+    this.props.onselected(id);
     this.props.GEI_add_recip();
     edit && this.props.setView("details");
   };
@@ -251,11 +254,7 @@ const mapStateToProps = (state, ownProps) => ({
   node: state.glogInput.node,
   //rows:state.glogInput[state.glogInput.node],
   rows: ownProps.noFilter
-    ? filterSearch(
-        state.glogInput[state.glogInput.node],
-        ownProps.filterStr,
-        state.glogInput.node
-      )
+    ? state.glogInput.searchText
     : state.glogInput.node == "locations"
       ? //? getLocations(state.glogInput.locations)
         test(
@@ -293,6 +292,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   GEI_add_recip: () => {
     dispatch(GEI_add_recip());
+  },
+  addToNode: payload => {
+    dispatch(addToNode(payload));
   }
 });
 
