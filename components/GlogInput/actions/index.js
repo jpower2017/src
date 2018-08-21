@@ -308,14 +308,43 @@ export const addData = () => ({
 
 export const getData = () => async (dispatch, getState) => {
   console.log("GLOGINPUT  ACTION GETDATA");
-  console.log("RETURN FOR NOW");
-  return;
   const token = getState().notifications.token;
   const login = getState().notifications.login;
   const ge = await HTTP_GLOG.getGiftEvents(token, login);
-  console.log("action ge received");
-  console.table(ge);
-  //dispatch(addData());
+  console.log("ACTION GIFTEVENTS received");
+  console.table(ge.GiftEvents);
+  const changeKey = obj => {
+    return { id: obj.uuid, type: "people" };
+  };
+  const tweakData = obj => {
+    return {
+      ...obj,
+      eventType: [obj.eventType],
+      id: obj.uuid,
+      date: [`${obj.eventMonth}/${obj.eventDay}/${obj.eventYear}`],
+      recipients: R.map(x => changeKey(x), obj.eventPersons),
+      giftHistory: [],
+      requests: [],
+      eventMonth: "09",
+      notes: [""],
+      recurring: [1],
+      registry: [0]
+    };
+  };
+
+  const process = obj => {
+    console.log("ACTION process");
+    console.table(obj);
+    console.table(tweakData(obj));
+    dispatch(add2(tweakData(obj), "giftEventInstances", false));
+    let people = R.prop("eventPersons", obj);
+    console.table(people);
+    R.map(x => dispatch(add2({ ...x, id: x.uuid }, "people", false)), people);
+  };
+
+  R.map(x => process(x), ge.GiftEvents);
+
+  //  R.map(x => dispatch(add2(x.eventPerson, "people", false)), ge.GiftEvents);
 };
 export const receiveRows = json => ({
   type: GLOG_RECEIVE_ROWS,

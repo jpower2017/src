@@ -62,12 +62,12 @@ class SummaryContainer extends Component {
     console.log(
       JSON.stringify({
         ...this.props.giftEventInstance,
-        event: [events[value].title]
+        eventType: [events[value].title]
       })
     );
     const newObj = {
       ...this.props.giftEventInstance,
-      event: [events[value].title]
+      eventType: [events[value].title]
     };
     this.props.onEvt(newObj);
   }
@@ -88,7 +88,7 @@ class SummaryContainer extends Component {
   evt(value) {
     const newObj = {
       ...this.props.giftEventInstance,
-      event: [value]
+      eventType: [value]
     };
     this.props.onEvt(newObj);
   }
@@ -269,7 +269,7 @@ const mapStateToProps = (state, ownProps) => ({
     : null,
   evt: state.glogInput.selectedRow
     ? R.prop(
-        "event",
+        "eventType",
         R.find(
           x => x.id == state.glogInput.selectedRow,
           state.glogInput.giftEventInstances

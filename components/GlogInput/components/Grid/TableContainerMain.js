@@ -15,7 +15,7 @@ class TableContainer extends Component {
       col: null,
       ascend: null,
       page: 0,
-      perPage: 3,
+      perPage: 20,
       totalRows: null,
       bPaginated: true,
       people: this.props.people,
@@ -229,10 +229,13 @@ const convertRecipients = (obj, people, orgs, groups, animals) => {
 };
 
 const getEventName = obj => {
-  const title = R.prop("title", R.find(x => x.value === obj.event[0], events));
+  const title = R.prop(
+    "title",
+    R.find(x => x.value == obj.eventType[0], events)
+  );
   return {
     ...obj,
-    event: [title]
+    eventType: [title]
   };
 };
 

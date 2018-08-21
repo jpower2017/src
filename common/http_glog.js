@@ -50,7 +50,7 @@ export const getGiftEvents = (jwt, login) => {
 `;
   const variables = {
     login: login,
-    eventMonth: "03"
+    eventMonth: "05"
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {
@@ -68,7 +68,7 @@ export const createGiftEvent = (jwt, login) => {
   console.log("HTTP createGiftEvent");
   const tempJSON = {
     eventDay: "01",
-    eventMonth: "03",
+    eventMonth: "05",
     eventYear: "01",
     eventType: "01",
     recurring: "Yes",

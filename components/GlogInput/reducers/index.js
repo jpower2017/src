@@ -173,7 +173,7 @@ export const glogInput = (state = [], action) => {
           ...state.giftEventInstances,
           {
             id: action.id,
-            event: [1],
+            eventType: ["1"],
             date: [""],
             recipients: [],
             giftHistory: [],

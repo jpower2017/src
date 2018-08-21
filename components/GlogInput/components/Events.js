@@ -70,7 +70,7 @@ export default class Events extends Component {
         <div>
           <FieldDropDown
             options={events}
-            status={gei.event[0]}
+            status={Number(gei.eventType[0])}
             data={this.props.data[0]}
             onselect={this.props.onEvt}
           />

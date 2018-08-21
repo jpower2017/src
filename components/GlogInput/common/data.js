@@ -13,7 +13,7 @@ export const statuses = [
   { status: "received", title: "Received", color: "#9E9E9E", value: 7 }
 ];
 export const columnsGiftEventInstance = [
-  { name: "event", title: "EVENT", type: "string", order: 1 },
+  { name: "eventType", title: "EVENT", type: "string", order: 1 },
   { name: "date", title: "DATE", type: "string", order: 2 },
   { name: "recipients", title: "RECIPIENTS", type: "string", order: 3 }
 ];
