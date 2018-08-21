@@ -611,12 +611,18 @@ export const searchText = arr => ({
   payload: arr
 });
 
+<<<<<<< HEAD
 const changeLabel = x => {
   return R.omit(["uuid"], {
     ...x,
     id: x.uuid,
     name: `${x.firstName} ${x.lastName}`
   });
+=======
+const changeKeys = x => {
+  let newObj = { ...x, id: x.uuid };
+  return !x.name ? { ...newObj, name: `${x.firstName} ${x.lastName}` } : newObj;
+>>>>>>> b0e0b1bb13f799c25bcb8ba95d65f0766c1198b6
 };
 export const searchOrganization = (str = "placeholder") => async (
   dispatch,
@@ -624,21 +630,33 @@ export const searchOrganization = (str = "placeholder") => async (
 ) => {
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchOrganization(token, str);
+<<<<<<< HEAD
   let orgs = R.map(x => changeLabel(x), newSearch.SearchOrganization);
+=======
+  let orgs = R.map(x => changeKeys(x), newSearch.SearchOrganization);
+>>>>>>> b0e0b1bb13f799c25bcb8ba95d65f0766c1198b6
   dispatch(searchText(orgs));
 };
 export const searchPerson = (str = "") => async (dispatch, getState) => {
   console.log("ACTION searchPerson " + str);
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchPerson(token, str);
+<<<<<<< HEAD
   let peps = R.map(x => changeLabel(x), newSearch.SearchPerson);
+=======
+  let peps = R.map(x => changeKeys(x), newSearch.SearchPerson);
+>>>>>>> b0e0b1bb13f799c25bcb8ba95d65f0766c1198b6
   dispatch(searchText(peps));
 };
 export const searchGroup = (str = "") => async (dispatch, getState) => {
   console.log("ACTION searchGroup " + str);
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchGroup(token, str);
+<<<<<<< HEAD
   let groups = R.map(x => changeLabel(x), newSearch.SearchGroup);
+=======
+  let groups = R.map(x => changeKeys(x), newSearch.SearchGroup);
+>>>>>>> b0e0b1bb13f799c25bcb8ba95d65f0766c1198b6
   dispatch(searchText(groups));
 };
 export const searchNode = (str = "") => async (dispatch, getState) => {

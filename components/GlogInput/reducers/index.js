@@ -426,6 +426,13 @@ export const getRowSelected = store => {
   return store.data.rows ? store.data.rows[store.data.selectedRow] : null;
 };
 
+export const getGiftRequestGift = store => {
+  return {
+    giftYear: store.glogInput.searchID ? store.glogInput.searchID : "123"
+  };
+  //return { giftYear: "1999" };
+};
+
 /**/
 
 export default glogInput;

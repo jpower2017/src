@@ -75,7 +75,11 @@ class GiftsForm extends Component {
               <Paper>
                 <FieldText
                   obj={{ title: "Gift year", name: "giftYear" }}
+<<<<<<< HEAD
                   //  data={this.props. a}
+=======
+                  data={this.props.giftRequestGift.giftYear}
+>>>>>>> b0e0b1bb13f799c25bcb8ba95d65f0766c1198b6
                   change={this.change}
                 />
                 <div style={{ display: "flex", alignItems: "center" }}>
