@@ -29,7 +29,9 @@ export default class MyGeoSuggest extends Component {
       city: city,
       state: state,
       zip: zip,
-      placeID: o.placeId
+      placeID: o.placeId,
+      latitude: o.location.lat,
+      longitude: o.location.lng
     });
     /*
     return {
@@ -64,7 +66,9 @@ export default class MyGeoSuggest extends Component {
       state: this.state.state,
       zipcode: this.state.zip,
       placeID: this.state.placeID,
-      apt: this.state.apt
+      apt: this.state.apt,
+      longitude: this.state.longitude,
+      latitude: this.state.latitude
     };
     this.props.onselect(o);
   };

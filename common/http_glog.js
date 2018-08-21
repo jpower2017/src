@@ -50,7 +50,7 @@ export const getGiftEvents = (jwt, login) => {
 `;
   const variables = {
     login: login,
-    eventMonth: "02"
+    eventMonth: "03"
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {
@@ -68,11 +68,12 @@ export const createGiftEvent = (jwt, login) => {
   console.log("HTTP createGiftEvent");
   const tempJSON = {
     eventDay: "01",
-    eventMonth: "02",
+    eventMonth: "03",
     eventYear: "01",
     eventType: "01",
     recurring: "Yes",
-    registryStatus: "Active"
+    registryStatus: "Yes",
+    active: true
   };
   const query = `
        mutation createGiftEvent($input:GiftEventInput) {
@@ -172,6 +173,7 @@ export const createGift = (jwt, login) => {
   });
   return apolloFetch({ query, variables }).then(res => res.data);
 };
+
 export const updateGift = (jwt, uuid, payload) => {
   console.log("HTTP updateGift  payload" + JSON.stringify(payload));
   console.log("HTTP updateGift  uuid: " + uuid);
@@ -196,7 +198,7 @@ export const updateGift = (jwt, uuid, payload) => {
   return apolloFetch({ query, variables }).then(res => res.data);
 };
 
-export const createOrganization = (jwt, login) => {
+export const createOrganization = jwt => {
   console.log("HTTP createOrganization ");
   const tempJSON = {
     name: `placeholder${Math.random()}`
@@ -255,6 +257,8 @@ export const updateOrganization = (jwt, uuid, payload) => {
        mutation updateOrganization($organizationUUID:String,$input:OrganizationInput) {
         UpdateOrganization(organizationUUID:$organizationUUID,input:$input) {
                    uuid
+                   name
+                   contactNumber
       }  }`;
   const variables = {
     organizationUUID: uuid,
@@ -276,7 +280,8 @@ export const createGiftRequest = jwt => {
   console.log("HTTP createGiftRequest");
   const tempJSON = {
     registryStatus: `placeholder${Math.random()}`,
-    requestNotes: `placeholder${Math.random()}`
+    requestNotes: `placeholder${Math.random()}`,
+    active: true
   };
   const query = `
        mutation createGiftRequest($input:GiftRequestInput) {
@@ -374,12 +379,14 @@ export const createGiftRequestPerson = (jwt, geiID, personID) => {
   return apolloFetch({ query, variables }).then(res => res.data);
 };
 
-export const createGiftRequestGift = (jwt, giftRequestID, giftID) => {
+export const createGiftRequestGift = (jwt, giftRequestID, giftID, payload) => {
   console.log("HTTP createGiftRequestGift " + [giftRequestID, giftID]);
+  /*
   const tempJSON = {
     giftYear: "1969",
     status: "status one"
   };
+  */
   const query = `
        mutation createGiftRequestGift($giftRequestUUID:String,$giftUUID:String,$input:GiftRequestGiftInput) {
         CreateGiftRequestGift( giftRequestUUID:$giftRequestUUID,giftUUID:$giftUUID,input:$input) {
@@ -390,7 +397,7 @@ export const createGiftRequestGift = (jwt, giftRequestID, giftID) => {
   const variables = {
     giftRequestUUID: giftRequestID,
     giftUUID: giftID,
-    input: tempJSON
+    input: payload
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {
@@ -416,6 +423,246 @@ export const createGiftPerson = (jwt, giftID, personID) => {
   const variables = {
     giftUUID: giftID,
     personUUID: personID
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const createGiftVendor = (jwt, giftID, orgID, payload) => {
+  console.log("HTTP createGiftVendor " + [giftID, orgID]);
+  /*
+  const tempJSON = {
+    giftYear: "1969",
+    status: "status one"
+  };
+  */
+  const query = `
+       mutation createGiftVendor( $giftUUID:String,$organizationUUID:String,$input:GiftVendorInput) {
+        CreateGiftVendor(giftUUID:$giftUUID,organizationUUID:$organizationUUID,input:$input) {
+                   uuid
+      }
+    }
+    `;
+  const variables = {
+    giftUUID: giftID,
+    organizationUUID: orgID,
+    input: payload
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const updateGiftVendor = (jwt, giftUUID, organizationUUID, payload) => {
+  console.log("HTTP updateGiftVendor payload" + JSON.stringify(payload));
+  const query = `
+       mutation updateGiftVendor($giftUUID:String,$organizationUUID:String,$input:GiftVendorInput) {
+        UpdateGiftVendor(giftUUID:$giftUUID,organizationUUID:$organizationUUID,input:$input) {
+                   uuid
+      }  }`;
+  const variables = {
+    giftUUID: giftUUID,
+    organizationUUID: organizationUUID,
+    input: payload
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const createLocation = (jwt, input) => {
+  console.log("HTTP createLocation");
+
+  const query = `
+       mutation createLocation($input:LocationInput) {
+        CreateLocation(input:$input) {
+                   uuid
+      }
+    }
+    `;
+  const variables = {
+    input: input
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const createGiftLocation = (jwt, giftID, locationID, payload) => {
+  console.log("HTTP createGiftVendor " + [giftID, locationID]);
+  /*
+  const tempJSON = {
+    giftYear: "1969",
+    status: "status one"
+  };
+  */
+  const query = `
+       mutation createGiftLocation( $giftUUID:String,$locationUUID:String,$input:GiftLocationInput) {
+        CreateGiftLocation(giftUUID:$giftUUID,locationUUID:$locationUUID,input:$input) {
+                   uuid
+      }
+    }
+    `;
+  const variables = {
+    giftUUID: giftID,
+    locationUUID: locationID,
+    input: payload
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+export const updateGiftLocation = (jwt, giftUUID, locationUUID, payload) => {
+  console.log("HTTP updateGiftLocation payload" + JSON.stringify(payload));
+  const query = `
+       mutation updateGiftLocation($giftUUID:String,$locationUUID:String,$input:GiftLocationInput) {
+        UpdateGiftLocation(giftUUID:$giftUUID,locationUUID:$locationUUID,input:$input) {
+                   uuid
+      }  }`;
+  const variables = {
+    giftUUID: giftUUID,
+    locationUUID: locationUUID,
+    input: payload
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const searchOrganization = (jwt, str) => {
+  const query = `
+  query searchOrganization($searchText:String){
+     SearchOrganization(searchText:$searchText) {
+      uuid,
+      name,
+      contactNumber
+    }
+  }
+`;
+  const variables = {
+    searchText: str
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const searchPerson = (jwt, str) => {
+  const query = `
+  query searchPerson($searchText:String){
+     SearchPerson(searchText:$searchText) {
+      uuid,
+      firstName,
+      middleName,
+      lastName,
+      personalMobile,
+      personalEmail,
+      gender,
+      birthDate
+    }
+  }
+`;
+  const variables = {
+    searchText: str
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const searchGroup = (jwt, str) => {
+  const query = `
+  query searchGroup($searchText:String){
+     SearchGroup(searchText:$searchText) {
+      uuid,
+      name
+    }
+  }
+`;
+  const variables = {
+    searchText: str
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const searchAnimal = (jwt, str) => {
+  const query = `
+  query searchAnimal($searchText:String){
+     SearchAnimal(searchText:$searchText) {
+      uuid,
+      name,
+      type
+    }
+  }
+`;
+  const variables = {
+    searchText: str
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {

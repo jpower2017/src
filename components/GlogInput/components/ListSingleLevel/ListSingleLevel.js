@@ -92,7 +92,11 @@ export default class ListSingleLevel extends Component {
           {data.map(x => (
             <ListRow
               data={x}
-              label={x.name ? x.name : x.requestNotes}
+              label={
+                x.name
+                  ? x.name
+                  : x.lastName ? `${x.firstName} ${x.lastName}` : x.requestNotes
+              }
               onselect={(x, obj) => this.onselect(x, obj)}
               bHighlight={this.bHighlight(
                 x.id,

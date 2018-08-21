@@ -36,7 +36,7 @@ class Summary extends Component {
     return (
       <div>
         <RaisedButton
-          label="SHOW MAIN TABLE"
+          label="List of gift events"
           backgroundColor="#f58c32"
           labelColor={"#fff"}
           style={{ marginTop: "15px", marginRight: "20px" }}
@@ -49,7 +49,8 @@ class Summary extends Component {
             style={{
               color: "#fff",
               fontWeight: typography.fontWeightLight,
-              padding: "8px"
+              marginTop: "10px",
+              marginLeft: "10px"
             }}
           >
             Gift event instance

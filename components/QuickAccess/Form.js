@@ -5,48 +5,46 @@ import RaisedButton from "material-ui/RaisedButton";
 import WidgetBase from "../WidgetBase";
 import List from "./List/List";
 
-const company = [{ name: "BSCC staff contacts list", link: "" }];
 const employee = [
   {
     name: "Payroll/HR website -- TriNet",
     link: "https://trinet.hrpassport.com/"
   },
   {
-    name: "PTO request for time-off form",
+    name: "PTO Request for Time-off Form",
     link: "https://bluespruce.box.com/s/hfg8o65tnmg8o8hhs08hjjousfcvqm3e"
   },
   {
-    name: "Out-of-office process",
+    name: "Out-of-office Process",
     link: "https://bluespruce.box.com/s/etyja4gc22murakqbl7u63q2jge2x6rr"
   }
 ];
 const financial = [
   {
-    name: "BSCC expense-report form",
+    name: "BSCC Expense-report Form",
     link: "https://bluespruce.box.com/s/jqm3dx51otuukz1zx1tsbqt0bu8rizg8"
   },
   {
-    name: "ExpressToll request/update form",
+    name: "ExpressToll Request/update Form",
     link: "https://bluespruce.box.com/s/c0sw7osdsbyutkzffw15nypiamrhpqcb"
   },
   {
-    name: "Direct deposit for expense-reimbursement form",
-    link: "https://bluespruce.box.com/s/c0sw7osdsbyutkzffw15nypiamrhpqcb"
+    name: "Direct Deposit for Expense-reimbursement Form",
+    link: "https://bluespruce.box.com/s/ghhbbf73y0k7u2l0b8buiyu9pv2tyejb"
   },
   {
-    name: "Fitness reimbursement",
+    name: "Fitness Reimbursement",
     link: "https://bluespruce.box.com/s/2f7x9rf8gjr3f4s142iessk7eolvqona"
   }
 ];
 const operations = [
   {
-    name: "Request a contractor sign a confidentiality agreement",
+    name: "Request Contractor Confidentiality Agreement",
     link: "https://bluespruce.box.com/s/c9e1r8f3q4cvs7q2eday55qlfaxzyq0s"
   }
 ];
 
 const pageJSON = [
-  { title: "Company", list: company },
   { title: "Employee", list: employee },
   { title: "Financial", list: financial },
   { title: "Operations", list: operations }

@@ -1,14 +1,14 @@
 export const person = {
   firstName: "",
   lastName: "",
+  middleName: "",
   name: "",
   selected: true,
   submit: "",
   gender: "",
-  phone: "",
-  dob: "",
-  email: "",
-  pob: "",
+  personalMobile: "",
+  birthDate: "",
+  personalEmail: "",
   worksFor: [],
   worksAt: [],
   reportsTo: [],
@@ -26,8 +26,7 @@ export const gift = {
 };
 export const org = {
   name: "",
-  address: "",
-  phone: "",
+  contactNumber: "",
   selected: true
 };
 export const animal = {
@@ -40,10 +39,12 @@ export const group = {
 export const request = {
   registryStatus: "",
   requestNotes: "",
+  active: "",
   recipients: []
 };
 export const location = {
   streetAddress1: "",
+  apt: "",
   city: "",
   state: "",
   zipcode: "",
@@ -51,18 +52,19 @@ export const location = {
 };
 export const vendor = {
   name: "",
-  work: ""
+  contactNumber: ""
 };
 export const delivery = {
   attentionTo: "",
-  trackingNum: "",
-  deliveryDate: ""
+  deliveryContactNumber: "",
+  deliveryTrackingNumber: "",
+  confirmedDeliveryDate: ""
 };
 export const order = {
   status: 1,
   orderNumber: "",
   orderDate: "",
-  repName: "",
-  repPhone: "",
-  repEmail: ""
+  vendorRepresentativeName: "",
+  vendorRepresentativePhone: "",
+  vendorRepresentativeEmail: ""
 };

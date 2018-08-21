@@ -21,8 +21,7 @@ export const giftEventInstances = [
       {
         id: 123,
         type: "people"
-      },
-      { id: 501, type: "groups" }
+      }
     ],
     giftHistory: [
       {
@@ -95,10 +94,6 @@ export const giftEventInstances = [
       {
         id: 122,
         type: "people"
-      },
-      {
-        id: 301,
-        type: "orgs"
       }
     ],
     giftHistory: [

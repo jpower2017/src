@@ -10,6 +10,9 @@ import PivotContainerGifts from "./PivotContainerGifts";
 import ListSingleLevel from "./ListSingleLevel/ListSingleLevel";
 import GiftsPartiesContainer from "./GiftsPartiesContainer";
 import GiftsRequestsContainer from "./GiftsRequestsContainer";
+import FieldText from "./FieldText";
+import FieldDropDown from "./FieldDropDown";
+import { registryStatuses } from "../common/data";
 
 class GiftsForm extends Component {
   constructor(props) {
@@ -19,6 +22,7 @@ class GiftsForm extends Component {
     };
   }
   componentDidMount() {
+    console.log("GIFTFORM componentDidMount");
     this.state = {
       createNew: this.props.action == "edit" ? true : false
     };
@@ -31,10 +35,16 @@ class GiftsForm extends Component {
   getMessage = action => {
     return action === "edit"
       ? `Edit selection or its associations.  Also edit Vendor/Order/Delivery details.`
-      : "Enter new gift details.  After saving it,  associate a request or parties to the gift.  Plus add V/O/D dets";
+      : "Enter new gift details.  After clicking 'save',  associate a request or parties to the gift.  Vendor/Order/Delivery details.";
+  };
+  change = (val, name) => {
+    console.log("GiftsForm change ");
+    console.log("val name : " + [val, name]);
+    this.setState({ [name]: val });
+    //  this.props.change(name, val);
   };
   render() {
-    const { title, muiTheme, action } = this.props;
+    const { title, muiTheme, action, data } = this.props;
     return (
       <Paper zDepth={1}>
         <h4>{this.getMessage(action)}</h4>
@@ -62,13 +72,41 @@ class GiftsForm extends Component {
                 opacity: !this.state.createNew ? 0.3 : 1
               }}
             >
+              <Paper>
+                <FieldText
+                  obj={{ title: "Gift year", name: "giftYear" }}
+                  //  data={this.props. a}
+                  change={this.change}
+                />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div>Active:</div>
+                  <FieldDropDown
+                    options={registryStatuses}
+                    status={this.state.status ? this.state.status : 0}
+                    //data={ }
+                    onselect={value => this.change(value, "status")}
+                  />
+                </div>
+              </Paper>
+            </div>
+            <div
+              style={{
+                padding: "10px",
+                opacity: !this.state.createNew ? 0.3 : 1
+              }}
+            >
               <GiftsRequestsContainer
                 onselect={x => this.onSelectParties(x)}
                 groups={this.props.requests}
                 multiSelect={true}
                 title={"Requests"}
+                giftRequestGiftPayload={{
+                  giftYear: this.state.giftYear,
+                  status: this.state.status
+                }}
               />
             </div>
+
             <div
               style={{
                 padding: "10px",

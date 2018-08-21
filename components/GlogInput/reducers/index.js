@@ -24,7 +24,10 @@ import {
   GLOG_ADD_SEARCH2,
   UPDATE_GEI_INSTANCE_REQUEST,
   GLOG_SET_ACTION,
-  GLOG_SET_VAR
+  GLOG_SET_VAR,
+  GLOG_UPDATE_GIFTREQUEST_GIFT,
+  GLOG_SEARCHTEXT,
+  GLOG_UPDATE_FIELD
 } from "../actions";
 import {
   dataGifts,
@@ -65,6 +68,24 @@ let newRows,
   gei;
 export const glogInput = (state = [], action) => {
   switch (action.type) {
+    case GLOG_UPDATE_FIELD:
+      console.log("REDUCER GLOG_UPDATE_FIELD");
+      console.log(
+        "vars " + [action.id, action.node, action.field, action.payload]
+      );
+      const row = R.find(x => x.id === action.id, state[action.node]);
+      let otherRows = R.filter(x => x.id !== action.id, state[action.node]);
+      let newRow = { ...row, vendor: action.payload };
+      console.table(row);
+      return {
+        ...state,
+        gifts: [...otherRows, newRow]
+      };
+    case GLOG_SEARCHTEXT:
+      return {
+        ...state,
+        searchText: action.payload
+      };
     case GLOG_ON_TYPE:
       console.log("REDUCER ON_TYPE");
       console.log("selectedrow " + state.selectedRow);
@@ -73,6 +94,20 @@ export const glogInput = (state = [], action) => {
       return {
         ...state
         //  locations:
+      };
+    case GLOG_UPDATE_GIFTREQUEST_GIFT:
+      console.log("REDUCER GLOG_GIFTREQUEST_GIFT_AD");
+      console.table(R.find(x => x.id === action.id, state.requests));
+      let selectedObj = R.find(x => x.id === action.id, state.requests);
+      let newObj = {
+        ...selectedObj,
+        requestGifts: [action.payload]
+      };
+      console.table(newObj);
+      let otherObjs = R.filter(x => x.id !== action.id, state.requests);
+      return {
+        ...state,
+        requests: [...otherObjs, newObj]
       };
     case GLOG_SET_VIEW:
       console.log("REDUCER GLOG_SET_VIEW");
@@ -104,7 +139,25 @@ export const glogInput = (state = [], action) => {
         ...state,
         status: action.status
       };
-
+    case GLOG_LOAD_DATA:
+      return {
+        ...state,
+        gifts: dataGifts,
+        people: dataPeople,
+        locations: dataLocations,
+        orgs: dataOrgs,
+        animals: dataAnimals,
+        groups: dataGroups,
+        requests: dataRequests,
+        node: "people",
+        //  selection: "people",
+        giftEventInstances: giftEventInstances,
+        selectedRow: 21,
+        //searchID: 1,
+        vendors: dataVendors,
+        deliveries: dataDeliveries,
+        orders: dataOrders
+      };
     case GLOG_ADD_DATA:
       return {
         ...state,
@@ -288,6 +341,7 @@ export const glogInput = (state = [], action) => {
       t = state[action.node];
       id = R.prop("id", action.payload);
       console.log("REDUCE UPDATE SECONDARY ID " + id);
+      console.log("NODE " + action.node);
       newRows = t.map(x => (x.id === id ? action.payload : x));
       console.table(newRows);
       return {
@@ -348,25 +402,7 @@ export const glogInput = (state = [], action) => {
         ...state,
         requestID: action.id
       };
-    case GLOG_LOAD_DATA:
-      return {
-        ...state,
-        gifts: dataGifts,
-        people: dataPeople,
-        locations: dataLocations,
-        orgs: dataOrgs,
-        animals: dataAnimals,
-        groups: dataGroups,
-        requests: dataRequests,
-        node: "people",
-        //  selection: "people",
-        giftEventInstances: giftEventInstances,
-        selectedRow: 21,
-        //searchID: 1,
-        vendors: dataVendors,
-        deliveries: dataDeliveries,
-        orders: dataOrders
-      };
+
     default:
       return {
         ...state
