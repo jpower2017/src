@@ -161,19 +161,30 @@ const filteredStatuses = (status, gifts) => {
 };
 
 const convertRecipients = (obj, people, orgs, groups, animals) => {
+  console.log("convertRecipients");
   const recipients = obj.recipients;
   console.table(obj.recipients);
-  const getFirstName = a =>
-    R.prop("firstName", R.find(x => x.id == a.id, people));
-  const getLastName = a =>
-    R.prop("lastName", R.find(x => x.id == a.id, people));
+  const getFirstName = a => {
+    console.log(JSON.stringify(a));
+    return R.prop("firstName", R.find(x => x.id == a.id, people));
+  };
+  const getLastName = a => {
+    console.log(JSON.stringify(a));
+    return R.prop("lastName", R.find(x => x.id == a.id, people));
+  };
   const getName = id => {
+    console.log("getName");
+    console.log(getFirstName(id) + " " + getLastName(id));
     return getFirstName(id) + " " + getLastName(id);
   };
   const getOrg = a => {
+    console.log("getOrg");
+    console.table(R.prop("name", R.find(x => x.id == a.id, orgs)));
     return R.prop("name", R.find(x => x.id == a.id, orgs));
   };
   const getGroup = a => {
+    console.log("getGroup f");
+    console.log(JSON.stringify(a));
     console.table(R.prop("name", R.find(x => x.id == a.id, groups)));
     return R.prop("name", R.find(x => x.id == a.id, groups));
   };
@@ -181,19 +192,21 @@ const convertRecipients = (obj, people, orgs, groups, animals) => {
     console.table(R.prop("name", R.find(x => x.id == a.id, animals)));
     return R.prop("name", R.find(x => x.id == a.id, animals));
   };
-
   const getPartyName = x => {
     switch (x.type) {
       case "people":
         console.log("switch x.type " + x.type);
+        console.log(getName(x));
         return getName(x);
         break;
       case "orgs":
         console.log("switch x.type " + x.type);
+        console.log(getOrg(x));
         return getOrg(x);
         break;
       case "groups":
         console.log("switch x.type " + x.type);
+        console.log(getGroup(x));
         return getGroup(x);
         break;
       case "animals":
@@ -204,18 +217,17 @@ const convertRecipients = (obj, people, orgs, groups, animals) => {
         console.log("NO SWITCH CASE");
     }
   };
-
+  const test = {
+    ...obj,
+    recipients: R.map(x => getPartyName(x), recipients)
+  };
+  console.table(test);
   return {
     ...obj,
     recipients: R.map(x => getPartyName(x), recipients)
   };
 };
 
-const getGiftCount = obj => {
-  console.log("getLoctionCOunt");
-  console.log(JSON.stringify({ ...obj, giftHistory: obj.giftHistory.length }));
-  return { ...obj, giftHistory: [obj.giftHistory.length] };
-};
 const getEventName = obj => {
   const title = R.prop("title", R.find(x => x.value === obj.event[0], events));
   return {
@@ -223,7 +235,8 @@ const getEventName = obj => {
     event: [title]
   };
 };
-const clean = (instances, people, orgs, groups, animals, mainFilter) => {
+
+const clean = (instances, people, orgs, groups, animals, mainFilter = null) => {
   console.log("TCM clean f");
   console.log("instances");
   console.table(instances);
@@ -231,24 +244,24 @@ const clean = (instances, people, orgs, groups, animals, mainFilter) => {
   console.table(people);
   console.log("orgs");
   console.log(orgs);
-  const giftInstances = R.map(R.compose(getEventName, getGiftCount), instances);
-  const wholeList = R.map(
+  const giftInstances = R.map(x => getEventName(x), instances);
+  console.table(giftInstances);
+
+  let wholeList = R.map(
     x => convertRecipients(x, people, orgs, groups, animals),
     giftInstances
   );
-  console.table(
-    R.map(
-      x => convertRecipients(x, people, orgs, groups, animals),
-      giftInstances
-    )
-  );
+  console.table(wholeList);
+
   const filterList = (mainFilter, wholeList) => {
     return !mainFilter
       ? wholeList
       : R.filter(x => x.eventMonth === mainFilter, wholeList);
   };
-
+  console.table(filterList);
   return filterList(mainFilter, wholeList);
+
+  //return giftInstances;
 };
 const mapStateToProps = (state, ownProps) => ({
   node: state.glogInput.node ? state.glogInput.node : null,

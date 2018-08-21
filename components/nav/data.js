@@ -6,7 +6,8 @@ export const data1 = [
     show: true,
     leaf: true,
     favorite: false,
-    endpoint: "/quickAccess"
+    endpoint: "/quickAccess",
+    allow: "Portal User"
   },
   {
     id: 15,
@@ -66,7 +67,7 @@ export const data1 = [
   },
   {
     id: 12,
-    name: "BoxToken Native",
+    name: "BoxToken",
     level: 1,
     show: true,
     leaf: true,

@@ -6,7 +6,8 @@ import {
   addSearch,
   addSearch2,
   addNew,
-  updateSecondary
+  updateSecondary,
+  searchOrganization
 } from "../actions";
 import Form from "./Form";
 import { appLogic } from "../common/data";
@@ -28,6 +29,8 @@ class FormContainer extends Component {
             fields={this.getFields("vendor")}
             data={this.props.data}
             onSave={this.props.onSave}
+            bubbleUp={this.props.onSearchText}
+            searchText={this.props.searchText}
             //  onHandle={this.props.addSearch}
             //  onHandle2={this.props.addSearch2}
 
@@ -58,13 +61,19 @@ const mapStateToProps = (state, ownProps) => ({
           state.glogInput.vendors
         )
       : null,
-  vendors: state.glogInput.vendors
+  vendors: state.glogInput.vendors,
+  searchText: state.glogInput.searchText
+    ? state.glogInput.searchText
+    : ["place"]
 
   //title: this.props.data ? "Data for item selected" : "Select item"
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSave: obj => {
     dispatch(updateSecondary(obj, "vendors"));
+  },
+  onSearchText: str => {
+    dispatch(searchOrganization(str));
   }
   /*
   addSearch: () => {

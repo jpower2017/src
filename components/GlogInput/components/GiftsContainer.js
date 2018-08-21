@@ -22,6 +22,7 @@ class GiftsContainer extends Component {
             bubbleUp={this.props.addSearch2}
             action={this.props.action}
             searchID={this.props.searchID}
+            data={{ status: null }}
           />
         ) : (
           <div>Loading</div>
