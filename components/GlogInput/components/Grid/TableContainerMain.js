@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import * as R from "ramda";
 import { connect } from "react-redux";
-import { rowSubmit, setView, setSelectedRow } from "../../actions";
+import {
+  rowSubmit,
+  setView,
+  setSelectedRow,
+  queryGiftEvent
+} from "../../actions";
 
 import Table from "./Table/Table";
 import { columnsGiftEventInstance, events } from "../../common/data";
@@ -98,7 +103,6 @@ class TableContainer extends Component {
   };
 
   render() {
-    console.log("TC render f");
     return (
       <div>
         {this.props.rows ? (
@@ -112,8 +116,8 @@ class TableContainer extends Component {
             }
             rows={
               this.state.bPaginated
-                ? this.paginateRows(this.tcSort(this.props.rows))
-                : this.tcSort(this.props.rows)
+                ? this.paginateRows(this.props.rows)
+                : this.props.rows
             }
             rollOverColor="#9ccc65"
             stripeRows={true}
@@ -161,67 +165,45 @@ const filteredStatuses = (status, gifts) => {
 };
 
 const convertRecipients = (obj, people, orgs, groups, animals) => {
-  console.log("convertRecipients");
   const recipients = obj.recipients;
-  console.table(obj.recipients);
+
   const getFirstName = a => {
-    console.log(JSON.stringify(a));
     return R.prop("firstName", R.find(x => x.id == a.id, people));
   };
   const getLastName = a => {
-    console.log(JSON.stringify(a));
     return R.prop("lastName", R.find(x => x.id == a.id, people));
   };
   const getName = id => {
-    console.log("getName");
-    console.log(getFirstName(id) + " " + getLastName(id));
     return getFirstName(id) + " " + getLastName(id);
   };
   const getOrg = a => {
-    console.log("getOrg");
-    console.table(R.prop("name", R.find(x => x.id == a.id, orgs)));
     return R.prop("name", R.find(x => x.id == a.id, orgs));
   };
   const getGroup = a => {
-    console.log("getGroup f");
-    console.log(JSON.stringify(a));
-    console.table(R.prop("name", R.find(x => x.id == a.id, groups)));
     return R.prop("name", R.find(x => x.id == a.id, groups));
   };
   const getAnimal = a => {
-    console.table(R.prop("name", R.find(x => x.id == a.id, animals)));
     return R.prop("name", R.find(x => x.id == a.id, animals));
   };
   const getPartyName = x => {
     switch (x.type) {
       case "people":
-        console.log("switch x.type " + x.type);
-        console.log(getName(x));
         return getName(x);
         break;
       case "orgs":
-        console.log("switch x.type " + x.type);
-        console.log(getOrg(x));
         return getOrg(x);
         break;
       case "groups":
-        console.log("switch x.type " + x.type);
-        console.log(getGroup(x));
         return getGroup(x);
         break;
       case "animals":
-        console.log("switch x.type " + x.type);
         return getAnimal(x);
         break;
       default:
         console.log("NO SWITCH CASE");
     }
   };
-  const test = {
-    ...obj,
-    recipients: R.map(x => getPartyName(x), recipients)
-  };
-  console.table(test);
+
   return {
     ...obj,
     recipients: R.map(x => getPartyName(x), recipients)
@@ -240,31 +222,25 @@ const getEventName = obj => {
 };
 
 const clean = (instances, people, orgs, groups, animals, mainFilter = null) => {
-  console.log("TCM clean f");
-  console.log("instances");
-  console.table(instances);
-  console.log("people");
-  console.table(people);
-  console.log("orgs");
-  console.log(orgs);
   const giftInstances = R.map(x => getEventName(x), instances);
-  console.table(giftInstances);
 
   let wholeList = R.map(
     x => convertRecipients(x, people, orgs, groups, animals),
     giftInstances
   );
-  console.table(wholeList);
 
   const filterList = (mainFilter, wholeList) => {
     return !mainFilter
       ? wholeList
       : R.filter(x => x.eventMonth === mainFilter, wholeList);
   };
-  console.table(filterList);
-  return filterList(mainFilter, wholeList);
 
-  //return giftInstances;
+  //return filterList(mainFilter, wholeList);
+  return wholeList;
+};
+const sortByTimestamp = rows => {
+  const createdSort = R.sortWith([R.descend(R.prop("createdTimestamp"))]);
+  return createdSort(rows);
 };
 const mapStateToProps = (state, ownProps) => ({
   node: state.glogInput.node ? state.glogInput.node : null,
@@ -273,14 +249,19 @@ const mapStateToProps = (state, ownProps) => ({
   animals: state.glogInput.animals ? state.glogInput.animals : null,
   orgs: state.glogInput.orgs ? state.glogInput.orgs : null,
   gifts: state.glogInput.gifts ? state.glogInput.gifts : null,
-  rows: state.glogInput.node
+  rows: clean(
+    sortByTimestamp(state.glogInput.giftEventInstances),
+    state.glogInput.people,
+    state.glogInput.orgs,
+    state.glogInput.groups,
+    state.glogInput.animals
+  )
     ? clean(
-        state.glogInput.giftEventInstances,
+        sortByTimestamp(state.glogInput.giftEventInstances),
         state.glogInput.people,
         state.glogInput.orgs,
         state.glogInput.groups,
-        state.glogInput.animals,
-        state.glogInput.mainFilter
+        state.glogInput.animals
       )
     : null,
   totalRows: state.glogInput.giftEventInstances
@@ -294,6 +275,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onselected: (id, obj) => {
     dispatch(rowSubmit(id, obj));
     dispatch(setSelectedRow(id));
+    dispatch(queryGiftEvent(id));
   },
   setView: x => {
     dispatch(setView(x));

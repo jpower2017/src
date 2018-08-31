@@ -88,9 +88,8 @@ const ListWidget = props => {
   };
 
   const getID = item => {
-    console.log("getId");
     const id = R.prop("id", item);
-    console.log(id);
+
     const arrGift = R.path(["gift"], item);
     const newArrGift = !!R.filter(x => x.id !== id, arrGift)
       ? R.filter(x => x.id !== id, arrGift)
@@ -109,9 +108,6 @@ const ListWidget = props => {
     }
   };
   const getSubText = (arrField1, arrField2) => {
-    console.log("getSubText");
-    console.table(arrField1);
-    console.table(arrField2);
     let str = "";
     str = arrField1
       ? R.map(

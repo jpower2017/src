@@ -27,7 +27,8 @@ import {
   GLOG_SET_VAR,
   GLOG_UPDATE_GIFTREQUEST_GIFT,
   GLOG_SEARCHTEXT,
-  GLOG_UPDATE_FIELD
+  GLOG_UPDATE_FIELD,
+  GLOG_FILTER_GEIS
 } from "../actions";
 import {
   dataGifts,
@@ -68,6 +69,21 @@ let newRows,
   gei;
 export const glogInput = (state = [], action) => {
   switch (action.type) {
+    case GLOG_FILTER_GEIS:
+      console.log("REDUCER action.month " + action.month);
+      let filteredMonth = R.filter(
+        x => x.eventMonth == action.month,
+        state.giftEventInstances
+      );
+      let filteredNoTimestamp = R.filter(
+        x => x.createdTimestamp == "0",
+        state.giftEventInstances
+      );
+      let newRows = R.concat(filteredMonth, filteredNoTimestamp);
+      return {
+        ...state,
+        giftEventInstances: R.uniq([...newRows, ...state.giftEventInstances])
+      };
     case GLOG_UPDATE_FIELD:
       console.log("REDUCER GLOG_UPDATE_FIELD");
       console.log(
@@ -90,14 +106,14 @@ export const glogInput = (state = [], action) => {
       console.log("REDUCER ON_TYPE");
       console.log("selectedrow " + state.selectedRow);
       console.log("payload id " + action.payload.id);
-      console.table(R.filter(x => x.id == action.payload.id, state.locations));
+
       return {
         ...state
         //  locations:
       };
     case GLOG_UPDATE_GIFTREQUEST_GIFT:
       console.log("REDUCER GLOG_GIFTREQUEST_GIFT_AD");
-      console.table(R.find(x => x.id === action.id, state.requests));
+
       let selectedObj = R.find(x => x.id === action.id, state.requests);
       let newObj = {
         ...selectedObj,
@@ -246,6 +262,7 @@ export const glogInput = (state = [], action) => {
       };
     case GLOG_ADD:
       console.log("REDUCER ADD");
+      console.log("NODE " + action.node);
       let containsID = R.prop("id", action.payload);
       console.log("containsID " + containsID);
       if (containsID) {
@@ -253,11 +270,12 @@ export const glogInput = (state = [], action) => {
       } else {
         id = uuidv4();
       }
+      let allRows = action.addID
+        ? [...state[action.node], { ...action.payload, id: id }]
+        : [...state[action.node], { ...action.payload }];
       return {
         ...state,
-        [action.node]: action.addID
-          ? [...state[action.node], { ...action.payload, id: id }]
-          : [...state[action.node], { ...action.payload }],
+        [action.node]: R.uniq(allRows),
         searchID: action.addID ? id : state.searchID
       };
 
@@ -338,6 +356,8 @@ export const glogInput = (state = [], action) => {
         [action.node]: newRows
       };
     case GLOG_UPDATE_SECONDARY:
+      console.log("GLOG_UPDATE_SECONDARY");
+      console.table(action.payload);
       t = state[action.node];
       id = R.prop("id", action.payload);
       console.log("REDUCE UPDATE SECONDARY ID " + id);

@@ -17,9 +17,11 @@ export const person = {
 };
 
 export const gift = {
-  value: "",
+  value: 0,
   description: "",
   giftNotes: "",
+  sentiment: "",
+  assignedTo: "",
   selected: true,
   requests: [],
   parties: []

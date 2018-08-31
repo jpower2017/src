@@ -19,14 +19,14 @@ class MainListDropDown extends Component {
   render() {
     return (
       <div>
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: "0px" }}>
           <FieldDropDown
             status={this.state.status}
             onselect={x => this.onselect(x, "mainFilter")}
             options={[
               {
                 name: "",
-                title: "Filter gift event instances by month",
+                title: "Select event month",
                 value: null
               },
               {

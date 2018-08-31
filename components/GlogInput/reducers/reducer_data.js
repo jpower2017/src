@@ -1,6 +1,7 @@
 export const giftEventInstances = [
   {
     id: 21,
+    createdTimestamp: "0",
     eventType: ["12"],
     date: ["9/23/90"],
     requests: [
@@ -41,6 +42,7 @@ export const giftEventInstances = [
   },
   {
     id: 22,
+    createdTimestamp: "0",
     eventType: ["10"],
     date: ["9/23/33"],
     requests: [],
@@ -62,6 +64,7 @@ export const giftEventInstances = [
   },
   {
     id: 23,
+    createdTimestamp: "0",
     eventType: ["1"],
     date: ["6/8/08"],
     requests: [],
@@ -88,6 +91,7 @@ export const giftEventInstances = [
   },
   {
     id: 24,
+    createdTimestamp: "0",
     eventType: ["2"],
     date: ["6/17/17"],
     requests: [],
@@ -308,9 +312,9 @@ export const dataVendors = [
   {
     id: 1001,
     name: "Neiman Marcus",
-    work: "970-223-2211"
+    contactNumber: "970-223-2211"
   },
-  { id: 1002, name: "Bergdorfs", work: "212-122-3454" }
+  { id: 1002, name: "Bergdorfs", contactNumber: "212-122-3454" }
 ];
 export const dataDeliveries = [
   {

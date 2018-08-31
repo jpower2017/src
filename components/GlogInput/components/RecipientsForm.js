@@ -28,8 +28,8 @@ class SearchForm extends Component {
   };
   getMessage = action => {
     return action === "edit"
-      ? `Edit parties selection`
-      : "Search for party below. If not found create a new entry.";
+      ? `Edit selected party.`
+      : "Search for a party (people, organizations, groups, animals) below. If not found create a new entry.";
   };
   render() {
     const { action, node } = this.props;

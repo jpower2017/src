@@ -1,16 +1,24 @@
 import React, { Component } from "react";
 import TextField from "material-ui/TextField";
+import { debounce } from "throttle-debounce";
 
 class FieldText extends Component {
   constructor(props) {
     super(props);
     this.state = { value: this.props.value };
+    this.change = debounce(500, this.bubbleUp);
   }
   handleChange = event => {
+    const value = event.target.value;
+    const name = event.target.name;
     this.setState({
       value: event.target.value
     });
-    this.props.ontext(event.target.value);
+    //  this.props.ontext(event.target.value);
+    this.change(value, name);
+  };
+  bubbleUp = (value, name) => {
+    this.props.ontext(value);
   };
   render() {
     const { obj } = this.props;

@@ -657,3 +657,42 @@ export const updateGiftEvent = (jwt, login, uuid, payload) => {
   });
   return apolloFetch({ query, variables }).then(res => res.data);
 };
+/* name param
+ Access Portal
+ Gift Log
+ */
+export const getModuleConfig = (jwt, name) => {
+  const query = `
+  query moduleConfiguration($name:String){
+     ModuleConfiguration(name:$name) {
+      uuid
+      name
+      enumerations{
+        uuid
+        name
+        metaValues{
+          name
+          value
+        }
+      }
+      metaValues{
+        name
+        value
+      }
+    }
+  }
+`;
+  const variables = {
+    name: name
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};

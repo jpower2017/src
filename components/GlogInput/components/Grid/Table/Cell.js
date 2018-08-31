@@ -19,7 +19,14 @@ class Cell extends Component {
   render() {
     const { type, data } = this.props;
     return (
-      <div style={{ width: "20%", marginLeft: "0px", padding: "0px 2px" }}>
+      <div
+        style={{
+          width: "20%",
+          marginLeft: "0px",
+          padding: "0px 2px"
+          //border: "2px solid red"
+        }}
+      >
         {this.displayCell(data)}
       </div>
     );

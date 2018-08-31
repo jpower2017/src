@@ -20,18 +20,20 @@ export const columnsGiftEventInstance = [
 
 export const columnsPerson = [
   { name: "placeholder", title: "", type: "string", order: 1 },
-  { name: "name", title: "NAME", type: "string", order: 2 }
+  { name: "firstName", title: "First name", type: "string", order: 2 },
+  { name: "middleName", title: "Middle name", type: "string", order: 3 },
+  { name: "lastName", title: "Last name", type: "string", order: 4 }
 ];
 
 export const columnsOrg = [
   { name: "placeholder", title: "", type: "string", order: 1 },
-  { name: "name", title: "Name", type: "string", order: 2 },
-  { name: "name", title: "Number", type: "string", order: 3 }
+  { name: "name", title: "Name", type: "string", order: 2 }
 ];
 
 export const columnsAnimal = [
   { name: "placeholder", title: "", type: "string", order: 1 },
-  { name: "name", title: "Name", type: "string", order: 2 }
+  { name: "name", title: "Name", type: "string", order: 2 },
+  { name: "type", title: "Type", type: "string", order: 3 }
 ];
 export const columnsGroup = [
   { name: "placeholder", title: "", type: "string", order: 1 },
@@ -70,12 +72,14 @@ export const events = [
   { name: "rosh", title: "Rosh Hashanah", date: "", value: 6 },
   { name: "thanksgiving", title: "Thanksgiving", date: "", value: 7 },
   { name: "valentines", title: "Valentine's Day", date: "", value: 8 },
-  { name: "xmas", title: "Christmas/Chanukah", date: "12/25", value: 9 },
+  { name: "xmas", title: "Christmas", date: "12/25", value: 9 },
   { name: "birthday", title: "Birthday", date: "", value: 10 },
   { name: "work", title: "Work Anniversary", date: "", value: 11 },
   { name: "marriage", title: "Marriage Anniversary", date: "", value: 12 },
   { name: "death", title: "Death Anniversary", date: "", value: 13 },
-  { name: "holidayCard", title: "Holiday Card", date: "", value: 14 }
+  { name: "holidayCard", title: "Holiday Card", date: "", value: 14 },
+  { name: "wedding", title: "Wedding", date: "", value: 15 },
+  { name: "babyShower", title: "Baby Shower", date: "", value: 16 }
 ];
 export const registryStatuses = [
   { name: "yes", title: "Yes", value: 0 },
@@ -117,7 +121,15 @@ export const fieldsLog = [
 export const fieldsGift = [
   { name: "value", title: "Value", type: "string", order: 1 },
   { name: "giftNotes", title: "Gift Notes", type: "string", order: 2 },
-  { name: "description", title: "Description", type: "string", order: 3 }
+  { name: "description", title: "Description", type: "string", order: 3 },
+  { name: "assignedTo", title: "Assigned to", type: "string", order: 4 },
+  {
+    name: "sentiment",
+    title: "Sentiment",
+    type: "string",
+    order: 5,
+    uiType: "textArea"
+  }
 ];
 export const fieldsLocation = [
   {

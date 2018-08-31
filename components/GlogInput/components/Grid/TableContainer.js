@@ -34,6 +34,10 @@ class TableContainer extends Component {
   componentDidMount() {
     this.props.getDataForComp();
   }
+  componentWillRecieveProps(nextProps) {
+    console.log("TC CWRP nextProps.rows ");
+    console.table(nextProps.rows);
+  }
 
   sortColumns = columns => {
     return R.sort(R.ascend(R.prop("order")), columns);

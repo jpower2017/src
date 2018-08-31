@@ -20,22 +20,14 @@ import { events, registryStatuses } from "../common/data";
 const t = "test";
 
 const addEventDayAndMonth = val => {
-  console.log("addEventDayandMonth");
-  console.log(val);
   if (val.date && val.date.length) {
     let eventMonth = val.date[0].split("/")[0];
     eventMonth = eventMonth.length == 2 ? eventMonth : `0${eventMonth}`;
     let eventDay = val.date[0].split("/")[1];
     eventDay = eventDay.length == 2 ? eventDay : `0${eventDay}`;
     let eventYear = val.date[0].split("/")[2];
-    eventYear = eventYear.length == 2 ? eventYear : `0${eventYear}`;
-    console.log("addEventDayAndMonth f");
-    console.log({
-      ...val,
-      eventMonth: eventMonth,
-      eventDay: eventDay,
-      eventYear: eventYear
-    });
+    eventYear = eventYear.length == 2 ? eventYear : `${eventYear}`;
+
     return {
       ...val,
       eventMonth: eventMonth,
@@ -43,8 +35,6 @@ const addEventDayAndMonth = val => {
       eventYear: eventYear
     };
   } else {
-    console.log("addEventDayAndMonth ELSE");
-    return val;
   }
 };
 
@@ -58,13 +48,6 @@ class SummaryContainer extends Component {
   }
   /*For event dropdown */
   mergeObj(value) {
-    console.log("mergeObj f " + value);
-    console.log(
-      JSON.stringify({
-        ...this.props.giftEventInstance,
-        eventType: [events[value].title]
-      })
-    );
     const newObj = {
       ...this.props.giftEventInstance,
       eventType: [events[value].title]
@@ -73,11 +56,10 @@ class SummaryContainer extends Component {
   }
 
   updateToggle(gei) {
-    console.log("updatetoggle gei: " + JSON.stringify(gei));
     let recurring = R.prop("recurring", gei)[0];
-    console.log("recurring " + recurring);
+
     recurring = recurring ? [0] : [1];
-    console.log("newRecurring " + recurring);
+
     const newObj = {
       ...gei,
       recurring: recurring
@@ -93,12 +75,6 @@ class SummaryContainer extends Component {
     this.props.onEvt(newObj);
   }
   registry(value) {
-    console.log(
-      JSON.stringify({
-        ...this.props.giftEventInstance,
-        registry: [value]
-      })
-    );
     const newObj = {
       ...this.props.giftEventInstance,
       registry: [value]
@@ -106,8 +82,6 @@ class SummaryContainer extends Component {
     this.props.onEvt(newObj);
   }
   textchange(value, name) {
-    console.log("textchange name: " + [value, name]);
-
     const newObj = {
       ...this.props.giftEventInstance,
       [name]: [value]
@@ -115,19 +89,17 @@ class SummaryContainer extends Component {
     this.props.onEvt(newObj);
   }
   onclick(id) {
-    console.log("SC onclick id: " + id);
-
-    console.table(this.props.giftEventInstance);
+    console.log("SumContainer onClick");
     const gei = this.props.giftEventInstance;
     const children = [...gei.recipients, ...gei.requests, ...gei.giftHistory];
-    console.log(JSON.stringify(children));
+    console.table(children);
 
     let t = R.find(x => x.id == id, children);
     let node = R.prop("type", t);
-    console.log("type/node " + node);
-    console.table(t);
+
     this.props.onSearchRow(id);
     //this.props.setNode(node !== "people" ? `${node}s` : node);
+    console.log("node == " + node);
 
     this.props.setNode(node === "gift" ? `${node}s` : node);
     if (node == "requests") {
@@ -169,7 +141,6 @@ class SummaryContainer extends Component {
             ondelete={this.props.ondelete}
             onAdd={value => this.onAdd(value)}
             //setRequestID={value => this.props.setRequestID(value)}
-            //onNew={() => console.log("container on new")}
           />
         ) : null}
       </div>
@@ -199,7 +170,7 @@ const convertGifts = (obj, gifts) => {
 };
 const convertRequests = (obj, requests) => {
   const a = R.map(x => x.id, R.path(["requests"], obj));
-  console.log("convertRequests a " + JSON.stringify(a));
+
   return R.filter(x => R.contains(x.id, a), requests);
 };
 const getLocations = (obj, locations) => {
@@ -289,6 +260,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSearchRow: id => {
+    console.log("onSearchRow call setSearchID " + id);
     dispatch(setSearchID(id));
   },
   loadData: () => {
@@ -296,7 +268,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(getData());
   },
   setNode: x => {
-    console.log("SC setNode x: " + x);
     dispatch(setNode(x));
   },
   onselected: (id, obj) => {
@@ -304,8 +275,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(addGiftInstance(id));
   },
   onEvt: val => {
-    console.log("onEvt val: " + JSON.stringify(val));
-
     dispatch(updateGiftInstance(addEventDayAndMonth(val)));
   },
   ondelete: val => {

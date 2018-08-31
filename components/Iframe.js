@@ -4,6 +4,7 @@ import IframeComm from "react-iframe-comm";
 import "../widget.css";
 import muiThemeable from "material-ui/styles/muiThemeable";
 import WidgetBase from "./WidgetBase";
+import { callModuleConfig } from "../actions";
 
 class Iframe extends Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class Iframe extends Component {
       childData: "",
       width: Math.max(355, window.innerWidth - 280)
     };
+    console.log("IFRAME call http");
+    this.props.callModuleConfig();
   }
   componentDidMount() {
     window.addEventListener("resize", () =>
@@ -27,7 +30,9 @@ class Iframe extends Component {
     const token = this.props.token;
     const attributes = {
       //  src: "https://portal.bluesprucecapital.net/present/",
-      src: this.props.url,
+      /* change to props. flowwright prefex, and props.url */
+      //  src: this.props.url,
+      src: `${this.props.flowWrightURL}${this.props.url}`,
       width: this.state.width,
       height: "1000"
       //frameBorder: 1 // show frame border just for fun...
@@ -99,20 +104,27 @@ class Iframe extends Component {
     };
     return (
       <div>
-        <WidgetBase title={this.props.title}>
-          <IframeComm
-            attributes={attributes}
-            handleReady={onReady}
-            handleReceiveMessage={onReceiveMessage}
-          />
-        </WidgetBase>
+        {this.props.flowWrightURL && (
+          <WidgetBase title={this.props.title}>
+            <IframeComm
+              attributes={attributes}
+              handleReady={onReady}
+              handleReceiveMessage={onReceiveMessage}
+            />
+          </WidgetBase>
+        )}
       </div>
     );
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  token: state.notifications.token
+  token: state.notifications.token,
+  flowWrightURL: state.notifications.flowWrightURL
 });
-
-const Iframe2 = connect(mapStateToProps)(Iframe);
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  callModuleConfig: () => {
+    dispatch(callModuleConfig());
+  }
+});
+const Iframe2 = connect(mapStateToProps, mapDispatchToProps)(Iframe);
 export default muiThemeable()(Iframe2);

@@ -24,9 +24,9 @@ export default class Row extends React.Component {
     };
   }
   componentDidMount() {
-    console.log("ROW CDM ");
-    console.log(JSON.stringify(this.props.data));
-    console.log(this.props.data.status);
+    //  console.log("ROW CDM ");
+    //  console.log(JSON.stringify(this.props.data));
+    //  console.log(this.props.data.status);
     this.setState({ status: this.props.data.status });
   }
   componentWillReceiveProps(nextProps) {

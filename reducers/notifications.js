@@ -15,7 +15,8 @@ import {
   REQUEST_USER,
   RECEIVE_USER,
   SAVE_FAVS,
-  SAVE_TOKEN_AND_LOGIN
+  SAVE_TOKEN_AND_LOGIN,
+  SET_FLOWWRIGHT_URL
 } from "../actions";
 
 import { banks } from "../components/PositivePay/reducers";
@@ -113,6 +114,11 @@ const notifications = (state = [], action) => {
       return state.map(
         x => (x.id === action.id ? { ...x, showNew: false } : x)
       );
+    case "SET_FLOWWRIGHT_URL":
+      return {
+        ...state,
+        flowWrightURL: action.payload
+      };
 
     default:
       return state;

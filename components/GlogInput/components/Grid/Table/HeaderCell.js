@@ -22,7 +22,7 @@ class HeaderCell extends Component {
           width: "20%",
           display: "flex"
           //borderBottom: "5px solid #607D8B"
-          //  border: "2px solid red"
+          //border: "2px solid red"
         }}
         onMouseOver={() => this.setState({ onmouseover: true })}
         onMouseOut={() => this.setState({ onmouseover: false })}

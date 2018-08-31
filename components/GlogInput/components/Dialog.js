@@ -21,6 +21,7 @@ class DialogModal extends React.Component {
   };
 
   handleClose = () => {
+    console.log("Dialog handleClose");
     this.setState({ open: false });
     this.props.handleClick();
   };

@@ -220,7 +220,6 @@ class Nav extends Component {
   fStyle(show, id = 0) {
     let addCSS = "";
     if (id === this.state.level1Selection && !this.state.currentSelectionLeaf) {
-      console.log("fstyle f id: " + id);
       /** hack for fly-out for different text lengths  11= addepar **/
       if (id === 11) {
         addCSS = "todoitemA selectedA";

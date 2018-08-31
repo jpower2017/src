@@ -6,6 +6,7 @@ import Events from "./Events";
 import RaisedButton from "material-ui/RaisedButton";
 import { typography } from "material-ui/styles";
 import Paper from "material-ui/Paper";
+import MainListDropDown from "./MainListDropDown";
 
 class Summary extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class Summary extends Component {
     const { props } = this;
     return (
       <div>
+        <MainListDropDown />
         <RaisedButton
           label="List of gift events"
           backgroundColor="#f58c32"

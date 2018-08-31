@@ -84,31 +84,12 @@ export default class Row extends React.Component {
       x =>
         x == "status"
           ? this.showDropDown()
-          : !R.contains(x, [
-              "id",
-              "pob",
-              "order",
-              "vendor",
-              "delivery",
-              "placeID",
-              "gift",
-              "person",
-              "dod",
-              "gender",
-              "selected",
-              "email",
-              "reportsTo",
-              "worksAt",
-              "worksFor",
-              "worksIn",
-              "pob",
-              "roles",
-              "submit",
-              "id",
-              "address",
-              "fullName",
-              "children",
-              "id"
+          : R.contains(x, [
+              "firstName",
+              "middleName",
+              "lastName",
+              "name",
+              "type"
             ]) && <Cell data={[objData[x]]} />,
       ks
     );

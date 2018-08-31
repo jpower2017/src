@@ -23,10 +23,7 @@ class MainPage extends Component {
     super(props);
     this.state = {};
   }
-  componentWillMount() {
-    this.setState({});
-  }
-  componentDidMount() {}
+
   render() {
     return (
       <div
@@ -56,8 +53,8 @@ class MainPage extends Component {
             path="/workflow/dashboard"
             render={() => (
               <Iframe
-                url="https://workflow-qa.bluesprucecapital.net/cDevWorkflow/ConfigInstances.aspx?displayheader=no"
-                title="FlowWright"
+                url="/cDevWorkflow/ConfigInstances.aspx?displayheader=no"
+                title="FlowWright dashboard"
               />
             )}
           />
@@ -65,28 +62,8 @@ class MainPage extends Component {
             path="/workflow/myTasks"
             render={() => (
               <Iframe
-                url="https://workflow-qa.bluesprucecapital.net/cDevWorkflow/ConfigTasks.aspx?displayHeader=no"
-                title="FlowWright General User Task View"
-              />
-            )}
-          />
-
-          <Route
-            path="/pending"
-            render={() => (
-              <Iframe
-                url="https://portal.bluesprucecapital.net/pending/"
-                title="Pending"
-              />
-            )}
-          />
-
-          <Route
-            path="/boxtoken"
-            render={() => (
-              <Iframe
-                url="https://portal.bluesprucecapital.net/api/boxtoken/"
-                title="Box token"
+                url="/cDevWorkflow/ConfigTasks.aspx?displayHeader=no"
+                title="FlowWright general user task view"
               />
             )}
           />

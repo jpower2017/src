@@ -11,7 +11,6 @@ import TableContainerMain from "./Grid/TableContainerMain";
 import RecipientsContainer from "./RecipientsContainer";
 import GiftsContainer from "./GiftsContainer";
 import RequestsContainer from "./RequestsContainer";
-import MainListDropDown from "./MainListDropDown";
 
 class Main extends Component {
   constructor(props) {
@@ -37,7 +36,6 @@ class Main extends Component {
       console.log("renderTable");
       return (
         <div>
-          <MainListDropDown />
           <TableContainerMain />
         </div>
       );
@@ -56,7 +54,11 @@ class Main extends Component {
   };
   render() {
     const actions = [
-      <FlatButton label="Close" primary={true} onClick={this.handleClose} />
+      <FlatButton
+        label="Close"
+        primary={true}
+        onClick={() => this.setState({ open: false })}
+      />
     ];
 
     return (

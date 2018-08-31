@@ -79,8 +79,8 @@ export default class Table extends React.Component {
       /** DONT NEED TO SET ROWS STATE ANYMORE ***/
       this.setState({ rows: b });
     }
-    console.table(b);
-    console.table(this.props.rows);
+    //  console.table(b);
+    //  console.table(this.props.rows);
     let item = R.find(x => x.id === id, b);
     console.table(item);
     this.props.onselected(id, item, edit);

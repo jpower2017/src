@@ -14,12 +14,24 @@ export const MODIFY_USER = "MODIFY_USER";
 export const SAVE_FAVS = "SAVE_FAVS";
 export const SAVE_TOKEN_AND_LOGIN = "SAVE_TOKEN_LOGIN";
 export const PRESENCE_RECEIVE_ROWS = "PRESENCE_RECEIVE_ROWS";
+export const SET_FLOWWRIGHT_URL = "SET_FLOWWRIGHT_URL";
 
 let token = null;
 let login;
 let uuid = null;
 let url, ejwt;
 
+export const callModuleConfig = () => async (dispatch, getState) => {
+  console.log("ACTION callHTTP");
+  let mc = await HTTP.getModuleConfig(token, "Access Portal");
+  console.table(mc.ModuleConfiguration);
+  let value = mc.ModuleConfiguration.metaValues[0].value;
+  dispatch(setFlowwrightURL(value));
+};
+export const setFlowwrightURL = payload => ({
+  type: SET_FLOWWRIGHT_URL,
+  payload: payload
+});
 export const getNotifications = () => async dispatch => {
   dispatch(requestUser());
   /* SECRET SHARED WITH UI-SSO */
