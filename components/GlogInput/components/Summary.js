@@ -38,7 +38,7 @@ class Summary extends Component {
       <div>
         <MainListDropDown />
         <RaisedButton
-          label="List of gift events"
+          label="List of gift events for selected month"
           backgroundColor="#f58c32"
           labelColor={"#fff"}
           style={{ marginTop: "15px", marginRight: "20px" }}
@@ -51,7 +51,7 @@ class Summary extends Component {
             style={{
               color: "#fff",
               fontWeight: typography.fontWeightLight,
-              marginTop: "10px",
+              paddingTop: "10px",
               marginLeft: "10px"
             }}
           >
@@ -64,6 +64,7 @@ class Summary extends Component {
             onNew={this.props.onNew}
             onEvt={this.props.onEvt}
             onRegistry={this.props.onRegistry}
+            onActive={this.props.onActive}
             onTextChange={this.props.onTextChange}
             onDialog={this.props.onDialog}
             ontoggle={this.props.ontoggle}

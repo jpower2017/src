@@ -52,7 +52,7 @@ class PartiesContainer extends Component {
     const tempRequest = this.props.request;
     const add = () => {
       console.log("add");
-      const objRequest = R.pick(["id", "name"], obj);
+      const objRequest = R.pick(["id", "name", "firstName", "lastName"], obj);
       newRecips = [...tempRequest.recipients, objRequest];
     };
     const remove = () => {

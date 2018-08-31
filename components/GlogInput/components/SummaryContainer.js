@@ -81,6 +81,13 @@ class SummaryContainer extends Component {
     };
     this.props.onEvt(newObj);
   }
+  active(value) {
+    const newObj = {
+      ...this.props.giftEventInstance,
+      active: [value]
+    };
+    this.props.onEvt(newObj);
+  }
   textchange(value, name) {
     const newObj = {
       ...this.props.giftEventInstance,
@@ -132,6 +139,7 @@ class SummaryContainer extends Component {
             gei={this.props.giftEventInstance}
             onEvt={value => this.evt(value)}
             onRegistry={value => this.registry(value)}
+            onActive={value => this.active(value)}
             onTextChange={(value, name) => this.textchange(value, name)}
             onclick={value => this.onclick(value)}
             onNew={() => this.props.onselected(uuidv4())}

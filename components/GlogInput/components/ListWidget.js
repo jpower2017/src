@@ -108,6 +108,7 @@ const ListWidget = props => {
     }
   };
   const getSubText = (arrField1, arrField2) => {
+    console.log("getSubText " + [arrField1, arrField2]);
     let str = "";
     str = arrField1
       ? R.map(

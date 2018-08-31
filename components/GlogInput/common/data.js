@@ -63,27 +63,53 @@ export const parties = [
   { name: "group", title: "Groups", value: "groups" }
 ];
 export const events = [
-  { name: "adminDay", title: "Admin Professionals Day", date: "", value: 0 },
-  { name: "easter", title: "Easter", date: "", value: 1 },
-  { name: "fathersDay", title: "Father's Day", date: "", value: 2 },
-  { name: "halloween", title: "Halloween", date: "", value: 3 },
-  { name: "mothersDay", title: "Mother's Day", date: "", value: 4 },
-  { name: "passover", title: "Passover", date: "", value: 5 },
-  { name: "rosh", title: "Rosh Hashanah", date: "", value: 6 },
-  { name: "thanksgiving", title: "Thanksgiving", date: "", value: 7 },
-  { name: "valentines", title: "Valentine's Day", date: "", value: 8 },
-  { name: "xmas", title: "Christmas", date: "12/25", value: 9 },
-  { name: "birthday", title: "Birthday", date: "", value: 10 },
-  { name: "work", title: "Work Anniversary", date: "", value: 11 },
-  { name: "marriage", title: "Marriage Anniversary", date: "", value: 12 },
-  { name: "death", title: "Death Anniversary", date: "", value: 13 },
-  { name: "holidayCard", title: "Holiday Card", date: "", value: 14 },
-  { name: "wedding", title: "Wedding", date: "", value: 15 },
-  { name: "babyShower", title: "Baby Shower", date: "", value: 16 }
+  { name: "getWell", title: "Get Well", value: 0 },
+  { name: "justBecause", title: "Just Because", value: 1 },
+  { name: "housewarming", title: "Housewarming", value: 2 },
+  { name: "donation", title: "Donation", value: 3 },
+  { name: "wedding", title: "Wedding", value: 4 },
+  { name: "baptism", title: "Baptism", value: 5 },
+  { name: "retirement", title: "Retirement", value: 6 },
+  { name: "congratulations", title: "Congratulations", value: 7 },
+  { name: "babyNaming", title: "Baby Naming", value: 8 },
+  { name: "babyShower", title: "Baby Shower", value: 9 },
+  { name: "engagement", title: "Engagement", value: 10 },
+  { name: "bridalShower", title: "Bridal Shower", value: 11 },
+  { name: "graduation", title: "Graduation", value: 12 },
+  { name: "batMitzvah", title: "Bat Mitzvah", value: 13 },
+  { name: "adoption", title: "Adoption", value: 14 },
+  { name: "newBirth", title: "New Birth", value: 15 },
+  { name: "deathAnniversary", title: "Death Anniversary", value: 16 },
+  { name: "marriageAnniversary", title: "Marriage Anniversary", value: 17 },
+  { name: "workAnniversary", title: "Work Anniversary", value: 18 },
+  { name: "birthday", title: "Birthday", value: 19 },
+  { name: "chanukah", title: "Chanukah", value: 20 },
+  { name: "christmas", title: "Christmas", value: 21 },
+  { name: "valentinesDay", title: "Valentine's Day", value: 22 },
+  { name: "thanksgiving", title: "Thanksgiving", value: 23 },
+  { name: "holidayCard", title: "Holiday Card", value: 24 },
+  { name: "roshHashanah", title: "Rosh Hashanah", value: 25 },
+  { name: "passover", title: "Passover", value: 26 },
+  { name: "mothersDay", title: "Mother's Day", value: 27 },
+  { name: "halloween", title: "Halloween", value: 28 },
+  { name: "fathersDay", title: "Father's Day", value: 29 },
+  { name: "easter", title: "Easter", value: 30 },
+  {
+    name: "administrativeProfessionalsDay",
+    title: "Administrative Professionals Day",
+    value: 31
+  },
+  { name: "valentinesDayECard", title: "Valentine's Day ECard", value: 32 },
+  { name: "mothersDayECard", title: "mother's Day ECard", value: 33 },
+  { name: "funeral", title: "Funeral", value: 34 }
 ];
 export const registryStatuses = [
-  { name: "yes", title: "Yes", value: 0 },
-  { name: "no", title: "No", value: 1 }
+  { name: "yes", title: "Yes", value: 1 },
+  { name: "no", title: "No", value: 0 }
+];
+export const activeStatuses = [
+  { name: "yes", title: "Yes", value: 1 },
+  { name: "no", title: "No", value: 0 }
 ];
 export const fieldsPerson = [
   { name: "firstName", title: "First name" },

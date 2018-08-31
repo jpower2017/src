@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import * as R from "ramda";
-import { events, registryStatuses } from "../common/data";
+import { events, registryStatuses, activeStatuses } from "../common/data";
 import FieldDropDown from "./FieldDropDown";
 import FieldText from "./FieldText";
 import RaisedButton from "material-ui/RaisedButton";
 import Toggle from "material-ui/Toggle";
 import TextField from "material-ui/TextField";
+import { debounce } from "throttle-debounce";
 
 const styles = {
   block: {
@@ -29,6 +30,9 @@ const styles = {
   },
   labelStyle: {
     color: "#DF5C33"
+  },
+  textAreaStyle: {
+    backgroundColor: "#ff9d9d"
   }
 };
 
@@ -67,7 +71,7 @@ export default class Events extends Component {
           style={{ margin: "15px" }}
           onClick={this.props.onNew}
         />
-        <div>
+        <div style={{ padding: "10px" }}>
           <FieldDropDown
             options={events}
             status={Number(gei.eventType[0])}
@@ -83,20 +87,36 @@ export default class Events extends Component {
               this.props.ontoggle([isInputChecked])
             }
           />
+          <div style={{ marginLeft: "5px" }}>
+            <FieldText
+              obj={{ name: "date", title: "Event date: MM/DD/YY" }}
+              data={this.props.gei.date[0]}
+              change={this.props.onTextChange}
+              type={"date"}
+            />
+          </div>
         </div>
         <div>
-          <FieldText
-            obj={{ name: "date", title: "Event date: MM/DD/YY" }}
-            data={this.props.gei.date[0]}
-            change={this.props.onTextChange}
-            type={"date"}
-          />
-          <FieldDropDown
-            options={registryStatuses}
-            status={gei.registry[0]}
-            //data={ }
-            onselect={this.props.onRegistry}
-          />
+          <div>
+            <div style={{ color: "#DF5C33", fontSize: "small" }}>
+              Registry status{" "}
+            </div>
+            <FieldDropDown
+              options={registryStatuses}
+              status={gei.registry[0]}
+              //data={ }
+              onselect={this.props.onRegistry}
+            />
+          </div>
+          <div>
+            <div style={{ color: "#DF5C33", fontSize: "small" }}>Active</div>
+            <FieldDropDown
+              options={activeStatuses}
+              status={gei.active ? 1 : 0}
+              //data={ }
+              onselect={this.props.onActive}
+            />
+          </div>
         </div>
         <div>
           <TextField
@@ -114,6 +134,7 @@ export default class Events extends Component {
               this.props.onTextChange(event.target.value, "notes")
             }
             value={gei.notes[0]}
+            textAreaStyle={styles.textAreaStyle}
           />
         </div>
       </div>

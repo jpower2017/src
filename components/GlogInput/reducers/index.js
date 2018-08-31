@@ -193,8 +193,9 @@ export const glogInput = (state = [], action) => {
             date: [""],
             recipients: [],
             giftHistory: [],
-            registry: [0],
-            recurring: [true],
+            registry: [1],
+            active: [1],
+            recurring: [1],
             requests: [],
             notes: [""],
             eventMonth: [],
@@ -270,9 +271,10 @@ export const glogInput = (state = [], action) => {
       } else {
         id = uuidv4();
       }
+      let noDupRows = R.filter(x => x.id !== id, state[action.node]);
       let allRows = action.addID
         ? [...state[action.node], { ...action.payload, id: id }]
-        : [...state[action.node], { ...action.payload }];
+        : [...noDupRows, { ...action.payload }];
       return {
         ...state,
         [action.node]: R.uniq(allRows),

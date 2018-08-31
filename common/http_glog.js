@@ -12,6 +12,7 @@ export const getGiftEvents = (jwt, filter) => {
   query giftEvents($eventMonth:String){
      GiftEvents(eventMonth:$eventMonth) {
       uuid
+      active
       recurring
       addedDate
       eventDay
@@ -87,6 +88,10 @@ export const getGiftEvent = (jwt, id) => {
         name
       }
       eventOrganizations{
+        uuid,
+        name
+      }
+      eventAnimals{
         uuid,
         name
       }

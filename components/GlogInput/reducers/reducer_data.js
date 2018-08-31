@@ -35,7 +35,8 @@ export const giftEventInstances = [
         type: "gift"
       }
     ],
-    registry: [0],
+    registry: [1],
+    active: [1],
     recurring: [1],
     eventMonth: "09",
     notes: ["notes here and here for project id 21"]
@@ -58,6 +59,7 @@ export const giftEventInstances = [
       }
     ],
     registry: [1],
+    active: [1],
     recurring: [1],
     eventMonth: "09",
     notes: [""]
@@ -68,6 +70,7 @@ export const giftEventInstances = [
     eventType: ["1"],
     date: ["6/8/08"],
     requests: [],
+    active: [1],
     recipients: [
       {
         id: 124,
@@ -95,6 +98,7 @@ export const giftEventInstances = [
     eventType: ["2"],
     date: ["6/17/17"],
     requests: [],
+    active: [1],
     recipients: [
       {
         id: 122,

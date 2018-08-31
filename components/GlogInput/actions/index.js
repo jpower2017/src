@@ -430,6 +430,7 @@ export const updateGiftInstance = payload => async (dispatch, getState) => {
   console.table(payloadWithEventTypeStr);
   const newPayload = R.pick(
     [
+      "active",
       "recurring",
       "eventDay",
       "eventMonth",
