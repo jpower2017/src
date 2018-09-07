@@ -54,15 +54,20 @@ export const getNotifications = () => async dispatch => {
       uuid = id;
       //const prefs = await HTTP.setPreferences(verifiedJwt.body.token, uuid);
       const userData = await HTTP.getUser(token, login);
-      console.log(JSON.stringify(userData));
-      console.table(userData);
       dispatch(receiveUser(userData));
       dispatch(saveTokenAndLogin(token, login));
-      const data = await HTTP.getPortalUsers(token, login);
-      const portalUsers = R.prop("PortalUsers", data);
-      //  console.log("ALL PORTAL USERS...");
-      //console.table(portalUsers);
-      dispatch(receivePortalUsers(portalUsers));
+
+      console.table(userData.PortalUser);
+      const roleNames = R.map(x => x.name, userData.PortalUser.roles);
+      console.table(roleNames);
+      const showPresence = R.contains("Presence Viewer Submitter", roleNames);
+      console.log(showPresence);
+
+      if (showPresence) {
+        const data = await HTTP.getPortalUsers(token, login);
+        const portalUsers = R.prop("PortalUsers", data);
+        dispatch(receivePortalUsers(portalUsers));
+      }
     }
   });
 };

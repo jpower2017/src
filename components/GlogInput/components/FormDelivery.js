@@ -111,9 +111,7 @@ class FormDelivery extends Component {
             <div>
               <FieldDropDown
                 options={
-                  this.formatLocations(this.props.locations)
-                    ? this.formatLocations(this.props.locations)
-                    : dd
+                  this.props.locations ? [...dd, ...this.props.locations] : dd
                 }
                 status={gift.location}
                 onselect={value => this.changeGiftLocation(value, "location")}

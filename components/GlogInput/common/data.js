@@ -12,6 +12,18 @@ export const statuses = [
   { status: "wrap", title: "Wrap", color: "#EF9A9A", value: 6 },
   { status: "received", title: "Received", color: "#9E9E9E", value: 7 }
 ];
+export const registryStatuses = [
+  { name: "yes", title: "Yes", value: 1 },
+  { name: "no", title: "No", value: 0 }
+];
+export const activeStatuses = [
+  { name: "true", title: "True", value: 1 },
+  { name: "false", title: "False", value: 0 }
+];
+export const assignedTo = [
+  { status: "placeholder", title: "Assigned to:", value: "" },
+  { status: "person1", title: "Person one", value: 1 }
+];
 export const columnsGiftEventInstance = [
   { name: "eventType", title: "EVENT", type: "string", order: 1 },
   { name: "date", title: "DATE", type: "string", order: 2 },
@@ -103,14 +115,7 @@ export const events = [
   { name: "mothersDayECard", title: "mother's Day ECard", value: 33 },
   { name: "funeral", title: "Funeral", value: 34 }
 ];
-export const registryStatuses = [
-  { name: "yes", title: "Yes", value: 1 },
-  { name: "no", title: "No", value: 0 }
-];
-export const activeStatuses = [
-  { name: "yes", title: "Yes", value: 1 },
-  { name: "no", title: "No", value: 0 }
-];
+
 export const fieldsPerson = [
   { name: "firstName", title: "First name" },
   { name: "lastName", title: "Last name" },
@@ -118,7 +123,9 @@ export const fieldsPerson = [
   { name: "gender", title: "Gender", type: "gender" },
   { name: "birthDate", title: "Date of birth", type: "date" },
   { name: "personalEmail", title: "Personal email", type: "email" },
-  { name: "personalMobile", title: "Personal mobile", type: "phone" }
+  { name: "personalMobile", title: "Personal mobile", type: "phone" },
+  { name: "legalFirstName", title: "Legal first name" },
+  { name: "legalLastName", title: "Legal last name" }
 ];
 export const fieldsOrgs = [
   {
@@ -136,9 +143,19 @@ export const fieldsAnimals = [
 ];
 export const fieldsGroups = [{ name: "name", title: "Name" }];
 export const fieldsRequests = [
-  { name: "registryStatus", title: "Registry status" },
   { name: "requestNotes", title: "Request Notes", uiType: "textArea" },
-  { name: "active", title: "Active" }
+  {
+    name: "registryStatus",
+    title: "Registry status",
+    uiType: "dropDown",
+    options: registryStatuses
+  },
+  {
+    name: "active",
+    title: "Active",
+    uiType: "dropDown",
+    options: activeStatuses
+  }
 ];
 export const fieldsLog = [
   { name: "logField1", title: "Log Field 1" },
@@ -146,12 +163,30 @@ export const fieldsLog = [
 ];
 export const fieldsGift = [
   { name: "value", title: "Value", type: "string", order: 1 },
-  { name: "giftNotes", title: "Gift Notes", type: "string", order: 2 },
-  { name: "description", title: "Description", type: "string", order: 3 },
-  { name: "assignedTo", title: "Assigned to", type: "string", order: 4 },
+  {
+    name: "description",
+    title: "Description",
+    type: "string",
+    order: 2,
+    uiType: "textArea"
+  },
+  {
+    name: "assignedTo",
+    title: "Assigned to",
+    type: "string",
+    order: 3,
+    uiType: "dropDown"
+  },
   {
     name: "sentiment",
     title: "Sentiment",
+    type: "string",
+    order: 4,
+    uiType: "textArea"
+  },
+  {
+    name: "giftNotes",
+    title: "Gift Notes",
     type: "string",
     order: 5,
     uiType: "textArea"

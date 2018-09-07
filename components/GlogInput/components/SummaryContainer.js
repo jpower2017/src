@@ -20,21 +20,22 @@ import { events, registryStatuses } from "../common/data";
 const t = "test";
 
 const addEventDayAndMonth = val => {
-  if (val.date && val.date.length) {
+  if (val.date[0] == "") {
+    return val;
+  }
+  if (val.date && val.date[0].length) {
     let eventMonth = val.date[0].split("/")[0];
     eventMonth = eventMonth.length == 2 ? eventMonth : `0${eventMonth}`;
     let eventDay = val.date[0].split("/")[1];
     eventDay = eventDay.length == 2 ? eventDay : `0${eventDay}`;
     let eventYear = val.date[0].split("/")[2];
     eventYear = eventYear.length == 2 ? eventYear : `${eventYear}`;
-
     return {
       ...val,
       eventMonth: eventMonth,
       eventDay: eventDay,
       eventYear: eventYear
     };
-  } else {
   }
 };
 
@@ -57,9 +58,7 @@ class SummaryContainer extends Component {
 
   updateToggle(gei) {
     let recurring = R.prop("recurring", gei)[0];
-
     recurring = recurring ? [0] : [1];
-
     const newObj = {
       ...gei,
       recurring: recurring
@@ -68,6 +67,7 @@ class SummaryContainer extends Component {
   }
 
   evt(value) {
+    console.log("SC evt value: " + value);
     const newObj = {
       ...this.props.giftEventInstance,
       eventType: [value]
@@ -100,14 +100,11 @@ class SummaryContainer extends Component {
     const gei = this.props.giftEventInstance;
     const children = [...gei.recipients, ...gei.requests, ...gei.giftHistory];
     console.table(children);
-
     let t = R.find(x => x.id == id, children);
     let node = R.prop("type", t);
-
     this.props.onSearchRow(id);
     //this.props.setNode(node !== "people" ? `${node}s` : node);
     console.log("node == " + node);
-
     this.props.setNode(node === "gift" ? `${node}s` : node);
     if (node == "requests") {
       this.props.setRequestID(id);
@@ -148,6 +145,7 @@ class SummaryContainer extends Component {
             ontoggle={x => this.updateToggle(giftEventInstance)}
             ondelete={this.props.ondelete}
             onAdd={value => this.onAdd(value)}
+            giftEventTypes={this.props.giftEventTypes}
             //setRequestID={value => this.props.setRequestID(value)}
           />
         ) : null}
@@ -263,7 +261,8 @@ const mapStateToProps = (state, ownProps) => ({
         x => x.id === state.glogInput.selectedRow,
         state.glogInput.giftEventInstances
       )
-    : null
+    : null,
+  giftEventTypes: state.glogInput.eventTypes ? state.glogInput.eventTypes : null
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

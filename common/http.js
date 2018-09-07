@@ -82,6 +82,13 @@ export const getUser = (jwt, login) => {
           subscriptions
         }
       }
+      locations{
+        type
+        notes
+        location{
+          name
+        }
+      }
       notifications {
         uuid
         title

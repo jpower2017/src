@@ -210,23 +210,12 @@ const convertRecipients = (obj, people, orgs, groups, animals) => {
   };
 };
 
-const getEventName = obj => {
-  const title = R.prop(
-    "title",
-    R.find(x => x.value == obj.eventType[0], events)
-  );
-  return {
-    ...obj,
-    eventType: [title]
-  };
-};
-
 const clean = (instances, people, orgs, groups, animals, mainFilter = null) => {
-  const giftInstances = R.map(x => getEventName(x), instances);
+  //const giftInstances = R.map(x => getEventName(x), instances);
 
   let wholeList = R.map(
     x => convertRecipients(x, people, orgs, groups, animals),
-    giftInstances
+    instances
   );
 
   const filterList = (mainFilter, wholeList) => {

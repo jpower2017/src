@@ -69,6 +69,7 @@ class Summary extends Component {
             onDialog={this.props.onDialog}
             ontoggle={this.props.ontoggle}
             color={props.muiTheme.palette.accent5Color}
+            giftEventTypes={this.props.giftEventTypes}
           />
 
           <div

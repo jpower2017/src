@@ -28,7 +28,8 @@ import {
   GLOG_UPDATE_GIFTREQUEST_GIFT,
   GLOG_SEARCHTEXT,
   GLOG_UPDATE_FIELD,
-  GLOG_FILTER_GEIS
+  GLOG_FILTER_GEIS,
+  SET_CONFIG_GIFT_LOG
 } from "../actions";
 import {
   dataGifts,
@@ -69,6 +70,11 @@ let newRows,
   gei;
 export const glogInput = (state = [], action) => {
   switch (action.type) {
+    case SET_CONFIG_GIFT_LOG:
+      return {
+        ...state,
+        [action.name]: action.payload
+      };
     case GLOG_FILTER_GEIS:
       console.log("REDUCER action.month " + action.month);
       let filteredMonth = R.filter(
@@ -172,7 +178,8 @@ export const glogInput = (state = [], action) => {
         //searchID: 1,
         vendors: dataVendors,
         deliveries: dataDeliveries,
-        orders: dataOrders
+        orders: dataOrders,
+        config: []
       };
     case GLOG_ADD_DATA:
       return {
@@ -199,7 +206,8 @@ export const glogInput = (state = [], action) => {
             requests: [],
             notes: [""],
             eventMonth: [],
-            eventDay: []
+            eventDay: [],
+            eventGiftRequests: []
           }
         ],
         searchID: null
@@ -262,10 +270,7 @@ export const glogInput = (state = [], action) => {
         giftEventInstances: [...otherRows, newRow]
       };
     case GLOG_ADD:
-      console.log("REDUCER ADD");
-      console.log("NODE " + action.node);
       let containsID = R.prop("id", action.payload);
-      console.log("containsID " + containsID);
       if (containsID) {
         id = R.prop("id", action.payload);
       } else {

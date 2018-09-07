@@ -31,6 +31,25 @@ class GiftsContainer extends Component {
     );
   }
 }
+/*
+const getGiftYear = (giftEvents, geiID, giftID = null) => {
+  if (giftID == 0.1) {
+    return;
+  }
+  const gei = R.find(x => x.id === geiID, giftEvents);
+  const requestGifts = R.flatten(
+    R.map(x => x.requestGifts, R.prop("eventGiftRequests", gei))
+  );
+  console.table(requestGifts);
+  const addKeyValue = obj => {
+    return { ...obj.gift, giftYear: R.prop("giftYear", obj) };
+  };
+  const newList = R.map(x => addKeyValue(x), requestGifts);
+  console.table(newList);
+  console.log(R.prop("giftYear", R.find(x => x.uuid === giftID, newList)));
+  return R.prop("giftYear", R.find(x => x.uuid === giftID, newList));
+};
+*/
 
 const mapStateToProps = (state, ownProps) => ({
   requests: state.glogInput.requests ? state.glogInput.requests : null,

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import * as R from "ramda";
-import { events, registryStatuses, activeStatuses } from "../common/data";
+import { registryStatuses, activeStatuses } from "../common/data";
 import FieldDropDown from "./FieldDropDown";
+import AutoComplete from "material-ui/AutoComplete";
 import FieldText from "./FieldText";
 import RaisedButton from "material-ui/RaisedButton";
 import Toggle from "material-ui/Toggle";
@@ -39,16 +40,37 @@ const styles = {
 export default class Events extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchText: ""
+    };
   }
-  componentDidMount() {
-    console.log("1151 " + this.props.gei.registry[0]);
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.giftEventTypes) {
+      return;
+    }
+    if (this.state.events) {
+      return;
+    }
+    this.state = {
+      events: R.map(x => x.name, nextProps.giftEventTypes)
+    };
   }
   handleChange = event => {
     //this.props.onTextChange(event.value, e.name)
     this.setState({
       value: event.target.value
     });
+  };
+  handleUpdateInput = searchText => {
+    this.setState({
+      searchText: searchText
+    });
+  };
+  handleNewRequest = x => {
+    this.props.onEvt(x);
+
+    //this.props.onSave({ ...this.props.data, name: x });
   };
   render() {
     const { gei } = this.props;
@@ -72,12 +94,14 @@ export default class Events extends Component {
           onClick={this.props.onNew}
         />
         <div style={{ padding: "10px" }}>
-          <FieldDropDown
-            options={events}
-            status={Number(gei.eventType[0])}
-            data={this.props.data[0]}
-            onselect={this.props.onEvt}
-          />
+          <div style={{ marginLeft: "5px", marginBottom: "16px" }}>
+            <FieldText
+              obj={{ name: "date", title: "Event date: MM/DD/YY" }}
+              data={this.props.gei.date[0]}
+              change={this.props.onTextChange}
+              type={"date"}
+            />
+          </div>
           <Toggle
             label="Recurring"
             labelStyle={styles.labelStyle}
@@ -87,13 +111,19 @@ export default class Events extends Component {
               this.props.ontoggle([isInputChecked])
             }
           />
-          <div style={{ marginLeft: "5px" }}>
-            <FieldText
-              obj={{ name: "date", title: "Event date: MM/DD/YY" }}
-              data={this.props.gei.date[0]}
-              change={this.props.onTextChange}
-              type={"date"}
-            />
+          <div style={{ marginLeft: "10px" }}>
+            {this.state.events && (
+              <AutoComplete
+                hintText="Select gift event type"
+                searchText={this.state.searchText}
+                onUpdateInput={this.handleUpdateInput}
+                onNewRequest={this.handleNewRequest}
+                dataSource={this.state.events}
+                //filter={(searchText, key) => key.indexOf(searchText) !== -1}
+                filter={AutoComplete.fuzzyFilter}
+                openOnFocus={true}
+              />
+            )}
           </div>
         </div>
         <div>

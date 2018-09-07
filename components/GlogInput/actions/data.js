@@ -13,7 +13,9 @@ export const person = {
   worksAt: [],
   reportsTo: [],
   worksIn: [],
-  roles: []
+  roles: [],
+  legalFirstName: "",
+  legalLastName: ""
 };
 
 export const gift = {
@@ -39,9 +41,9 @@ export const group = {
   name: ""
 };
 export const request = {
-  registryStatus: "",
+  registryStatus: [1],
   requestNotes: "",
-  active: "",
+  active: [1],
   recipients: []
 };
 export const location = {
@@ -63,7 +65,7 @@ export const delivery = {
   confirmedDeliveryDate: ""
 };
 export const order = {
-  status: 1,
+  status: 7,
   orderNumber: "",
   orderDate: "",
   vendorRepresentativeName: "",

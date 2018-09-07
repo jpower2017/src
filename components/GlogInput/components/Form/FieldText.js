@@ -15,8 +15,6 @@ class FieldText extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(" FIELD TEXT CWRP " + nextProps.selection);
-    console.log("CWRP nextprops.data " + nextProps.data);
     if (this.props.data === nextProps.data) {
       return;
     }

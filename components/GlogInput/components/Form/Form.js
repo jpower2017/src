@@ -3,6 +3,7 @@ import Paper from "material-ui/Paper";
 import * as R from "ramda";
 import RaisedButton from "material-ui/RaisedButton";
 import FieldText from "./FieldText";
+import FieldDropDown from "./FieldDropDown";
 
 class Form extends Component {
   constructor(props) {
@@ -105,15 +106,25 @@ class Form extends Component {
           <div s>
             {fields &&
               this.props.data &&
-              fields.map((x, i) => (
-                <FieldText
-                  obj={x}
-                  data={this.getValue(x)}
-                  change={this.childChange}
-                  type={x.type}
-                  multiLine={x.uiType}
-                />
-              ))}
+              fields.map(
+                (x, i) =>
+                  x.uiType === "dropDown" ? (
+                    <FieldDropDown
+                      options={x.options}
+                      status={1}
+                      //data={ }
+                      onselect={value => this.childChange(value, "status")}
+                    />
+                  ) : (
+                    <FieldText
+                      obj={x}
+                      data={this.getValue(x)}
+                      change={this.childChange}
+                      type={x.type}
+                      multiLine={x.uiType}
+                    />
+                  )
+              )}
           </div>
           <div>
             {!this.props.node === "gifts" && (

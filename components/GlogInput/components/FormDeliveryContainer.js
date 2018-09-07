@@ -41,8 +41,8 @@ const getDelivery = (gifts, searchID, deliveries) => {
   console.table(R.find(x => x.id === deliveryID, deliveries));
   return R.find(x => x.id === deliveryID, deliveries);
 };
-
-const getLocations = (obj, locations, gifts) => {
+/*
+const getLocationsOrig = (obj, locations, gifts) => {
   const arrGifts = R.map(x => x.id, obj.giftHistory);
   const filteredGifts = R.filter(x => R.contains(x.id, arrGifts), gifts);
   const arrLocations = R.map(x => x.location, filteredGifts);
@@ -51,6 +51,36 @@ const getLocations = (obj, locations, gifts) => {
     locations
   );
   return filteredLocations;
+};
+*/
+const getLocations = (obj, locations, gifts) => {
+  console.log("getLcations2");
+  const arrGifts = R.map(x => x.id, obj.giftHistory);
+  const filteredGifts = R.filter(x => R.contains(x.id, arrGifts), gifts);
+  console.table(filteredGifts);
+  const getLocs = gift => {
+    let counter = 0;
+    const deliv = R.prop("delivery", gift);
+    if (!deliv) {
+      return;
+    }
+    const loc = R.prop("location", deliv);
+    if (!loc) {
+      return;
+    }
+    const addy = R.prop("formattedAddress", loc);
+    if (!addy) {
+      return;
+    }
+
+    return { name: addy[0], title: addy[0], value: counter++ };
+  };
+  let locs = R.map(x => getLocs(x), filteredGifts);
+  console.table(locs);
+  if (!locs[0]) {
+    return;
+  }
+  return locs;
 };
 
 const getValues = arrObj => {

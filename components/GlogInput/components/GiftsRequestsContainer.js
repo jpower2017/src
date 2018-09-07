@@ -44,10 +44,14 @@ class GiftsRequestsContainer extends Component {
     );
     let newRecips;
     const tempRequest = this.props.request;
+    console.log(JSON.stringify(tempRequest));
+    console.log(JSON.stringify(this.props.requests));
     const add = () => {
       console.log("add");
-      const objRequest = R.pick(["id", "name"], obj);
+      console.log(JSON.stringify(obj));
+      const objRequest = R.pick(["id", "name", "requestNotes"], obj);
       newRecips = [...tempRequest.requests, objRequest];
+      console.log(JSON.stringify(newRecips));
     };
     const remove = () => {
       console.log("remove");
@@ -57,6 +61,13 @@ class GiftsRequestsContainer extends Component {
     //  console.log(R.contains(x, R.map(x => x.id, tempRequest.recipients)));
 
     tempRequest.requests = newRecips;
+    console.log("tempRequest...");
+    console.log(JSON.stringify(tempRequest));
+    let newTempRequest = {
+      ...tempRequest,
+      requests: { ...tempRequest.requests, requestNotes: obj.requestNotes }
+    };
+    console.log(JSON.stringify(newTempRequest));
     this.props.updateSecondary(
       tempRequest,
       "gifts",
@@ -105,7 +116,10 @@ const getGiftRequestID = arrRequest => {
   return arrRequest[0].id;
 };
 const convertRequests = (obj, requests) => {
+  console.log("convertRequests");
   const a = R.map(x => x.id, R.path(["requests"], obj));
+  console.table(a);
+  console.table(R.filter(x => R.contains(x.id, a), requests));
   return R.filter(x => R.contains(x.id, a), requests);
 };
 const mapStateToProps = (state, ownProps) => ({

@@ -108,15 +108,17 @@ const ListWidget = props => {
     }
   };
   const getSubText = (arrField1, arrField2) => {
-    console.log("getSubText " + [arrField1, arrField2]);
     let str = "";
     str = arrField1
       ? R.map(
-          x => (x.name ? x.name : `${x.firstName} ${x.lastName}`),
+          x =>
+            x.name
+              ? x.name
+              : x.lastName ? `${x.firstName} ${x.lastName}` : x.requestNotes,
           arrField1
         )
       : "";
-    str += arrField2 ? R.map(x => x.name, arrField2) : "";
+    str += arrField2 ? R.map(x => x.requestNotes, arrField2) : "";
     //return str.toString().slice(0, -1);
     return str;
 

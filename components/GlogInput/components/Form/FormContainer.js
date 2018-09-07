@@ -3,31 +3,20 @@ import * as R from "ramda";
 import { connect } from "react-redux";
 import { updateForm, addSearch, addSearch2, addNew } from "../../actions";
 import Form from "./Form";
-import { appLogic } from "../../common/data";
+import { appLogic, active, registry } from "../../common/data";
 
 class FormContainer extends Component {
   componentDidMount() {}
   getFields = tab => {
-    console.table(R.find(x => x.tab === tab, appLogic));
-    console.log(R.prop("fields", R.find(x => x.tab === tab, appLogic)));
     let str = R.prop("fields", R.find(x => x.tab === tab, appLogic));
     return str;
   };
   getData = tab => {
-    console.log("getData tab: " + tab);
-    console.table(R.find(x => x.tab === tab, appLogic));
-    console.log(R.prop("data", R.find(x => x.tab === tab, appLogic)));
     let str = R.prop("data", R.find(x => x.tab === tab, appLogic));
     return str;
   };
   getNext = (obj, selection) => {
-    console.log("getnext f selection: " + selection);
-    console.table(obj);
-    console.log(R.prop("order", R.find(x => x.tab == selection, obj)));
     const ord = R.prop("order", R.find(x => x.tab == selection, obj));
-    console.log(
-      "getnext f " + R.prop("tab", R.find(x => x.order == ord + 1, appLogic))
-    );
     return R.prop("tab", R.find(x => x.order == ord + 1, appLogic));
   };
   onNew = () => {

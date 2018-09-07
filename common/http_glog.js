@@ -41,19 +41,6 @@ export const getGiftEvents = (jwt, filter) => {
       }
       eventGiftRequests{
         uuid
-        registryStatus
-        requestNotes
-        requestGifts{
-          uuid
-          gift{
-            uuid
-            value
-            description
-            recipientPersons{
-              uuid
-            }
-          }
-        }
       }
     }
   }

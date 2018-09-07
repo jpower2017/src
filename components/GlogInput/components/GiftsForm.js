@@ -13,6 +13,7 @@ import GiftsRequestsContainer from "./GiftsRequestsContainer";
 import FieldText from "./FieldText";
 import FieldDropDown from "./FieldDropDown";
 import { registryStatuses } from "../common/data";
+import GiftsExtraContainer from "./GiftsExtraContainer";
 
 class GiftsForm extends Component {
   constructor(props) {

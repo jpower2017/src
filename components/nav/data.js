@@ -81,7 +81,8 @@ export const data1 = [
     show: true,
     leaf: true,
     favorite: false,
-    endpoint: "/glogInput"
+    endpoint: "/glogInput",
+    allow: "Gift Log Admin"
   }
 ];
 
