@@ -77,7 +77,9 @@ export default class ListSingleLevel extends Component {
         zDepth={GlobalStyles.depth.n}
         style={(styles.paper, { backgroundColor: "#A4AECB" })}
       >
-        <div style={{ height: "400px", minWidth: "200px", maxWidth: "400px" }}>
+        <div
+          style={{ minHeight: "400px", minWidth: "200px", maxWidth: "400px" }}
+        >
           <div
             style={{
               backgroundColor: "#DF5C33",

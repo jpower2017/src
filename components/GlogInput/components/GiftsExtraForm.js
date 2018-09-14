@@ -28,7 +28,7 @@ class GiftsForm extends Component {
         <FieldText
           obj={{ title: "Gift year", name: "giftYear" }}
           data={this.props.giftYear}
-          change={this.change}
+          change={this.props.bubbleUp}
         />
         <div style={{ display: "flex", alignItems: "center" }}>
           <div>Active:</div>

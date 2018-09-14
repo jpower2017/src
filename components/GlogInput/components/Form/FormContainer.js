@@ -5,12 +5,14 @@ import { updateForm, addSearch, addSearch2, addNew } from "../../actions";
 import Form from "./Form";
 import { appLogic, active, registry } from "../../common/data";
 
+/* to do   add array of configs from a parent wrapper */
 class FormContainer extends Component {
   componentDidMount() {}
   getFields = tab => {
     let str = R.prop("fields", R.find(x => x.tab === tab, appLogic));
     return str;
   };
+  /* todo   attachConfigOptions   */
   getData = tab => {
     let str = R.prop("data", R.find(x => x.tab === tab, appLogic));
     return str;
@@ -23,12 +25,27 @@ class FormContainer extends Component {
     this.props.onNew();
     this.props.bubbleNew();
   };
+  handleConfigOptions = (fields, config = null) => {
+    console.table(config);
+    const addConfig = (x, config) => {
+      if (config) {
+        return { ...x, options: config };
+      } else {
+        return x;
+      }
+    };
+
+    return R.map(x => addConfig(x, this.props.config), fields);
+  };
   render() {
     return (
       <div>
         {this.props.node ? (
           <Form
-            fields={this.getFields(this.props.node)}
+            fields={this.handleConfigOptions(
+              this.getFields(this.props.node),
+              this.props.config
+            )}
             data={this.props.data}
             onSave={this.props.onSave}
             onHandle={this.props.addSearch}
@@ -59,6 +76,7 @@ const mapStateToProps = (state, ownProps) => ({
 
   node: state.glogInput.node ? state.glogInput.node : null,
   showNew: state.glogInput.searchID === 0.1
+
   //title: this.props.data ? "Data for item selected" : "Select item"
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({

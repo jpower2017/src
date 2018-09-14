@@ -70,6 +70,7 @@ class SearchForm extends Component {
               <FormContainer
                 bubbleUp={this.props.bubbleUp}
                 bubbleNew={() => console.log("trap it.  bubbleNew Recip Form")}
+                config={this.props.configAnimalTypes}
               />
             )}
           </div>

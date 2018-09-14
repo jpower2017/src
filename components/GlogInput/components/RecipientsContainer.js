@@ -27,6 +27,7 @@ class RecipientsContainer extends Component {
           node={this.props.node}
           bubbleUp={this.props.GEI_add_recip}
           action={this.props.action}
+          configAnimalTypes={this.props.configAnimalTypes}
         />
       </div>
     );
@@ -35,7 +36,10 @@ class RecipientsContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   node: state.glogInput.node ? state.glogInput.node : null,
-  action: state.glogInput.action ? state.glogInput.action : null
+  action: state.glogInput.action ? state.glogInput.action : null,
+  configAnimalTypes: state.glogInput.animalTypes
+    ? state.glogInput.animalTypes
+    : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setNode: x => {

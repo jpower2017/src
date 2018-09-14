@@ -107,6 +107,9 @@ const ListWidget = props => {
       return;
     }
   };
+  const formatGiftYear = str => {
+    return str ? `${str}:   ` : "";
+  };
   const getSubText = (arrField1, arrField2) => {
     let str = "";
     str = arrField1
@@ -118,7 +121,9 @@ const ListWidget = props => {
           arrField1
         )
       : "";
-    str += arrField2 ? R.map(x => x.requestNotes, arrField2) : "";
+    str += arrField2
+      ? R.map(x => formatGiftYear(x.giftYear) + x.requestNotes, arrField2)
+      : "";
     //return str.toString().slice(0, -1);
     return str;
 
@@ -130,7 +135,7 @@ const ListWidget = props => {
         zDepth={GlobalStyles.depth.n}
         style={(styles.paper, { backgroundColor: color })}
       >
-        <List style={{ maxHeight: 320, overflow: "auto", width: "400px" }}>
+        <List style={{ overflow: "auto", width: "400px" }}>
           <Subheader style={styles.subheader}>
             <div
               style={{

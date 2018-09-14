@@ -28,13 +28,11 @@ const addEventDayAndMonth = val => {
     eventMonth = eventMonth.length == 2 ? eventMonth : `0${eventMonth}`;
     let eventDay = val.date[0].split("/")[1];
     eventDay = eventDay.length == 2 ? eventDay : `0${eventDay}`;
-    let eventYear = val.date[0].split("/")[2];
-    eventYear = eventYear.length == 2 ? eventYear : `${eventYear}`;
+
     return {
       ...val,
       eventMonth: eventMonth,
-      eventDay: eventDay,
-      eventYear: eventYear
+      eventDay: eventDay
     };
   }
 };

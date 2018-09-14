@@ -123,9 +123,14 @@ export const fieldsPerson = [
   { name: "gender", title: "Gender", type: "gender" },
   { name: "birthDate", title: "Date of birth", type: "date" },
   { name: "personalEmail", title: "Personal email", type: "email" },
+  { name: "alternateEmail", title: "Alternate email", type: "email" },
   { name: "personalMobile", title: "Personal mobile", type: "phone" },
   { name: "legalFirstName", title: "Legal first name" },
-  { name: "legalLastName", title: "Legal last name" }
+  { name: "legalLastName", title: "Legal last name" },
+  { name: "prefix", title: "Prefix" },
+  { name: "suffix", title: "Suffix" },
+  { name: "birthSurname", title: "Birth surname" },
+  { name: "notes", title: "Notes", uiType: "textArea" }
 ];
 export const fieldsOrgs = [
   {
@@ -135,11 +140,22 @@ export const fieldsOrgs = [
   {
     name: "contactNumber",
     title: "Contact number"
-  }
+  },
+  { name: "email", title: "Email" },
+  { name: "notes", title: "Notes" },
+  { name: "website", title: "Website" }
 ];
 export const fieldsAnimals = [
   { name: "name", title: "Animal name" },
-  { name: "type", title: "Animal type" }
+  {
+    name: "type",
+    title: "Animal type",
+    type: "string",
+    uiType: "dropDown",
+    loadConfig: true,
+    configName: "configAnimalType"
+  },
+  { name: "notes", title: "Notes" }
 ];
 export const fieldsGroups = [{ name: "name", title: "Name" }];
 export const fieldsRequests = [
@@ -162,7 +178,7 @@ export const fieldsLog = [
   { name: "logField2", title: "Log Field 2" }
 ];
 export const fieldsGift = [
-  { name: "value", title: "Value", type: "string", order: 1 },
+  { name: "value", title: "Value", type: "currency", order: 1 },
   {
     name: "description",
     title: "Description",
@@ -175,7 +191,9 @@ export const fieldsGift = [
     title: "Assigned to",
     type: "string",
     order: 3,
-    uiType: "dropDown"
+    uiType: "dropDown",
+    loadConfig: true,
+    configName: "configPersonalAssts"
   },
   {
     name: "sentiment",
@@ -219,7 +237,11 @@ export const fieldsDelivery = [
   { name: "attentionTo", title: "Attention to" },
   { name: "deliveryContactNumber", title: "Delivery contact #" },
   { name: "deliveryTrackingNumber", title: "Delivery tracking #" },
-  { name: "confirmedDeliveryDate", title: "Confirmed delivery date" }
+  {
+    name: "confirmedDeliveryDate",
+    title: "Confirmed delivery date",
+    type: "date"
+  }
 ];
 export const fieldsOrder = [
   { name: "status", title: "Order status", uiType: "dropDown" },

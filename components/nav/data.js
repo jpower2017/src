@@ -189,6 +189,18 @@ export const data2 = [
     endpoint: "/workflow/newHireRequest",
     parentName: "Workflow",
     allow: "Workflow HR"
+  },
+  {
+    id: 215,
+    name: "Toll Pass Request Form",
+    parentId: 15,
+    level: 2,
+    show: false,
+    leaf: true,
+    favorite: false,
+    endpoint: "/workflow/tollPass",
+    parentName: "Workflow",
+    allow: "Workflow HR"
   }
 ];
 

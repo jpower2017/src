@@ -36,7 +36,7 @@ class Main extends Component {
       console.log("renderTable");
       return (
         <div>
-          <TableContainerMain />
+          <TableContainerMain bubbleUp={() => console.log("TCM bubbleUp")} />
         </div>
       );
     } else if (

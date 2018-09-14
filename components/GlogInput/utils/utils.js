@@ -16,6 +16,9 @@ export const numberDeleteCommas = x => {
   return x.split(",").join("");
 };
 export const deleteDollarSign = x => {
+  if (x.indexOf("$") === -1) {
+    return x;
+  }
   return R.replace("$", "", x);
 };
 
@@ -37,3 +40,65 @@ export const dateFormat = /^(?:(?:(?:0?[13578]|1[02])(\/|-|\.)31)\1|(?:(?:0?[1,3
 
 export const capitalizeFirstLtr = string =>
   string.charAt(0).toUpperCase() + string.slice(1);
+
+export const formatPhone = input => {
+  let str = input.replace(/[^\d]/g, "");
+  const getAreaCode = str => {
+    return `${str.substr(0, 3)}`;
+  };
+  const getPrefix = str => {
+    console.log("getPRex " + str.length);
+    if (str.length < 3) {
+      return "";
+    }
+    return `.${str.substr(3, 3)}`;
+  };
+  const getSuffix = str => {
+    if (str.length < 6) {
+      return "";
+    }
+    return `.${str.substr(6)}`;
+  };
+
+  return getAreaCode(str) + getPrefix(str) + getSuffix(str);
+};
+export const formatDate = input => {
+  let str = input.replace(/[^\d]/g, "");
+  const getFirstPart = str => {
+    return `${str.substr(0, 2)}`;
+  };
+  const getSecondPart = str => {
+    if (str.length < 2) {
+      return "";
+    }
+    return `/${str.substr(2, 2)}`;
+  };
+  const getThirdPart = str => {
+    if (str.length < 4) {
+      return "";
+    }
+    return `/${str.substr(4)}`;
+  };
+  return getFirstPart(str) + getSecondPart(str) + getThirdPart(str);
+};
+
+export const formatCurrency = input => {
+  console.log("formatCurrency input== " + input);
+  console.log(typeof input);
+  let str;
+  if (typeof input == "number") {
+    str = input;
+  } else {
+    str = input.replace(/[^\d]/g, "");
+  }
+
+  return prependDollarSign(numberAddCommas(str));
+};
+export const removeFormatting = str => {
+  console.log("removeFormatting str: " + str);
+  if (typeof str == "number") {
+    return str;
+  } else {
+    return str.replace(/[^\d]/g, "");
+  }
+};

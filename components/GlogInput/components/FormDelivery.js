@@ -157,6 +157,8 @@ class FormDelivery extends Component {
             obj={x}
             data={this.getValue(x)}
             change={this.childChange}
+            type={x.type}
+            multiLine={x.uiType}
           />
         ))}
       </Paper>

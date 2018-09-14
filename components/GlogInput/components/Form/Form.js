@@ -67,6 +67,11 @@ class Form extends Component {
     });
     this.props.onHandle2();
   };
+  showOptions = options => {
+    console.log("showOptions");
+    console.log(JSON.stringify(options));
+    return options;
+  };
   render() {
     const { fields, showNew } = this.props;
     return (
@@ -103,18 +108,30 @@ class Form extends Component {
             padding: "21px"
           }}
         >
-          <div s>
+          <div>
             {fields &&
               this.props.data &&
               fields.map(
                 (x, i) =>
                   x.uiType === "dropDown" ? (
-                    <FieldDropDown
-                      options={x.options}
-                      status={1}
-                      //data={ }
-                      onselect={value => this.childChange(value, "status")}
-                    />
+                    <div>
+                      <div
+                        style={{
+                          color: "#DF5C33",
+                          fontSize: "small",
+                          marginLeft: "4px",
+                          marginTop: "10px"
+                        }}
+                      >
+                        {x.title}
+                      </div>
+                      <FieldDropDown
+                        options={x.options}
+                        status={1}
+                        //data={ }
+                        onselect={value => this.childChange(value, x.name)}
+                      />
+                    </div>
                   ) : (
                     <FieldText
                       obj={x}

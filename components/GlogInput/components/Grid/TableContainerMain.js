@@ -88,6 +88,7 @@ class TableContainer extends Component {
   onSelected = (id, item, edit) => {
     console.log("TC onSelected " + id, JSON.stringify(item));
     this.props.onselected(id, item);
+    this.props.bubbleUp(id);
     edit && this.props.setView("details");
   };
   onSelected2 = (id, item) => {
@@ -206,7 +207,7 @@ const convertRecipients = (obj, people, orgs, groups, animals) => {
 
   return {
     ...obj,
-    recipients: R.map(x => getPartyName(x), recipients)
+    recipients: R.uniq(R.map(x => getPartyName(x), recipients))
   };
 };
 

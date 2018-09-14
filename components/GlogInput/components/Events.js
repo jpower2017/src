@@ -55,6 +55,7 @@ export default class Events extends Component {
     this.state = {
       events: R.map(x => x.name, nextProps.giftEventTypes)
     };
+    console.log("nextProps.data(event) " + nextProps.data);
   }
   handleChange = event => {
     //this.props.onTextChange(event.value, e.name)
@@ -71,6 +72,10 @@ export default class Events extends Component {
     this.props.onEvt(x);
 
     //this.props.onSave({ ...this.props.data, name: x });
+  };
+  onNew = () => {
+    this.setState({ searchText: "" });
+    this.props.onNew();
   };
   render() {
     const { gei } = this.props;
@@ -91,15 +96,14 @@ export default class Events extends Component {
           backgroundColor={this.props.color}
           labelColor={"#fff"}
           style={{ margin: "15px" }}
-          onClick={this.props.onNew}
+          onClick={this.onNew}
         />
         <div style={{ padding: "10px" }}>
           <div style={{ marginLeft: "5px", marginBottom: "16px" }}>
             <FieldText
-              obj={{ name: "date", title: "Event date: MM/DD/YY" }}
+              obj={{ name: "date", title: "Event date: MM/DD" }}
               data={this.props.gei.date[0]}
               change={this.props.onTextChange}
-              type={"date"}
             />
           </div>
           <Toggle

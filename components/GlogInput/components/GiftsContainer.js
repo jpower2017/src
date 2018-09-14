@@ -23,6 +23,7 @@ class GiftsContainer extends Component {
             action={this.props.action}
             searchID={this.props.searchID}
             data={{ status: null }}
+            configPersonalAssts={this.props.configPersonalAssts}
           />
         ) : (
           <div>Loading</div>
@@ -55,7 +56,10 @@ const mapStateToProps = (state, ownProps) => ({
   requests: state.glogInput.requests ? state.glogInput.requests : null,
   node: state.glogInput.node ? state.glogInput.node : null,
   searchID: state.glogInput.searchID ? state.glogInput.searchID : null,
-  action: state.glogInput.action ? state.glogInput.action : null
+  action: state.glogInput.action ? state.glogInput.action : null,
+  configPersonalAssts: state.glogInput.personalAssistants
+    ? state.glogInput.personalAssistants
+    : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setNode: x => {

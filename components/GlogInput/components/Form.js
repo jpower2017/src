@@ -73,12 +73,24 @@ class FormOrder extends Component {
               (x, i) =>
                 x.uiType === "dropDown" ? (
                   data.status && (
-                    <FieldDropDown
-                      options={this.props.statuses}
-                      status={data.status}
-                      //data={ }
-                      onselect={value => this.childChange(value, "status")}
-                    />
+                    <div>
+                      <div
+                        style={{
+                          color: "#DF5C33",
+                          fontSize: "small",
+                          marginLeft: "4px",
+                          marginTop: "10px"
+                        }}
+                      >
+                        {x.title}
+                      </div>
+                      <FieldDropDown
+                        options={this.props.statuses}
+                        status={data.status}
+                        //data={ }
+                        onselect={value => this.childChange(value, "status")}
+                      />
+                    </div>
                   )
                 ) : x.uiType === "autoComplete" ? (
                   <AutoComplete

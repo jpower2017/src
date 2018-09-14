@@ -14,6 +14,11 @@ import {
   delivery,
   order
 } from "./data";
+import {
+  deleteDollarSign,
+  numberDeleteCommas,
+  removeFormatting
+} from "../utils/utils";
 
 import { events } from "../common/data";
 
@@ -135,6 +140,7 @@ export const add = (payload, node, searchID = true, addID = true) => async (
   dispatch,
   getState
 ) => {
+  console.log("ACTION add  ");
   dispatch(add2(payload, node, addID));
   console.log("ACTION ADD searchID " + searchID);
   if (searchID) {
@@ -191,6 +197,18 @@ export const addNew = (payload = null) => async (dispatch, getState) => {
   const login = getState().notifications.login;
   const node = getState().glogInput.node;
   const gei = getState().glogInput.selectedRow;
+  const geis = getState().glogInput.giftEventInstances;
+
+  let recipients = R.prop("recipients", R.find(x => x.id === gei, geis));
+
+  console.table(recipients);
+  if (recipients.length) {
+    console.log(R.contains(id, R.map(x => x.id, recipients)));
+    if (R.contains(id, R.map(x => x.id, recipients))) {
+      return;
+    }
+  }
+
   console.log("gei " + gei);
   console.log("node " + node);
   if (node == "people") {
@@ -324,12 +342,28 @@ export const getData = (filter = null) => async (dispatch, getState) => {
   console.log("GLOGINPUT  ACTION GETDATA");
   const token = getState().notifications.token;
   const ge = await HTTP_GLOG.getGiftEvents(token, filter);
-  console.table(ge.GiftEvents);
   let temp = await HTTP.getModuleConfig(token, "Gift Log");
   let enums = temp.ModuleConfiguration.enumerations;
+
   let et = R.find(x => x.name == "Event Type", enums);
   let etValues = et.metaValues;
   dispatch(setConfig("eventTypes", etValues));
+
+  let pas = R.find(x => x.name === "Personal Assistant", enums);
+  let pasValues = pas.metaValues;
+  let counter = 0;
+  let changeObj = obj => {
+    return { ...obj, title: obj.name, value: counter++ };
+  };
+  pasValues = R.map(x => changeObj(x), pasValues);
+  dispatch(setConfig("personalAssistants", pasValues));
+
+  let animalTypes = R.find(x => x.name === "Animal Type", enums);
+  let animalTypesValues = animalTypes.metaValues;
+  counter = 0;
+  animalTypesValues = R.map(x => changeObj(x), animalTypesValues);
+  dispatch(setConfig("animalTypes", animalTypesValues));
+
   const changeKey = (obj, type) => {
     return { id: obj.uuid, type: type };
   };
@@ -340,9 +374,6 @@ export const getData = (filter = null) => async (dispatch, getState) => {
     let groups = R.map(x => changeKey(x, "groups"), obj.eventGroups);
     let orgs = R.map(x => changeKey(x, "orgs"), obj.eventOrganizations);
     let animals = R.map(x => changeKey(x, "animals"), obj.eventAnimals);
-    console.log(
-      JSON.stringify(Array.prototype.concat(people, groups, orgs, animals))
-    );
     return Array.prototype.concat(people, groups, orgs, animals);
   };
   const getGiftEventValue = str => {
@@ -360,7 +391,7 @@ export const getData = (filter = null) => async (dispatch, getState) => {
       ...obj,
       eventType: [obj.eventType],
       id: obj.uuid,
-      date: [`${obj.eventMonth}/${obj.eventDay}/${obj.eventYear}`],
+      date: [`${obj.eventMonth}/${obj.eventDay}`],
       recipients: combineRecipients(obj),
       giftHistory: [],
       requests: R.map(x => addKeyID(x), obj.eventGiftRequests),
@@ -406,6 +437,16 @@ export const GEI_add_recip = () => async (dispatch, getState) => {
   const login = getState().notifications.login;
   const id = getState().glogInput.searchID;
   const node = getState().glogInput.node;
+  const geis = getState().glogInput.giftEventInstances;
+  let recipients = R.prop("recipients", R.find(x => x.id === gei, geis));
+  console.log("ACTION gei_add_recip");
+  console.table(recipients);
+  if (recipients.length) {
+    console.log(R.contains(id, R.map(x => x.id, recipients)));
+    if (R.contains(id, R.map(x => x.id, recipients))) {
+      return;
+    }
+  }
   if (node === "people") {
     await HTTP_GLOG.createGiftEventPerson(token, login, gei, id);
   } else if (node === "groups") {
@@ -439,7 +480,6 @@ export const updateGiftInstance = payload => async (dispatch, getState) => {
       "recurring",
       "eventDay",
       "eventMonth",
-      "eventYear",
       "eventType",
       "registryStatus",
       "notes"
@@ -466,11 +506,19 @@ export const update = (payload, node) => ({
   node: node
 });
 
+const formatDateYYMMDD = strDate => {
+  console.log("date " + strDate);
+  let arrDate = strDate.split("/");
+  return arrDate[2] + arrDate[1] + arrDate[0];
+};
+
 export const updateForm = payload => async (dispatch, getState) => {
   const node = getState().glogInput.node;
   const token = getState().notifications.token;
   const login = getState().notifications.login;
   const id = getState().glogInput.searchID;
+  const personalAssts = getState().glogInput.personalAssistants;
+  const animalTypes = getState().glogInput.animalTypes;
   let httpPayload;
   console.log("ACTION updateForm " + node);
   console.table(payload);
@@ -490,6 +538,11 @@ export const updateForm = payload => async (dispatch, getState) => {
       ],
       payload
     );
+
+    httpPayload = {
+      ...httpPayload,
+      birthDate: formatDateYYMMDD(R.prop("birthDate", httpPayload))
+    };
     const updatePerson = await HTTP.updatePerson(token, id, httpPayload);
     console.table(updatePerson);
   } else if (node === "orgs") {
@@ -529,10 +582,28 @@ export const updateForm = payload => async (dispatch, getState) => {
       ["value", "giftNotes", "description", "sentiment", "assignedTo"],
       httpPayload
     );
+    const defaultTo0 = R.defaultTo("$0");
+    httpPayload = {
+      ...httpPayload,
+      value: removeFormatting(defaultTo0(R.prop("value", httpPayload)))
+    };
+    /* change dropdown values from int to string */
+    console.log("ACTION assignedTo == " + R.prop("assignedTo", httpPayload));
+    console.table(personalAssts);
+    let assignedTo = R.prop(
+      "title",
+      R.find(x => x.value == R.prop("assignedTo", httpPayload), personalAssts)
+    );
+    httpPayload = { ...httpPayload, assignedTo: assignedTo };
     const updateRequest = await HTTP_GLOG.updateGift(token, id, httpPayload);
   } else if (node == "animals") {
     console.log("ACTION if animals update");
     httpPayload = R.pick(["name", "type"], payload);
+    let type = R.prop(
+      "title",
+      R.find(x => x.value == R.prop("type", httpPayload), animalTypes)
+    );
+    httpPayload = { ...httpPayload, type: type };
     const updateAnimal = await HTTP_GLOG.updateAnimal(token, id, httpPayload);
     console.table(updateAnimal);
   }
@@ -652,10 +723,14 @@ export const updateSecondary = (
     let giftID = getState().glogInput.searchID;
     let giftObj = R.find(x => x.id === giftID, getState().glogInput.gifts);
     let vendorID = R.prop("vendor", giftObj);
-    let newPayload = R.omit(["status", "id"], {
+    let newPayload = R.omit(["status", "id", "uuid", "organization"], {
       ...payload,
       orderStatus: `${payload.status}`
     });
+    newPayload = {
+      ...newPayload,
+      orderDate: formatDateYYMMDD(R.prop("orderDate", newPayload))
+    };
     HTTP_GLOG.updateGiftVendor(token, giftID, vendorID, newPayload);
   } else if (node === "deliveries") {
     console.log("ACTION deliveries");
@@ -663,11 +738,17 @@ export const updateSecondary = (
     let giftObj = R.find(x => x.id === giftID, getState().glogInput.gifts);
     let locationID = R.prop("location", giftObj);
     let newPayload = R.omit(["id"], payload);
+    newPayload = {
+      ...newPayload,
+      confirmedDeliveryDate: formatDateYYMMDD(
+        R.prop("confirmedDeliveryDate", newPayload)
+      )
+    };
     HTTP_GLOG.updateGiftLocation(token, giftID, locationID, newPayload);
 
     //  let giftID = getState().glogInput.searchID;
   } else if (node === "vendors") {
-    console.log("action updatesecondary Vendors");
+    console.log("ACTION Vendors");
     let giftID = getState().glogInput.searchID;
     let giftObj = R.find(x => x.id === giftID, getState().glogInput.gifts);
     let str = R.prop("name", payload);
@@ -734,6 +815,16 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     x => dispatch(add2(changeKey(x), "requests", false)),
     ge.GiftEvent.eventGiftRequests
   );
+  const addKeyID = obj => {
+    return {
+      ...obj,
+      id: obj.uuid
+    };
+  };
+  R.map(
+    x => dispatch(add2(addKeyID(x), "people", false)),
+    ge.GiftEvent.eventPersons
+  );
   /*  add to  gifthistory in GEI  and gifts table */
   const requests = ge.GiftEvent.eventGiftRequests;
 
@@ -771,6 +862,8 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
   allGifts = R.map(x => formatForGifts(x), allGifts);
 
   const addToVendor = gift => {
+    console.log("addToVendor ");
+    console.table(gift);
     const gv = R.prop("giftVendor", gift);
     if (!gv) {
       return;
@@ -785,6 +878,8 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     return org.uuid;
   };
   const addToOrder = gift => {
+    console.log("addToOrder ");
+    console.table(gift);
     const gv = R.prop("giftVendor", gift);
     if (!gv) {
       return;
@@ -809,6 +904,7 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     let vendorID = addToVendor(gift);
     let orderID = addToOrder(gift);
     let deliveryID = addToDelivery(gift);
+    console.log("VOD ids " + [vendorID, orderID, deliveryID]);
     let newObj = {
       ...gift,
       vendor: vendorID,
@@ -817,7 +913,67 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     };
     console.log("gift payload ");
     console.log(JSON.stringify(newObj));
-    dispatch(add2(newObj, "gifts", false));
+    /***
+    LOOP THROUGH REQUEST GIFTS CREATE obj data for gift.requests [notes,giftyear,id]
+    add  array to gift.requests (same as on create gift)
+     */
+
+    const checkGifts = (reqGift, id) => {
+      /* reqGift is array of gifts */
+      console.table(reqGift);
+      console.table(R.map(x => x.gift, reqGift));
+      const createNewGiftObj = rg => {
+        const giftYr = R.prop("giftYear", rg);
+        const requestNotes = R.prop("requestNotes", rg);
+        const requestUUID = R.prop("requestUUID", rg);
+        const gift = rg.gift;
+        return {
+          ...gift,
+          giftYear: giftYr,
+          requestNotes: requestNotes,
+          requestUUID: requestUUID
+        };
+      };
+      console.table(R.map(x => createNewGiftObj(x), reqGift));
+      return R.map(x => createNewGiftObj(x), reqGift);
+    };
+    const addFieldToObj = obj => {
+      const requestNotes = R.prop("requestNotes", obj);
+      const requestUUID = R.prop("uuid", obj);
+      const newObj = x => {
+        return { ...x, requestNotes: requestNotes, requestUUID: requestUUID };
+      };
+      return R.map(x => newObj(x), obj.requestGifts);
+    };
+    const reqGifts = R.map(x => addFieldToObj(x), requests);
+    console.table(reqGifts);
+    let giftsWithRequestData = R.map(x => checkGifts(x, newObj.id), reqGifts);
+    giftsWithRequestData = R.map(x => x["0"], giftsWithRequestData);
+
+    console.table(giftsWithRequestData);
+
+    const addRequestData = (giftObj, requestObjs) => {
+      console.log(R.prop("id", giftObj));
+      const id = R.prop("id", giftObj);
+      console.table(requestObjs);
+      console.log(R.prop("uuid"), requestObjs[0]);
+      const reqObj = R.find(x => x.uuid == id, requestObjs);
+      console.table(reqObj);
+      return {
+        ...giftObj,
+        requests: [
+          {
+            id: R.prop("requestUUID", reqObj),
+            requestNotes: R.prop("requestNotes", reqObj),
+            giftYear: reqObj.giftYear
+          }
+        ]
+      };
+    };
+
+    dispatch(
+      add2(addRequestData(newObj, giftsWithRequestData), "gifts", false)
+    );
   };
   console.log("next addtotables");
   R.map(x => addToTables(x), allGifts);
@@ -851,19 +1007,31 @@ export const searchText = arr => ({
   payload: arr
 });
 
+const filterBeginsWith = (str, items, searchField) => {
+  const capFirst = str => {
+    console.log(str);
+    const head = R.head(str);
+    const tail = R.tail(str);
+    console.log(R.toUpper(head) + tail);
+    return R.toUpper(head) + tail;
+  };
+  console.table(
+    R.filter(x => R.indexOf(capFirst(str), x[searchField]) === 0, items)
+  );
+  return R.filter(x => R.indexOf(capFirst(str), x[searchField]) === 0, items);
+};
+
 const changeLabel = x => {
   return R.omit(["uuid"], {
     ...x,
     id: x.uuid
   });
 };
-export const searchOrganization = (str = "placeh") => async (
-  dispatch,
-  getState
-) => {
+export const searchOrganization = (str = "") => async (dispatch, getState) => {
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchOrganization(token, str);
   let orgs = R.map(x => changeLabel(x), newSearch.SearchOrganization);
+  orgs = filterBeginsWith(str, orgs, "name");
   dispatch(searchText(orgs));
 };
 export const searchPerson = (str = "") => async (dispatch, getState) => {
@@ -871,6 +1039,7 @@ export const searchPerson = (str = "") => async (dispatch, getState) => {
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchPerson(token, str);
   let peps = R.map(x => changeLabel(x), newSearch.SearchPerson);
+  peps = filterBeginsWith(str, peps, "lastName");
   dispatch(searchText(peps));
 };
 export const searchGroup = (str = "") => async (dispatch, getState) => {
@@ -878,6 +1047,7 @@ export const searchGroup = (str = "") => async (dispatch, getState) => {
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchGroup(token, str);
   let groups = R.map(x => changeLabel(x), newSearch.SearchGroup);
+  groups = filterBeginsWith(str, groups, "name");
   dispatch(searchText(groups));
 };
 export const searchAnimal = (str = "") => async (dispatch, getState) => {
@@ -885,6 +1055,7 @@ export const searchAnimal = (str = "") => async (dispatch, getState) => {
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchAnimal(token, str);
   let animals = R.map(x => changeLabel(x), newSearch.SearchAnimal);
+  animals = filterBeginsWith(str, animals, "name");
   dispatch(searchText(animals));
 };
 export const searchNode = (str = "") => async (dispatch, getState) => {

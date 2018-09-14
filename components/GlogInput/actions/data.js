@@ -15,7 +15,12 @@ export const person = {
   worksIn: [],
   roles: [],
   legalFirstName: "",
-  legalLastName: ""
+  legalLastName: "",
+  prefix: "",
+  suffix: "",
+  birthSurname: "",
+  notes: "",
+  alternateEmail: ""
 };
 
 export const gift = {
@@ -31,11 +36,15 @@ export const gift = {
 export const org = {
   name: "",
   contactNumber: "",
+  email: "",
+  notes: "",
+  website: "",
   selected: true
 };
 export const animal = {
   name: "",
-  type: ""
+  type: "",
+  notes: ""
 };
 export const group = {
   name: ""

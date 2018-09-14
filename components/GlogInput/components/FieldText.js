@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import * as R from "ramda";
 import TextField from "material-ui/TextField";
-import { isNumber, emailPattern, dateFormat } from "../utils/utils";
+import {
+  isNumber,
+  emailPattern,
+  dateFormat,
+  formatPhone,
+  formatDate,
+  formatCurrency
+} from "../utils/utils";
 import { debounce } from "throttle-debounce";
 
 class FieldText extends Component {
@@ -28,7 +35,22 @@ class FieldText extends Component {
   bubbleUp = (value, name) => {
     this.props.change(value, name);
   };
-
+  format = (value, type) => {
+    console.log("format " + [value, type]);
+    if (!value) {
+      return "";
+    }
+    switch (type) {
+      case "phone":
+        return formatPhone(value);
+      case "date":
+        return formatDate(value);
+      case "currency":
+        return formatCurrency(value);
+      default:
+        return value;
+    }
+  };
   validate = (value, type) => {
     //console.log("switch : " + [type, value]);
     switch (type) {
@@ -71,7 +93,7 @@ class FieldText extends Component {
     return (
       <div style={{ padding: "2px" }}>
         <TextField
-          value={this.state.data}
+          value={this.format(this.state.data, this.props.type)}
           hintText={R.prop("title", obj)}
           //defaultValue={`Enter ${R.prop("title", obj)}`}
           errorText={this.validate(this.state.data, this.props.type)}

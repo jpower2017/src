@@ -7,11 +7,21 @@ export default class FieldDropDown extends Component {
   constructor(props) {
     super(props);
     this.state = { options: this.props.options, status: 0 };
+    console.log("FDD options...");
+    console.table(this.props.options);
   }
   handleChange = (event, index, value) => {
     console.log("HandlechangeDD  value: " + value);
     this.setState({ status: value });
+    this.props.onselect(value);
   };
+  /*
+  
+    handleChange = (event, index, value) => {
+      console.log("HandlechangeDD  value: " + value);
+      this.props.onselect(value);
+    };
+  */
   showItems = () => {
     if (!this.state.options) {
       return;

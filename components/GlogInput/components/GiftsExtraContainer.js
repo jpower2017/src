@@ -13,10 +13,13 @@ class GiftsExtraContainer extends Component {
   render() {
     return (
       <div>
-        {this.props.giftYear ? (
-          <GiftsExtraForm giftYear={this.props.giftYear} />
+        {this.props.giftEventInstance ? (
+          <GiftsExtraForm
+            giftYear={this.props.giftYear}
+            bubbleUp={this.props.bubbleUp}
+          />
         ) : (
-          <div>Loading</div>
+          <div>Loading...</div>
         )}
       </div>
     );
@@ -73,11 +76,35 @@ const getGiftYear = (gei, giftID = null) => {
     : null
 });
 */
+const returnGiftYr = objGift => {
+  console.log("GiftExtraCOntainer returnGiftYr f");
+  console.table(objGift);
+  if (!objGift) {
+    return;
+  }
+
+  const r = R.prop("requests", objGift);
+  if (!r.length) {
+    return;
+  }
+  return R.prop("giftYear", r[0]);
+  /*
+  R.prop(
+      "giftYear",
+      R.find(x => x.id === state.glogInput.searchID, state.glogInput.gifts)
+    )
+  */
+};
 const mapStateToProps = (state, ownProps) => ({
   giftEventInstance: state.glogInput.selectedRow
     ? R.find(
         x => x.id === state.glogInput.selectedRow,
         state.glogInput.giftEventInstances
+      )
+    : null,
+  giftYear: state.glogInput.searchID
+    ? returnGiftYr(
+        R.find(x => x.id === state.glogInput.searchID, state.glogInput.gifts)
       )
     : null
 });

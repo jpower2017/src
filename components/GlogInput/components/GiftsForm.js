@@ -65,6 +65,7 @@ class GiftsForm extends Component {
                 bubbleUp={this.formSave}
                 bubbleNew={() => this.setState({ createNew: true })}
                 hideCreateButton={action === "edit"}
+                config={this.props.configPersonalAssts}
               />
             </div>
             <div
@@ -74,20 +75,7 @@ class GiftsForm extends Component {
               }}
             >
               <Paper>
-                <FieldText
-                  obj={{ title: "Gift year", name: "giftYear" }}
-                  //  data={this.props. a}
-                  change={this.change}
-                />
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <div>Active:</div>
-                  <FieldDropDown
-                    options={registryStatuses}
-                    status={this.state.status ? this.state.status : 0}
-                    //data={ }
-                    onselect={value => this.change(value, "status")}
-                  />
-                </div>
+                <GiftsExtraContainer bubbleUp={this.change} />
               </Paper>
             </div>
             <div

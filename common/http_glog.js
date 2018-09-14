@@ -17,7 +17,6 @@ export const getGiftEvents = (jwt, filter) => {
       addedDate
       eventDay
       eventMonth
-      eventYear
       eventType
       notes
       registryStatus
@@ -68,7 +67,20 @@ export const getGiftEvent = (jwt, id) => {
       eventPersons{
         uuid,
         firstName,
-        lastName
+        lastName,
+        middleName,
+        legalFirstName,
+        legalLastName,
+        personalMobile,
+        personalEmail,
+        alternateEmail,
+        gender,
+        birthDate,
+        birthSurname,
+        prefix,
+        suffix,
+        notes,
+       
       }
       eventGroups{
         uuid,
@@ -156,8 +168,7 @@ export const createGiftEvent = (jwt, login) => {
   console.log("HTTP createGiftEvent");
   const tempJSON = {
     eventDay: "01",
-    eventMonth: "05",
-    eventYear: "01",
+    eventMonth: "01",
     eventType: "01",
     recurring: "Yes",
     registryStatus: "Yes",

@@ -2,7 +2,14 @@ import React, { Component } from "react";
 import * as R from "ramda";
 import TextField from "material-ui/TextField";
 import { debounce } from "throttle-debounce";
-import { isNumber, emailPattern, dateFormat } from "../../utils/utils";
+import {
+  isNumber,
+  emailPattern,
+  dateFormat,
+  formatPhone,
+  formatDate,
+  formatCurrency
+} from "../../utils/utils";
 
 class FieldText extends Component {
   constructor(props) {
@@ -20,6 +27,22 @@ class FieldText extends Component {
     }
     this.setState({ data: nextProps.data });
   }
+  format = (value, type) => {
+    console.log("format " + [value, type]);
+    if (!value) {
+      return;
+    }
+    switch (type) {
+      case "phone":
+        return formatPhone(value);
+      case "date":
+        return formatDate(value);
+      case "currency":
+        return formatCurrency(value);
+      default:
+        return value;
+    }
+  };
   validate = (value, type) => {
     //console.log("switch : " + [type, value]);
     if (!value) {
@@ -27,7 +50,7 @@ class FieldText extends Component {
     }
     switch (type) {
       case "phone":
-        return value.replace(/[-,(,)]/g, "").length != 10;
+        return value.replace(/[.,(,)]/g, "").length != 10;
         break;
       case "email":
         return !emailPattern.test(value);
@@ -66,7 +89,7 @@ class FieldText extends Component {
     return (
       <div style={{ padding: "2px" }}>
         <TextField
-          value={this.state.data}
+          value={this.format(this.state.data, this.props.type)}
           hintText={obj.title}
           floatingLabelText={obj.title}
           errorText={this.validate(this.state.data, this.props.type)}

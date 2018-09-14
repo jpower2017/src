@@ -16,7 +16,7 @@ import WelcomeScreen from "./WelcomeScreen/WelcomeScreen";
 //import FlowWrightIntiateAPI from "./test/FlowWright-initate-api";
 import WorkflowHR from "./WorkflowHR/App.js";
 import GlogInput from "./GlogInput/components/Main";
-import QuickAccess from "./QuickAccess/Form";
+import QuickAccess from "./QuickAccess/FormContainer";
 
 class MainPage extends Component {
   constructor(props) {
