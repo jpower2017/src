@@ -20,7 +20,7 @@ class TableContainer extends Component {
       col: null,
       ascend: null,
       page: 0,
-      perPage: 20,
+      perPage: 100,
       totalRows: null,
       bPaginated: true,
       people: this.props.people,
@@ -40,27 +40,43 @@ class TableContainer extends Component {
   removeSubmitColumn = columns => {
     return R.filter(x => x.name !== "override", columns);
   };
+  /*
   byDate = (a, b) => {
     const c = new Date(a.date);
     const d = new Date(b.date);
     return this.state.ascend ? c - d : d - c;
   };
+  */
+  byDate = (a, b) => {
+    console.log("byDate " + [JSON.stringify(a), JSON.stringify(b)]);
+    const c = a.eventMonth;
+    const d = b.eventMonth;
+    console.log("c== " + c);
+    console.log("d== " + d);
+    console.log("byDate this.state.ascend " + this.state.ascend);
+    console.log(this.state.ascend ? c - d : d - c);
+    return this.state.ascend ? c - d : d - c;
+  };
   onSort = (col, ascend) => {
+    console.log("TCM onSort " + [col, ascend]);
     this.setState({ col: col, ascend: ascend });
     this.tcSort(this.props.rows);
   };
   tcSort = rows => {
     let col = this.state.col;
     /* hack column as name = firstName +lastName */
-    col = "id";
+    col = "date";
     let ascend = this.state.ascend;
+    console.log("tcSort " + ascend);
     let newRows, byStatus;
-    if (col == "date") {
-      newRows = R.sort(this.byDate, rows);
-    } else {
-      byStatus = ascend ? R.descend(R.prop(col)) : R.ascend(R.prop(col));
-      newRows = R.sort(byStatus, rows);
-    }
+    //if (col == "date") {
+    //  console.log("col is date");
+    //newRows = R.sort(this.byDate, rows);
+    //  } else {
+    console.log("col is NOT date");
+    byStatus = ascend ? R.descend(R.prop(col)) : R.ascend(R.prop(col));
+    newRows = R.sort(byStatus, rows);
+    //  }
     return newRows;
   };
   paginated = i => {
@@ -102,7 +118,12 @@ class TableContainer extends Component {
   getColumns = node => {
     return columnsGiftEventInstance;
   };
-
+  sortByCol = rows => {
+    const createdSort = this.state.ascend
+      ? R.sortWith([R.ascend(R.prop([this.state.col]))])
+      : R.sortWith([R.descend(R.prop([this.state.col]))]);
+    return createdSort(rows);
+  };
   render() {
     return (
       <div>
@@ -110,15 +131,16 @@ class TableContainer extends Component {
           <Table
             columns={
               !this.props.submittable
-                ? R.compose(this.sortColumns, this.removeSubmitColumn)(
-                    this.getColumns(this.props.node)
-                  )
+                ? R.compose(
+                    this.sortColumns,
+                    this.removeSubmitColumn
+                  )(this.getColumns(this.props.node))
                 : this.sortColumns(this.getColumns(this.props.node))
             }
             rows={
               this.state.bPaginated
-                ? this.paginateRows(this.props.rows)
-                : this.props.rows
+                ? this.sortByCol(this.paginateRows(this.props.rows))
+                : this.sortByCol(this.props.rows)
             }
             rollOverColor="#9ccc65"
             stripeRows={true}
@@ -228,6 +250,20 @@ const clean = (instances, people, orgs, groups, animals, mainFilter = null) => {
   //return filterList(mainFilter, wholeList);
   return wholeList;
 };
+const clean2 = rawGEIs => {
+  const newObj = obj => {
+    return {
+      ...obj,
+      id: obj.uuid,
+      date: `${obj.eventMonth}/${obj.eventDay}`,
+      recipients: R.uniq(
+        R.map(x => `${x.firstName} ${x.lastName}`, obj.eventPersons)
+      ),
+      registry: obj.registryStatus
+    };
+  };
+  return R.map(x => newObj(x), rawGEIs);
+};
 const sortByTimestamp = rows => {
   const createdSort = R.sortWith([R.descend(R.prop("createdTimestamp"))]);
   return createdSort(rows);
@@ -239,21 +275,7 @@ const mapStateToProps = (state, ownProps) => ({
   animals: state.glogInput.animals ? state.glogInput.animals : null,
   orgs: state.glogInput.orgs ? state.glogInput.orgs : null,
   gifts: state.glogInput.gifts ? state.glogInput.gifts : null,
-  rows: clean(
-    sortByTimestamp(state.glogInput.giftEventInstances),
-    state.glogInput.people,
-    state.glogInput.orgs,
-    state.glogInput.groups,
-    state.glogInput.animals
-  )
-    ? clean(
-        sortByTimestamp(state.glogInput.giftEventInstances),
-        state.glogInput.people,
-        state.glogInput.orgs,
-        state.glogInput.groups,
-        state.glogInput.animals
-      )
-    : null,
+  rows: state.glogInput.GEI_RAW ? clean2(state.glogInput.GEI_RAW) : null,
   totalRows: state.glogInput.giftEventInstances
     ? state.glogInput.giftEventInstances.length
     : null
@@ -275,8 +297,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 });
 
-const TableContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  TableContainer
-);
+const TableContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TableContainer);
 
 export default TableContainer2;

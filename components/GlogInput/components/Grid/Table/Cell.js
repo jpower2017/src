@@ -3,6 +3,17 @@ import * as R from "ramda";
 
 class Cell extends Component {
   displayCell = arr => {
+    if (typeof arr == "string") {
+      return (
+        <div
+          style={{
+            display: "flex"
+          }}
+        >
+          <ul>{arr}</ul>
+        </div>
+      );
+    }
     return arr.map((x, i) => {
       return (
         <div

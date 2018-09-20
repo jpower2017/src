@@ -64,7 +64,7 @@ const mapStateToProps = (state, ownProps) => ({
   vendors: state.glogInput.vendors,
   searchText: state.glogInput.searchText
     ? state.glogInput.searchText
-    : ["place"]
+    : ["formVendorContainer placeholder"]
 
   //title: this.props.data ? "Data for item selected" : "Select item"
 });
@@ -88,8 +88,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   */
 });
 
-const FormContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  FormContainer
-);
+const FormContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormContainer);
 
 export default FormContainer2;

@@ -43,6 +43,7 @@ class Summary extends Component {
           labelColor={"#fff"}
           style={{ marginTop: "15px", marginRight: "20px" }}
           onClick={this.props.onDialog}
+          disabled={this.props.loading}
         />
 
         <hr />

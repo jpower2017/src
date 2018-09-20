@@ -40,8 +40,8 @@ class FormVendor extends Component {
             dataSource={R.map(x => x.name, this.props.vendors)}
             maxSearchResults={5}
           />
+          TEMP TEST
           {this.showTextF("Vendor name", data ? data.name : null)}
-          {this.showTextF("Work #", data ? data.work : null)}
         </div>
       </Paper>
     );

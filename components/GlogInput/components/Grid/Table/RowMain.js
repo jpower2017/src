@@ -58,7 +58,9 @@ export default class Row extends React.Component {
           }}
         >
           {R.map(
-            x => <MenuItem value={x.status} primaryText={x.title} />,
+            x => (
+              <MenuItem value={x.status} primaryText={x.title} />
+            ),
             statuses
           )}
         </DropDownMenu>
@@ -70,7 +72,7 @@ export default class Row extends React.Component {
     const ks = R.keys(objData);
     return R.map(
       x =>
-        R.contains(x, ["eventType", "date", "recipients"]) && (
+        R.contains(x, ["eventType", "date", "recipients", "registry"]) && (
           <Cell data={objData[x]} />
         ),
       ks

@@ -41,11 +41,18 @@ export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: ""
+      searchText: this.props.gei.eventType[0]
+    };
+  }
+  componentDidMount() {
+    this.state = {
+      searchText: this.props.gei.eventType[0]
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    //console.log("Events nextProps  " + JSON.stringify(nextProps));
+    this.setState({ searchText: nextProps.gei.eventType[0] });
     if (!nextProps.giftEventTypes) {
       return;
     }
@@ -54,8 +61,8 @@ export default class Events extends Component {
     }
     this.state = {
       events: R.map(x => x.name, nextProps.giftEventTypes)
+      //searchText: nextProps.gei.eventType[0]
     };
-    console.log("nextProps.data(event) " + nextProps.data);
   }
   handleChange = event => {
     //this.props.onTextChange(event.value, e.name)
@@ -64,6 +71,8 @@ export default class Events extends Component {
     });
   };
   handleUpdateInput = searchText => {
+    console.log("EVENTS.js handleUpdateInput " + searchText);
+
     this.setState({
       searchText: searchText
     });
@@ -76,6 +85,10 @@ export default class Events extends Component {
   onNew = () => {
     this.setState({ searchText: "" });
     this.props.onNew();
+  };
+  getSearch = txt => {
+    this.setState({ searchText: txt });
+    return txt;
   };
   render() {
     const { gei } = this.props;
@@ -119,6 +132,7 @@ export default class Events extends Component {
             {this.state.events && (
               <AutoComplete
                 hintText="Select gift event type"
+                //  searchText={this.state.searchText}
                 searchText={this.state.searchText}
                 onUpdateInput={this.handleUpdateInput}
                 onNewRequest={this.handleNewRequest}
@@ -137,7 +151,7 @@ export default class Events extends Component {
             </div>
             <FieldDropDown
               options={registryStatuses}
-              status={gei.registry[0]}
+              status={gei.registry[0] == "Yes" ? 1 : 0}
               //data={ }
               onselect={this.props.onRegistry}
             />

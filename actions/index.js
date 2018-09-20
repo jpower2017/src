@@ -72,13 +72,37 @@ export const getNotifications = () => async dispatch => {
   });
 };
 
-export const getNotifications2 = () => async dispatch => {
-  const data = await HTTP.getPortalUsers(token, login);
-  const portalUsers = R.prop("PortalUsers", data);
-  Log("ALL PORTAL USERS...");
-  LogTable(portalUsers);
-  dispatch(receivePortalUsers(portalUsers));
+/*  to do why passing http.getuser instead of grabbing from redux */
+export const getNotifications2 = () => async (dispatch, getState) => {
+  console.log("ACTION getNotifications2");
+  //const userData = await HTTP.getUser(token, login);
+  //  const roleNames = R.map(x => x.name, userData.PortalUser.roles);
+  const roleNames = R.map(x => x.name, getState().notifications.user.roles);
+  console.table(roleNames);
+  const showPresence = R.contains("Presence Viewer Submitter", roleNames);
+  console.log(showPresence);
+  if (showPresence) {
+    const data = await HTTP.getPortalUsers(token, login);
+    const portalUsers = R.prop("PortalUsers", data);
+    Log("ALL PORTAL USERS...");
+    LogTable(portalUsers);
+    dispatch(receivePortalUsers(portalUsers));
+  }
 };
+/*  REPLACE DUPLICATE CODE IN getNotification and getNotifications2 with callPresence */
+/*
+const callPresence = () => async dispatch => {
+  const userData = await HTTP.getUser(token, login);
+  const roleNames = R.map(x => x.name, userData.PortalUser.roles);
+  const bPresence = R.contains("Presence Viewer Submitter", roleNames);
+  const httpCall = async (token, login) => {
+    const data = await HTTP.getPortalUsers(token, login);
+    const portalUsers = R.prop("PortalUsers", data);
+    dispatch(receivePortalUsers(portalUsers));
+  };
+  bPresence && httpCall(token, login);
+};
+*/
 export const receivePortalUsers = json => ({
   type: PRESENCE_RECEIVE_ROWS,
   rows: json

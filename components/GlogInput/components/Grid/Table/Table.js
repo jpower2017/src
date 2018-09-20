@@ -37,8 +37,10 @@ export default class Table extends React.Component {
 
   /** FROM HEADER **/
   onSortFunc = col => {
+    console.log("Table onSortFunc col: " + col);
     let byStatus;
     let newData;
+    console.log("this.state.ascend " + this.state.ascend);
     this.setState({
       col: col,
       ascend: !this.state.ascend

@@ -70,7 +70,9 @@ export default class Row extends React.Component {
           }}
         >
           {R.map(
-            x => <MenuItem value={x.status} primaryText={x.title} />,
+            x => (
+              <MenuItem value={x.status} primaryText={x.title} />
+            ),
             statuses
           )}
         </DropDownMenu>
@@ -89,7 +91,9 @@ export default class Row extends React.Component {
               "middleName",
               "lastName",
               "name",
-              "type"
+              "type",
+              "birthSurname",
+              "legalLastName"
             ]) && <Cell data={[objData[x]]} />,
       ks
     );

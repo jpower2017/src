@@ -30,15 +30,6 @@ class GiftsForm extends Component {
           data={this.props.giftYear}
           change={this.props.bubbleUp}
         />
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div>Active:</div>
-          <FieldDropDown
-            options={registryStatuses}
-            status={this.state.status ? this.state.status : 0}
-            //data={ }
-            onselect={value => this.change(value, "status")}
-          />
-        </div>
       </Paper>
     );
   }

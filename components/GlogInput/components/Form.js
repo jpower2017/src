@@ -16,13 +16,19 @@ class FormOrder extends Component {
     };
   }
   componentDidMount() {
-    this.state = { data: this.props.data };
+    console.log("FORM CDM name: " + this.props.data["name"]);
+    this.state = { data: this.props.data, searchText: this.props.data["name"] };
   }
   componentWillReceiveProps(nextProps) {
     console.log("CWRP");
     console.log(JSON.stringify(nextProps.searchText));
+    console.log("name " + nextProps.data["name"]);
+    if (this.state.vendors) {
+      return;
+    }
     this.setState({
-      tab: nextProps.selection
+      tab: nextProps.selection,
+      searchText: nextProps.data["name"]
     });
     if (nextProps.searchText) {
       this.setState({
@@ -32,10 +38,11 @@ class FormOrder extends Component {
   }
 
   handleUpdateInput = searchText => {
-    this.props.bubbleUp(searchText);
+    console.log("handleUpdateInput searchText: " + searchText);
     this.setState({
       searchText: searchText
     });
+    //  this.props.bubbleUp(searchText);
   };
 
   handleNewRequest = x => {

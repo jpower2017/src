@@ -12,7 +12,8 @@ import {
   getData,
   setSearchID,
   setRequestID,
-  setAction
+  setAction,
+  loadConfigs
 } from "../actions";
 import Summary from "./Summary";
 import { events, registryStatuses } from "../common/data";
@@ -41,9 +42,11 @@ class SummaryContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.props.onselected(1);
   }
   componentDidMount() {
     this.props.loadData();
+    this.props.loadConfigs();
   }
   /*For event dropdown */
   mergeObj(value) {
@@ -144,6 +147,7 @@ class SummaryContainer extends Component {
             ondelete={this.props.ondelete}
             onAdd={value => this.onAdd(value)}
             giftEventTypes={this.props.giftEventTypes}
+            loading={this.props.loading}
             //setRequestID={value => this.props.setRequestID(value)}
           />
         ) : null}
@@ -260,7 +264,10 @@ const mapStateToProps = (state, ownProps) => ({
         state.glogInput.giftEventInstances
       )
     : null,
-  giftEventTypes: state.glogInput.eventTypes ? state.glogInput.eventTypes : null
+  giftEventTypes: state.glogInput.eventTypes
+    ? state.glogInput.eventTypes
+    : null,
+  loading: state.glogInput.loading
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -270,7 +277,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   loadData: () => {
     dispatch(loadData());
-    dispatch(getData());
+    //  dispatch(getData());
   },
   setNode: x => {
     dispatch(setNode(x));
@@ -290,11 +297,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   setAction: x => {
     dispatch(setAction(x));
+  },
+  loadConfigs: () => {
+    dispatch(loadConfigs());
   }
 });
 
-const SummaryContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  SummaryContainer
-);
+const SummaryContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SummaryContainer);
 
 export default SummaryContainer2;

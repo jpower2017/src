@@ -29,7 +29,9 @@ import {
   GLOG_SEARCHTEXT,
   GLOG_UPDATE_FIELD,
   GLOG_FILTER_GEIS,
-  SET_CONFIG_GIFT_LOG
+  SET_CONFIG_GIFT_LOG,
+  SET_VAR,
+  SET_RAW_AND_GEI_LOAD
 } from "../actions";
 import {
   dataGifts,
@@ -68,8 +70,57 @@ let newRows,
   newGift,
   t,
   gei;
+
+const tweakData = obj => {
+  console.log("tweakData");
+  const addKeyID = obj => {
+    return { id: obj.uuid, ...obj, type: "requests" };
+  };
+  const combineRecipients = obj => {
+    const changeKey = (obj, type) => {
+      return { id: obj.uuid, type: type };
+    };
+    //  console.log("ACTION combineRecipients");
+    let people = R.map(x => changeKey(x, "people"), obj.eventPersons);
+    let groups = R.map(x => changeKey(x, "groups"), obj.eventGroups);
+    let orgs = R.map(x => changeKey(x, "orgs"), obj.eventOrganizations);
+    let animals = R.map(x => changeKey(x, "animals"), obj.eventAnimals);
+    return Array.prototype.concat(people, groups, orgs, animals);
+  };
+  return {
+    ...obj,
+    eventType: [obj.eventType],
+    id: obj.uuid,
+    date: [`${obj.eventMonth}/${obj.eventDay}`],
+    recipients: combineRecipients(obj),
+    giftHistory: [],
+    requests: R.map(x => addKeyID(x), obj.eventGiftRequests),
+    eventMonth: `${obj.eventMonth}`,
+    notes: [obj.notes],
+    recurring: [obj.recurring],
+    registry: [obj.registryStatus]
+  };
+};
 export const glogInput = (state = [], action) => {
   switch (action.type) {
+    case SET_RAW_AND_GEI_LOAD:
+      console.log("REDUCER SET_RAW_AND_GEI_LOAD");
+      newObj = x => {
+        return { ...x, id: x.uuid };
+      };
+      return {
+        ...state,
+        GEI_RAW: [...state.GEI_RAW, ...action.payload],
+        giftEventInstances: [
+          ...state.giftEventInstances,
+          ...R.map(x => tweakData(x), action.payload)
+        ]
+      };
+    case SET_VAR:
+      return {
+        ...state,
+        [action.name]: action.payload
+      };
     case SET_CONFIG_GIFT_LOG:
       return {
         ...state,
@@ -179,7 +230,8 @@ export const glogInput = (state = [], action) => {
         vendors: dataVendors,
         deliveries: dataDeliveries,
         orders: dataOrders,
-        config: []
+        config: [],
+        GEI_RAW: []
       };
     case GLOG_ADD_DATA:
       return {
@@ -196,7 +248,7 @@ export const glogInput = (state = [], action) => {
           ...state.giftEventInstances,
           {
             id: action.id,
-            eventType: ["1"],
+            eventType: [""],
             date: [""],
             recipients: [],
             giftHistory: [],

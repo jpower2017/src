@@ -64,8 +64,7 @@ export const location = {
   placeID: ""
 };
 export const vendor = {
-  name: "",
-  contactNumber: ""
+  name: ""
 };
 export const delivery = {
   attentionTo: "",

@@ -65,11 +65,11 @@ class GiftsRequestsContainer extends Component {
     console.log(JSON.stringify(tempRequest));
     let newTempRequest = {
       ...tempRequest,
-      requests: { ...tempRequest.requests, requestNotes: obj.requestNotes }
+      requests: [{...tempRequest.requests['0'], requestNotes: obj.requestNotes,...this.props.giftRequestGiftPayload }]
     };
     console.log(JSON.stringify(newTempRequest));
     this.props.updateSecondary(
-      tempRequest,
+      newTempRequest,
       "gifts",
       x,
       this.props.giftRequestGiftPayload

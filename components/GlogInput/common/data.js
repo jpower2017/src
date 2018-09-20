@@ -20,6 +20,11 @@ export const activeStatuses = [
   { name: "true", title: "True", value: 1 },
   { name: "false", title: "False", value: 0 }
 ];
+export const genderStatuses = [
+  { name: "female", title: "Female", value: 1 },
+  { name: "male", title: "Male", value: 2 },
+  { name: "unknown", title: "Unknow", value: 3 }
+];
 export const assignedTo = [
   { status: "placeholder", title: "Assigned to:", value: "" },
   { status: "person1", title: "Person one", value: 1 }
@@ -27,14 +32,17 @@ export const assignedTo = [
 export const columnsGiftEventInstance = [
   { name: "eventType", title: "EVENT", type: "string", order: 1 },
   { name: "date", title: "DATE", type: "string", order: 2 },
-  { name: "recipients", title: "RECIPIENTS", type: "string", order: 3 }
+  { name: "recipients", title: "RECIPIENTS", type: "string", order: 3 },
+  { name: "registry", title: "REGISTRY STATUS", type: "string", order: 4 }
 ];
 
 export const columnsPerson = [
   { name: "placeholder", title: "", type: "string", order: 1 },
   { name: "firstName", title: "First name", type: "string", order: 2 },
   { name: "middleName", title: "Middle name", type: "string", order: 3 },
-  { name: "lastName", title: "Last name", type: "string", order: 4 }
+  { name: "lastName", title: "Last name", type: "string", order: 4 },
+  { name: "birthSurname", title: "Surname", type: "string", order: 5 },
+  { name: "legalLastName", title: "Legal last name", type: "string", order: 6 }
 ];
 
 export const columnsOrg = [
@@ -120,7 +128,11 @@ export const fieldsPerson = [
   { name: "firstName", title: "First name" },
   { name: "lastName", title: "Last name" },
   { name: "middleName", title: "Middle name" },
-  { name: "gender", title: "Gender", type: "gender" },
+  {
+    name: "gender",
+    title: "Gender",
+    type: "gender"
+  },
   { name: "birthDate", title: "Date of birth", type: "date" },
   { name: "personalEmail", title: "Personal email", type: "email" },
   { name: "alternateEmail", title: "Alternate email", type: "email" },
@@ -230,8 +242,7 @@ export const fieldsLocation = [
 ];
 
 export const fieldsVendor = [
-  { name: "name", title: "Name", uiType: "autoComplete" },
-  { name: "contactNumber", title: "Contact number" }
+  { name: "name", title: "Name", uiType: "autoComplete" }
 ];
 export const fieldsDelivery = [
   { name: "attentionTo", title: "Attention to" },

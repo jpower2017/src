@@ -65,7 +65,7 @@ export const setPreferences = (jwt, uuid, login, input) => {
 };
 
 export const getUser = (jwt, login) => {
-  console.log("http getUser");
+  console.log("http getUser " + [jwt, login]);
   const query = `
   query {
     PortalUser {
@@ -85,9 +85,7 @@ export const getUser = (jwt, login) => {
       locations{
         type
         notes
-        location{
-          name
-        }
+        name
       }
       notifications {
         uuid

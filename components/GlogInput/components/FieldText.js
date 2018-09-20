@@ -36,7 +36,7 @@ class FieldText extends Component {
     this.props.change(value, name);
   };
   format = (value, type) => {
-    console.log("format " + [value, type]);
+    //  console.log("format " + [value, type]);
     if (!value) {
       return "";
     }
