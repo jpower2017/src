@@ -11,7 +11,7 @@ class FormOrder extends Component {
     this.state = {
       saveEnabled: false,
       dataSource: [],
-      searchText: "",
+      searchText: this.props.data["name"],
       vendors: []
     };
   }
@@ -24,11 +24,11 @@ class FormOrder extends Component {
     console.log(JSON.stringify(nextProps.searchText));
     console.log("name " + nextProps.data["name"]);
     if (this.state.vendors) {
-      return;
+      //return;
     }
     this.setState({
-      tab: nextProps.selection,
-      searchText: nextProps.data["name"]
+      tab: nextProps.selection
+      //searchText: nextProps.data["name"]
     });
     if (nextProps.searchText) {
       this.setState({
@@ -42,7 +42,7 @@ class FormOrder extends Component {
     this.setState({
       searchText: searchText
     });
-    //  this.props.bubbleUp(searchText);
+    this.props.bubbleUp(searchText);
   };
 
   handleNewRequest = x => {

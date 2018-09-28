@@ -11,10 +11,6 @@ const employee = [
     name: "BSCC PTO & Private Appointment Reporting",
     link: "https://bluespruce.box.com/s/a7kfngdqa783jk2o3ejb8x67n1u8o8dn",
     locations: ["BSCC Broomfield"]
-  },
-  {
-    name: "Out-of-office Process",
-    link: "https://bluespruce.box.com/s/etyja4gc22murakqbl7u63q2jge2x6rr"
   }
 ];
 const financial = [
@@ -23,8 +19,9 @@ const financial = [
     link: "https://bluespruce.box.com/s/jqm3dx51otuukz1zx1tsbqt0bu8rizg8"
   },
   {
-    name: "ExpressToll Request/update Form",
-    link: "https://bluespruce.box.com/s/c0sw7osdsbyutkzffw15nypiamrhpqcb"
+    name: "Toll Pass Request/Update",
+    link: "https://bluespruce.box.com/s/c0sw7osdsbyutkzffw15nypiamrhpqcb",
+    locations: ["BSCC Broomfield"]
   },
   {
     name: "Direct Deposit for Expense-reimbursement Form",
@@ -37,13 +34,18 @@ const financial = [
   {
     name: "2018 BSCC Travel Policy",
     link: "https://bluespruce.box.com/s/24x5s4qhhbppvfvxq1918aizag34pjbr",
-    locations: ["BSCC Broomfield", "Houston"]
+    locations: ["BSCC Broomfield", "BSCC Houston"]
   },
 
   {
     name: "2018 BSCC Travel Policy - Houston Office Addendum",
     link: "https://bluespruce.box.com/s/r5qpnb86sqlyh5eltlph1gq0ee4h5c7t",
-    locations: ["Houston"]
+    locations: ["BSCC Houston"]
+  },
+  {
+    name: "EZ Tag",
+    link: "https://bluespruce.app.box.com/file/312463821265",
+    locations: ["BSCC Houston"]
   }
 ];
 const operations = [

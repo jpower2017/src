@@ -16,6 +16,11 @@ export const BANK_ONE_NAME = "BANK_ONE_NAME";
 export const BANK_TWO_UUID = "BANK_TWO_UUID";
 export const RECEIVE_BANK_TWO = "RECEIVE_BANK_TWO";
 export const BANK_TWO_NAME = "BANK_TWO_NAME";
+
+export const BANK_THREE_UUID = "BANK_THREE_UUID";
+export const RECEIVE_BANK_THREE = "RECEIVE_BANK_THREE";
+export const BANK_THREE_NAME = "BANK_THREE_NAME";
+
 export const BANK_SELECTION = "BANK_SELECTION";
 export const BANK_START_REQUEST = "START_REQUEST";
 
@@ -62,6 +67,20 @@ export const receiveBankTwo = json => ({
   type: RECEIVE_BANK_TWO,
   bankTwo: json
 });
+
+export const receiveBankThreeUUID = uuid => ({
+  type: BANK_THREE_UUID,
+  bankThreeUUID: uuid
+});
+export const receiveBankThreeName = strName => ({
+  type: BANK_THREE_NAME,
+  bankThreeName: strName
+});
+export const receiveBankThree = json => ({
+  type: RECEIVE_BANK_THREE,
+  bankThree: json
+});
+
 export const startRequest = () => ({
   type: BANK_START_REQUEST
 });
@@ -87,6 +106,15 @@ export const getData = bRefresh => async (dispatch, getState) => {
     dispatch(receiveBankTwoUUID(bankTwoUUID));
     dispatch(receiveBankTwoName(bankTwoName));
   }
+
+  if (banks[2].uuid) {
+    const bankThreeUUID = banks[2].uuid;
+    const bankThreeName = banks[2].name;
+    dispatch(receiveBankThree(R.prop("positivePaySubmissions", banks[2])));
+    dispatch(receiveBankThreeUUID(bankThreeUUID));
+    dispatch(receiveBankThreeName(bankThreeName));
+  }
+
   /* if not REFRESH, then INIT **/
   if (!bRefresh) {
     dispatch(submitBankSelection(bankOneName));
@@ -105,10 +133,12 @@ export const submitRow = (id, submitType) => async (dispatch, getState) => {
   let newItem, ppSubmit, fileData, initials;
   const b = getState().banks.bankNameSelection;
   let data;
-  if (b === "Bank of America") {
+  if (b === "Bank of America - New York") {
     data = getState().banks.bankOne;
-  } else {
+  } else if (b === "Bank of America - Texas") {
     data = getState().banks.bankTwo;
+  } else {
+    data = getState().banks.bankThree;
   }
   const item = R.find(x => x.uuid === id, data);
   if (id) {
@@ -121,8 +151,10 @@ export const submitRow = (id, submitType) => async (dispatch, getState) => {
   const token = getState().notifications.token;
   const login = getState().notifications.login;
   const bankSelection = getState().banks.bankNameSelection;
-  if (bankSelection == "Bank of America") {
-    initials = "BOA";
+  if (bankSelection == "Bank of America - New York") {
+    initials = "BOANY";
+  } else if (b === "Bank of America - Texas") {
+    initials = "BOT";
   } else {
     initials = "COB";
   }
@@ -135,7 +167,11 @@ export const submitRow = (id, submitType) => async (dispatch, getState) => {
     dispatch(
       rowSubmit(
         ppSubmit["CreatePositivePaySubmission"],
-        b === "Bank of America" ? "bankOne" : "bankTwo"
+        b === "Bank of America - New York"
+          ? "bankOne"
+          : "Bank of America - Texas"
+            ? "bankTwo"
+            : "bankThree"
       )
     );
   } else {
@@ -158,7 +194,11 @@ export const submitRow = (id, submitType) => async (dispatch, getState) => {
     dispatch(
       rowSubmit(
         ppSubmit["CreateManualPositivePaySubmission"],
-        b === "Bank of America" ? "bankOne" : "bankTwo"
+        b === "Bank of America - New York"
+          ? "bankOne"
+          : "Bank of America - Texas"
+            ? "bankTwo"
+            : "bankThree"
       )
     );
   }
@@ -171,8 +211,10 @@ export const submitNewRow = submitType => async (dispatch, getState) => {
   const token = getState().notifications.token;
   const login = getState().notifications.login;
   const bankSelection = getState().banks.bankNameSelection;
-  if (bankSelection == "Bank of America") {
-    initials = "BOA";
+  if (bankSelection == "Bank of America - New York") {
+    initials = "BOANY";
+  } else if (bankSelection === "Bank of America - Texas") {
+    initials = "BOT";
   } else {
     initials = "COB";
   }
@@ -192,9 +234,11 @@ export const submitNewRow = submitType => async (dispatch, getState) => {
     );
   }
   const bank =
-    getState().banks.bankNameSelection === "Bank of America"
+    getState().banks.bankNameSelection === "Bank of America - New York"
       ? "bankOne"
-      : "bankTwo";
+      : getState().banks.bankNameSelection === "Bank of America - Texas"
+        ? "bankTwo"
+        : "bankThree";
   if (submitType == "auto") {
     dispatch(rowSubmit(ppSubmit["CreatePositivePaySubmission"], bank));
   } else {
@@ -222,9 +266,11 @@ export const submitSelectedBank = (x, n) => ({
 export const submitBankSelection = x => async (dispatch, getState) => {
   Log("ACTION submitBankSelection " + [x]);
   let uuid =
-    x === "Bank of America"
+    x === "Bank of America - New York"
       ? getState().banks.bankOneUUID
-      : getState().banks.bankTwoUUID;
+      : x === "Bank of America - Texas"
+        ? getState().banks.bankTwoUUID
+        : getState().banks.bankThreeUUID;
 
   dispatch(submitSelectedBank(x, uuid));
 };

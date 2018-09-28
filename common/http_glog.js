@@ -80,7 +80,7 @@ export const getGiftEvent = (jwt, id) => {
         prefix,
         suffix,
         notes,
-       
+
       }
       eventGroups{
         uuid,
@@ -99,7 +99,6 @@ export const getGiftEvent = (jwt, id) => {
         registryStatus
         requestNotes
         requestGifts{
-          uuid,
           giftYear,
           status,
           gift{
@@ -707,7 +706,10 @@ export const searchPerson = (jwt, str) => {
       personalMobile,
       personalEmail,
       gender,
-      birthDate
+      birthDate,
+      birthSurname,
+      legalLastName,
+      suffix
     }
   }
 `;
@@ -918,6 +920,74 @@ export const updateAnimal = (jwt, uuid, payload) => {
   const variables = {
     animalUUID: uuid,
     input: payload
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const removeGiftRequestGift = (jwt, giftRequestUUID, giftUUID) => {
+  console.log("HTTP removeGiftRequestGift ");
+
+  const query = `
+       mutation removeGiftRequestGift($giftRequestUUID:String,$giftUUID:String) {
+        RemoveGiftRequestGift(giftRequestUUID:$giftRequestUUID,giftUUID:$giftUUID)  }`;
+  const variables = {
+    giftRequestUUID: giftRequestUUID,
+    giftUUID: giftUUID
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const removeGiftEventPerson = (jwt, giftEventUUID, personUUID) => {
+  console.log("HTTP removeGiftEventPerson ");
+  const query = `
+       mutation removeGiftEventPerson($giftEventUUID:String,$personUUID:String) {
+        RemoveGiftEventPerson(giftEventUUID:$giftEventUUID,personUUID:$personUUID)  }`;
+  const variables = {
+    giftEventUUID: giftEventUUID,
+    personUUID: personUUID
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const removeGiftEventOrganization = (
+  jwt,
+  giftEventUUID,
+  organizationUUID
+) => {
+  console.log("HTTP removeGiftEventOrg");
+  const query = `
+       mutation removeGiftEventOrganization($giftEventUUID:String,$organizationUUID:String) {
+        RemoveGiftEventOrganization(giftEventUUID:$giftEventUUID,organizationUUID:$organizationUUID)  }`;
+  const variables = {
+    giftEventUUID: giftEventUUID,
+    organizationUUID: organizationUUID
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {

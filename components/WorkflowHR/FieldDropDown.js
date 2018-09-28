@@ -68,7 +68,8 @@ export default class FieldDropDown extends Component {
           style={{
             padding: "0px",
             //fontSize: "large",
-            minWidth: "280px"
+            minWidth: "280px",
+            height: "100px"
           }}
         >
           {this.showItems()}

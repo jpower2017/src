@@ -17,9 +17,11 @@ import { Base64 } from "js-base64";
 const randomInt = Math.floor(Math.random() * 10000000);
 
 /* HR WORKFLOW DEFINITION */
-const url1 = `https://workflow-qa.bluesprucecapital.net/cDevWorkflowRESTAPI/api/deWorkflowDefinition/createInstance/e9b65dfb-532c-4c17-bb38-cdc4fdd77069?instanceName=instance${
-  randomInt
-}`;
+//let url1 = `https://workflow-qa.bluesprucecapital.net/cDevWorkflowRESTAPI/api/deWorkflowDefinition/createInstance/e9b65dfb-532c-4c17-bb38-cdc4fdd77069?instanceName=instance${randomInt}`;
+const getURL1 = definitionID => {
+  console.log("getURL1 defID : " + definitionID);
+  return `https://workflow-qa.bluesprucecapital.net/cDevWorkflowRESTAPI/api/deWorkflowDefinition/createInstance/${definitionID}?instanceName=instance${randomInt}`;
+};
 const urlGetUser =
   "https://workflow-qa.bluesprucecapital.net/cDevWorkflowRESTAPI/api/deRole/getUserList/7bd17de2-dcea-4cdb-911e-b789bec975bc";
 const urlGetUserList =
@@ -43,10 +45,9 @@ export const doesUserExist = async login => {
   };
   let userExist = await fetch(urlGetFWID + login, options);
   userExist.ok ? console.log("user ok") : console.log("user not ok");
-  const userReturn = await userExist.json();
-  console.log("http userReturn " + userReturn);
-  return userReturn;
-  //console.table(jsonSupervisorList);
+  //const userReturn = await userExist.json();
+  //console.log("http userReturn " + userReturn);
+  return userExist.ok ? true : false;
 };
 
 export const getSupervisors = async login => {
@@ -111,8 +112,8 @@ const fetchList = async (id, login) => {
   //console.table(jsonSupervisorList);
 };
 
-export const fetchWrap = async (body, login) => {
-  //  console.log("fetchWrap f");
+export const fetchWrap = async (body, login, config) => {
+  console.log("fetchWrap f " + JSON.stringify(config));
   let newBody = {
     oVariableDefaultValues: body,
     oGlobalDefaultValues: {}
@@ -132,7 +133,7 @@ export const fetchWrap = async (body, login) => {
     //  credentials: "include"
   };
 
-  const res1 = await fetch(url1, options);
+  const res1 = await fetch(getURL1(config.definitionID), options);
   res1.ok ? console.log("response1 ok") : console.log("response1 not ok");
   const data1 = await res1.json();
 

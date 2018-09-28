@@ -80,7 +80,7 @@ class Form extends Component {
           style={{
             display: "flex",
             backgroundColor: "#A4AECB",
-            minWidth: "300px"
+            minWidth: "400px"
           }}
         >
           {showNew && (

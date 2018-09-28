@@ -15,8 +15,10 @@ class VerticalNonLinear extends React.Component {
     this.state = {
       mainData: [("a": "one")],
       stepIndex: 0,
-      submitted: false
+      submitted: false,
+      stepIndexMax: this.props.data.length - 1
     };
+    console.log("this.props.data length " + this.props.data.length);
   }
   /*
   requiredFormFields = data => {
@@ -30,7 +32,7 @@ class VerticalNonLinear extends React.Component {
   handleNext = () => {
     const { stepIndex } = this.state;
     //this.requiredFormFields(this.props.data);
-    if (stepIndex < 2) {
+    if (stepIndex < this.state.stepIndexMax) {
       this.setState({ stepIndex: stepIndex + 1 });
     }
   };
@@ -69,10 +71,10 @@ class VerticalNonLinear extends React.Component {
             onClick={this.handlePrev}
           />
         )}
-        {step < 2 && (
+        {step < this.state.stepIndexMax && (
           <RaisedButton
             label="Next"
-            disabled={step === 2}
+            disabled={step === this.state.stepIndexMax}
             disableTouchRipple={true}
             disableFocusRipple={true}
             primary={true}
@@ -81,7 +83,7 @@ class VerticalNonLinear extends React.Component {
           />
         )}
 
-        {step == 2 && (
+        {step == this.state.stepIndexMax && (
           <div>
             <RaisedButton
               label="Submit"

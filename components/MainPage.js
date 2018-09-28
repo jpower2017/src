@@ -14,7 +14,9 @@ import InOfficeContainer from "./InOffice/InOfficeContainer.js";
 import ComingSoon from "./ComingSoon";
 import WelcomeScreen from "./WelcomeScreen/WelcomeScreen";
 //import FlowWrightIntiateAPI from "./test/FlowWright-initate-api";
-import WorkflowHR from "./WorkflowHR/App.js";
+import WorkflowHR from "./WorkflowHR/WorkflowHR.js";
+import TollPass from "./WorkflowHR/TollPass.js";
+import CC from "./WorkflowHR/CC.js";
 import GlogInput from "./GlogInput/components/Main";
 import QuickAccess from "./QuickAccess/FormContainer";
 
@@ -35,7 +37,7 @@ class MainPage extends Component {
         }}
       >
         {this.props.open ? <Empty /> : null}
-        {this.props.location.pathname == "/portal/" ? <WelcomeScreen /> : null}
+        {this.props.location.pathname == "/portal/" ? <QuickAccess /> : null}
         <Switch>
           <Route path="/quickAccess" component={QuickAccess} />
           <Route path="/presence" component={InOfficeContainer} />
@@ -48,6 +50,8 @@ class MainPage extends Component {
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/investments" component={Investments} />
           <Route path="/workflow/newHireRequest" component={WorkflowHR} />
+          <Route path="/workflow/tollPass" component={TollPass} />
+          <Route path="/workflow/cc" component={CC} />
           <Route path="/glogInput" component={GlogInput} />
           <Route
             path="/workflow/dashboard"

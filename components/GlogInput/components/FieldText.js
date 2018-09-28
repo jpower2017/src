@@ -16,7 +16,7 @@ class FieldText extends Component {
     super(props);
     this.state = { data: this.props.data };
     //this.handleChange = debounce(500, this.handleChange);
-    this.change = debounce(500, this.bubbleUp);
+    this.change = debounce(1000, this.bubbleUp);
   }
   componentDidMount() {
     this.state = { data: this.props.data };

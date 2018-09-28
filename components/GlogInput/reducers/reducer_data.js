@@ -2,7 +2,7 @@ export const giftEventInstances = [
   {
     id: 21,
     createdTimestamp: "0",
-    eventType: ["12"],
+    eventType: ["Thank You"],
     date: ["9/23/90"],
     requests: [
       {
@@ -35,90 +35,12 @@ export const giftEventInstances = [
         type: "gift"
       }
     ],
-    registry: [1],
+    registryStatus: [1],
     active: [1],
     recurring: [1],
     eventMonth: "09",
+    eventDay: "08",
     notes: ["notes here and here for project id 21"]
-  },
-  {
-    id: 22,
-    createdTimestamp: "0",
-    eventType: ["10"],
-    date: ["9/23/33"],
-    requests: [],
-    recipients: [
-      {
-        id: 122,
-        type: "people"
-      }
-    ],
-    giftHistory: [
-      {
-        id: 6
-      }
-    ],
-    registry: [1],
-    active: [1],
-    recurring: [1],
-    eventMonth: "09",
-    notes: [""]
-  },
-  {
-    id: 23,
-    createdTimestamp: "0",
-    eventType: ["1"],
-    date: ["6/8/08"],
-    requests: [],
-    active: [1],
-    recipients: [
-      {
-        id: 124,
-        type: "people"
-      },
-      {
-        id: 122,
-        type: "people"
-      }
-    ],
-    giftHistory: [
-      {
-        id: 4,
-        type: "gift"
-      }
-    ],
-    registry: [0],
-    recurring: [1],
-    eventMonth: "06",
-    notes: [""]
-  },
-  {
-    id: 24,
-    createdTimestamp: "0",
-    eventType: ["2"],
-    date: ["6/17/17"],
-    requests: [],
-    active: [1],
-    recipients: [
-      {
-        id: 122,
-        type: "people"
-      },
-      {
-        id: 301,
-        type: "orgs"
-      }
-    ],
-    giftHistory: [
-      {
-        id: 5,
-        type: "gift"
-      }
-    ],
-    registry: [0],
-    recurring: [1],
-    eventMonth: "06",
-    notes: [""]
   }
 ];
 export const dataGroups = [

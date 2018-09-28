@@ -40,8 +40,12 @@ const styles = {
 export default class Events extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      searchText: this.props.gei.eventType[0]
+      searchText: this.props.gei.eventType[0],
+      registryStatus: this.props.gei.registryStatus
+      /* to do set state of notes so that its not jumping around on edit....but this requires refreshing notes textbox on new gei */
+      //  notes: this.props.gei.notes
     };
   }
   componentDidMount() {
@@ -51,7 +55,30 @@ export default class Events extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("Events nextProps  " + JSON.stringify(nextProps));
+    /*
+    console.log("Events nextProps  " + JSON.stringify(nextProps));
+    console.log("notes" + JSON.stringify(nextProps.gei.notes[0]));
+    console.log(
+      "this.props.gei.registryStatus " + this.props.gei.registryStatus
+    );
+    console.log(
+      this.props.gei.registryStatus == "Yes" ||
+      this.props.gei.registryStatus == 1
+        ? 1
+        : 0
+    );
+    */
+    this.setState({
+      registryStatus:
+        this.props.gei.registryStatus == "Yes" ||
+        this.props.gei.registryStatus == 1
+          ? 1
+          : 0
+    });
+    if (nextProps.gei.notes[0] !== this.state.notes) {
+      console.log("change notes  " + nextProps.gei.notes[0]);
+      this.setState({ notes: nextProps.gei.notes[0] });
+    }
     this.setState({ searchText: nextProps.gei.eventType[0] });
     if (!nextProps.giftEventTypes) {
       return;
@@ -89,6 +116,17 @@ export default class Events extends Component {
   getSearch = txt => {
     this.setState({ searchText: txt });
     return txt;
+  };
+  getRegStatus = status => {
+    console.log("getRegStatus " + status);
+    console.log(status == "Yes" || status == "1" ? 1 : 0);
+    return status == "Yes" || status == "1" ? 1 : 0;
+  };
+  onRegistry = () => {
+    console.log("onRegisry");
+    let newState = this.state.registryStatus == "Yes" ? "No" : "Yes";
+    this.setState({ registryStatus: newState });
+    this.props.onRegistry(newState);
   };
   render() {
     const { gei } = this.props;
@@ -151,7 +189,7 @@ export default class Events extends Component {
             </div>
             <FieldDropDown
               options={registryStatuses}
-              status={gei.registry[0] == "Yes" ? 1 : 0}
+              status={this.state.registryStatus}
               //data={ }
               onselect={this.props.onRegistry}
             />
@@ -181,7 +219,7 @@ export default class Events extends Component {
             onChange={event =>
               this.props.onTextChange(event.target.value, "notes")
             }
-            value={gei.notes[0]}
+            value={this.state.notes}
             textAreaStyle={styles.textAreaStyle}
           />
         </div>

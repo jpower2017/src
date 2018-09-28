@@ -15,7 +15,7 @@ class FieldText extends Component {
   constructor(props) {
     super(props);
     this.state = { data: this.props.data };
-    this.change = debounce(500, this.bubbleUp);
+    this.change = debounce(1000, this.bubbleUp);
   }
   componentDidMount() {
     this.state = { data: this.props.data };
@@ -98,7 +98,7 @@ class FieldText extends Component {
           rows={this.props.multiLine ? 2 : 1}
           onChange={this.handleChange}
           name={obj.name}
-          style={{ width: "250px", fontSize: "20px" }}
+          style={{ width: "350px", fontSize: "20px" }}
           floatingLabelStyle={{ color: "#DF5C33" }}
         />
       </div>

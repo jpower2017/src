@@ -75,11 +75,16 @@ class FieldText extends Component {
         //  hintText={obj.title}
         floatingLabelText={this.formatLabel(obj.title, obj.required)}
         errorText={validate(this.state.data, this.props.type)}
-        fullWidth={false}
+        fullWidth={true}
         multiLine={false}
         onChange={this.handleChange}
         name={obj.name}
-        style={{ width: "250px", fontSize: "20px", marginLeft: "20px" }}
+        style={{
+          minWidth: "250px",
+          fontSize: "20px",
+          marginLeft: "20px",
+          height: "100px"
+        }}
         floatingLabelStyle={{ color: "#222" }}
       />
     );

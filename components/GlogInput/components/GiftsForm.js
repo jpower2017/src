@@ -73,17 +73,16 @@ class GiftsForm extends Component {
                 padding: "10px",
                 opacity: !this.state.createNew ? 0.3 : 1
               }}
-            >
-              <Paper>
-                <GiftsExtraContainer bubbleUp={this.change} />
-              </Paper>
-            </div>
+            />
             <div
               style={{
                 padding: "10px",
                 opacity: !this.state.createNew ? 0.3 : 1
               }}
             >
+              <Paper>
+                <GiftsExtraContainer bubbleUp={this.change} />
+              </Paper>
               <GiftsRequestsContainer
                 onselect={x => this.onSelectParties(x)}
                 groups={this.props.requests}

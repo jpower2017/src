@@ -164,7 +164,7 @@ export const data2 = [
     favorite: false,
     endpoint: "/workflow/dashboard",
     parentName: "Workflow",
-    allow: "Workflow Admin"
+    allow: "Workflow HR"
   },
   {
     id: 213,
@@ -188,11 +188,11 @@ export const data2 = [
     favorite: false,
     endpoint: "/workflow/newHireRequest",
     parentName: "Workflow",
-    allow: "Workflow HR"
+    allow: "Workflow Admin"
   },
   {
     id: 215,
-    name: "Toll Pass Request Form",
+    name: "Toll Pass Request",
     parentId: 15,
     level: 2,
     show: false,
@@ -200,7 +200,19 @@ export const data2 = [
     favorite: false,
     endpoint: "/workflow/tollPass",
     parentName: "Workflow",
-    allow: "Workflow HR"
+    allow: "Workflow Admin"
+  },
+  {
+    id: 216,
+    name: "CCA",
+    parentId: 15,
+    level: 2,
+    show: false,
+    leaf: true,
+    favorite: false,
+    endpoint: "/workflow/cc",
+    parentName: "Workflow",
+    allow: "Workflow Admin"
   }
 ];
 

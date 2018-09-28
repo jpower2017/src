@@ -72,7 +72,7 @@ let newRows,
   gei;
 
 const tweakData = obj => {
-  console.log("tweakData");
+  //console.log("tweakData");
   const addKeyID = obj => {
     return { id: obj.uuid, ...obj, type: "requests" };
   };
@@ -98,7 +98,7 @@ const tweakData = obj => {
     eventMonth: `${obj.eventMonth}`,
     notes: [obj.notes],
     recurring: [obj.recurring],
-    registry: [obj.registryStatus]
+    registryStatus: obj.registryStatus
   };
 };
 export const glogInput = (state = [], action) => {
@@ -252,7 +252,7 @@ export const glogInput = (state = [], action) => {
             date: [""],
             recipients: [],
             giftHistory: [],
-            registry: [1],
+            registryStatus: "1",
             active: [1],
             recurring: [1],
             requests: [],
@@ -362,14 +362,31 @@ export const glogInput = (state = [], action) => {
         state.giftEventInstances
       );
       arrRecips = R.prop("recipients", thisRow);
+      let arrEventPersons = thisRow.eventPersons
+        ? R.prop("eventPersons", thisRow)
+        : [];
 
       newRecip = R.prop(
         "id",
         R.find(x => x.id == state.searchID, state[state.node])
       );
+
+      let newEventPerson = R.pick(
+        ["id", "firstName", "lastName"],
+        R.find(x => x.id == state.searchID, state[state.node])
+      );
+      console.table(newEventPerson);
+      let eventPersons = [
+        {
+          id: newEventPerson.id,
+          firstName: newEventPerson.firstName,
+          lastName: newEventPerson.lastName
+        }
+      ];
       newRow = {
         ...thisRow,
-        recipients: R.uniq([...arrRecips, { id: newRecip, type: state.node }])
+        recipients: R.uniq([...arrRecips, { id: newRecip, type: state.node }]),
+        eventPersons: R.uniq([...arrEventPersons, ...eventPersons])
       };
       console.table(newRow);
       return {

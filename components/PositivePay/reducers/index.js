@@ -6,6 +6,9 @@ import {
   RECEIVE_BANK_TWO,
   BANK_TWO_UUID,
   BANK_TWO_NAME,
+  RECEIVE_BANK_THREE,
+  BANK_THREE_UUID,
+  BANK_THREE_NAME,
   BANK_SELECTION,
   BANK_START_REQUEST
 } from "../actions";
@@ -79,6 +82,25 @@ export const banks = (state = [], action) => {
       return {
         ...state,
         bankTwoName: action.bankTwoName
+      };
+    case RECEIVE_BANK_THREE:
+      console.log("REDUCER RECEIVE_BANK_THREE");
+      console.log("action.banks " + JSON.stringify(action.bankThree));
+      return {
+        ...state,
+        bankThree: action.bankThree ? addFields(action.bankThree) : []
+      };
+    case BANK_THREE_UUID:
+      Log("PP BANK_THREE_UUID ");
+      return {
+        ...state,
+        bankThreeUUID: action.bankThreeUUID
+      };
+    case BANK_THREE_NAME:
+      Log("PP BANK_THREE NAME ");
+      return {
+        ...state,
+        bankThreeName: action.bankThreeName
       };
     case BANK_SELECTION:
       Log(

@@ -6,7 +6,7 @@ class FieldText extends Component {
   constructor(props) {
     super(props);
     this.state = { value: this.props.value };
-    this.change = debounce(500, this.bubbleUp);
+    this.change = debounce(1000, this.bubbleUp);
   }
   handleChange = event => {
     const value = event.target.value;

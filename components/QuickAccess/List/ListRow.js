@@ -28,13 +28,13 @@ export default class ListRow extends React.Component {
   }
   componentDidMount() {}
   componentWillReceiveProps(nextProps) {
-    console.log("Row componentWillReceiveProps " + JSON.stringify(nextProps));
+    //console.log("Row componentWillReceiveProps " + JSON.stringify(nextProps));
   }
 
   render() {
     const { data, label } = this.props;
     const setColor = id => {
-      console.log("ROW setColor " + data.id);
+      //console.log("ROW setColor " + data.id);
       this.setState({ selected: true });
       this.props.onclick(data.id);
     };

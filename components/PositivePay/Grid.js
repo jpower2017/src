@@ -24,7 +24,7 @@ export default class Grid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: "Bank of America",
+      tab: "Bank of America - New York",
       animation: false,
       rows: null,
       width: Math.max(355, window.innerWidth - 280)
@@ -34,9 +34,11 @@ export default class Grid extends React.Component {
     //  console.log("Grid nextProps  " + JSON.stringify(nextProps));
     this.setState({
       rows:
-        this.state.tab === "Bank of America"
+        this.state.tab === "Bank of America - New York"
           ? nextProps.bankOne
-          : nextProps.bankTwo,
+          : this.state.tab === "Bank of America - Texas"
+            ? nextProps.bankTwo
+            : nextProps.bankThree,
       animation: !nextProps.loaded
     });
   }
@@ -64,7 +66,9 @@ export default class Grid extends React.Component {
       rows:
         this.state.rows === this.props.bankOne
           ? this.props.bankTwo
-          : this.props.bankOne
+          : this.state.rows === this.props.bankTwo
+            ? this.props.bankThree
+            : this.props.bankOne
     });
     this.props.bankSelection(value);
   };
@@ -144,9 +148,11 @@ export default class Grid extends React.Component {
     //console.log("tab " + this.state.tab);
     this.setState({
       rows:
-        this.state.tab == "Bank of America"
+        this.state.tab == "Bank of America - New York"
           ? [...this.props.bankOne, newItem]
-          : [...this.props.bankTwo, newItem]
+          : this.state.tab == "Bank of America - Texas"
+            ? [...this.props.bankTwo, newItem]
+            : [...this.props.bankThree, newItem]
     });
     to3 = setTimeout(this.props.onRefresh, 2500);
   };
@@ -162,9 +168,11 @@ export default class Grid extends React.Component {
     //  console.log("tab " + this.state.tab);
     this.setState({
       rows:
-        this.state.tab == "Bank of America"
+        this.state.tab == "Bank of America - New York"
           ? [...this.props.bankOne, newItem]
-          : [...this.props.bankTwo, newItem]
+          : this.state.tab == "Bank of America - Texas"
+            ? [...this.props.bankTwo, newItem]
+            : [...this.props.bankThree, newItem]
     });
   };
   newSubmission = submitType => {
@@ -184,9 +192,11 @@ export default class Grid extends React.Component {
     to1 = setTimeout(() => {
       this.setState({
         rows:
-          this.state.tab == "Bank of America"
+          this.state.tab == "Bank of America - New York"
             ? [...this.props.bankOne, newItem]
-            : [...this.props.bankTwo, newItem]
+            : this.state.tab == "Bank of America - Texas"
+              ? [...this.props.bankTwo, newItem]
+              : [...this.props.bankThree, newItem]
       });
     }, 300);
     to2 = setTimeout(this.props.onRefresh, 2500);
@@ -196,7 +206,7 @@ export default class Grid extends React.Component {
     this.props.onRefresh();
   };
   render() {
-    const { columns, bankOne, bankTwo, submittable } = this.props;
+    const { columns, bankOne, bankTwo, bankThree, submittable } = this.props;
     return (
       <div style={{ width: this.state.width }}>
         <WidgetBase title={"PositivePay"}>
@@ -211,6 +221,7 @@ export default class Grid extends React.Component {
               >
                 <div>{this.renderTab(this.props.bankOneName)}</div>
                 <div>{this.renderTab(this.props.bankTwoName)}</div>
+                <div>{this.renderTab(this.props.bankThreeName)}</div>
               </div>
 
               <div style={{ borderTop: "1px solid black" }}>

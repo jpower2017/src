@@ -256,9 +256,9 @@ const clean2 = rawGEIs => {
       ...obj,
       id: obj.uuid,
       date: `${obj.eventMonth}/${obj.eventDay}`,
-      recipients: R.uniq(
-        R.map(x => `${x.firstName} ${x.lastName}`, obj.eventPersons)
-      ),
+      recipients: obj.eventPersons
+        ? R.uniq(R.map(x => `${x.firstName} ${x.lastName}`, obj.eventPersons))
+        : [""],
       registry: obj.registryStatus
     };
   };
@@ -275,7 +275,10 @@ const mapStateToProps = (state, ownProps) => ({
   animals: state.glogInput.animals ? state.glogInput.animals : null,
   orgs: state.glogInput.orgs ? state.glogInput.orgs : null,
   gifts: state.glogInput.gifts ? state.glogInput.gifts : null,
-  rows: state.glogInput.GEI_RAW ? clean2(state.glogInput.GEI_RAW) : null,
+  //rows: state.glogInput.GEI_RAW ? clean2(state.glogInput.GEI_RAW) : null,
+  rows: state.glogInput.giftEventInstances
+    ? clean2(state.glogInput.giftEventInstances)
+    : null,
   totalRows: state.glogInput.giftEventInstances
     ? state.glogInput.giftEventInstances.length
     : null

@@ -93,7 +93,8 @@ export default class Row extends React.Component {
               "name",
               "type",
               "birthSurname",
-              "legalLastName"
+              "legalLastName",
+              "suffix"
             ]) && <Cell data={[objData[x]]} />,
       ks
     );

@@ -3,7 +3,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as R from "ramda";
 import ThemeDefault from "./theme-default";
 import Stepper from "./Stepper.js";
-import { forms, subForms2 } from "./data";
+import { subForms2 } from "./data";
 import { fetchWrap, getSupervisors, doesUserExist } from "./common/http.js";
 import { connect } from "react-redux";
 import { validate } from "./utils/utils";
@@ -68,7 +68,7 @@ class App extends Component {
     //let newObj = { [name]: val };
     let newData = { ...this.state.data, [name]: val };
     this.setState({ data: newData });
-    let reqFields = getAllReqFields(forms);
+    let reqFields = getAllReqFields(this.props.forms);
     let enteredFields = R.keys(newData);
     console.table(this.validateEnteredFields(enteredFields, newData));
     enteredFields = this.validateEnteredFields(enteredFields, newData);
@@ -88,8 +88,11 @@ class App extends Component {
   submit = () => {
     console.log("submit f");
     console.log(JSON.stringify(this.state.data));
-
-    fetchWrap(this.state.data, this.props.login);
+    let sendData;
+    sendData = this.props.extraData
+      ? { ...this.state.data, ...this.props.extraData }
+      : this.state.data;
+    fetchWrap(sendData, this.props.login, this.props.config);
   };
   render() {
     return (
@@ -100,7 +103,7 @@ class App extends Component {
               <div>User not in FlowWright system.</div>
             ) : (
               <Stepper
-                data={forms}
+                data={this.props.forms}
                 inputData={this.state.data}
                 onselect={(name, val) => this.process(name, val)}
                 allReqCompleted={this.state.allReqCompleted}

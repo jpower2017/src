@@ -25,7 +25,11 @@ class GridContainer extends Component {
   }
   checkPendingStatus = () => {
     console.log("checkPendingStatus f");
-    let allRows = [...this.props.bankOne, ...this.props.bankTwo];
+    let allRows = [
+      ...this.props.bankOne,
+      ...this.props.bankTwo,
+      ...this.props.bankThree
+    ];
     if (R.find(x => x.status == "Pending", allRows)) {
       console.log("true status");
       this.props.getDataForComp(true);
@@ -53,6 +57,8 @@ class GridContainer extends Component {
             bankOneName={this.props.bankOneName}
             bankTwo={this.props.bankTwo}
             bankTwoName={this.props.bankTwoName}
+            bankThree={this.props.bankThree}
+            bankThreeName={this.props.bankThreeName}
             rowsCoBiz={this.props.rowsCoBiz}
             onselected={this.props.onselected}
             manualOverride={this.onselectNewRow}
@@ -74,6 +80,8 @@ const mapStateToProps = (state, ownProps) => ({
   bankOneName: state.banks.bankOneName ? state.banks.bankOneName : null,
   bankTwo: state.banks.bankTwo ? state.banks.bankTwo : null,
   bankTwoName: state.banks.bankTwoName ? state.banks.bankTwoName : null,
+  bankThree: state.banks.bankThree ? state.banks.bankThree : null,
+  bankThreeName: state.banks.bankThreeName ? state.banks.bankThreeName : null,
   allowed: state.banks.bankOneName
     ? R.contains(
         "PositivePayBanks",
@@ -104,8 +112,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 });
 
-const GridContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  GridContainer
-);
+const GridContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GridContainer);
 
 export default GridContainer2;

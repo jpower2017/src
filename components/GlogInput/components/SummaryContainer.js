@@ -78,7 +78,7 @@ class SummaryContainer extends Component {
   registry(value) {
     const newObj = {
       ...this.props.giftEventInstance,
-      registry: [value]
+      registryStatus: [value]
     };
     this.props.onEvt(newObj);
   }

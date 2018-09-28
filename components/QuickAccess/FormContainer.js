@@ -13,13 +13,21 @@ class FormContainer extends Component {
     };
   }
   filterPageJSON(json, locations) {
-    console.log("FC filterPageJSON ");
-    console.log(JSON.stringify(json));
-    console.table(locations);
-    /*   ,R.map(x=>R.prop('name',x.location ) ,  locations)*/
-
-    /* temporary */
-    return json;
+    const arrLocs = R.map(x => R.prop("name", x), locations);
+    const filterLocs = obj => {
+      let keep;
+      const c = listItem => {
+        if (!listItem.locations) {
+          return true;
+        }
+        const arrTF = R.map(x => R.contains(x, arrLocs), listItem.locations);
+        return R.contains(true, arrTF);
+      };
+      let newList = R.filter(x => c(x), obj.list);
+      obj.list = newList;
+      return obj;
+    };
+    return R.filter(x => filterLocs(x), json);
   }
   render() {
     return (
@@ -44,8 +52,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   /* NONE */
 });
 
-const FormContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  FormContainer
-);
+const FormContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormContainer);
 
 export default FormContainer2;

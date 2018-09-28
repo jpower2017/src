@@ -23,7 +23,7 @@ export const activeStatuses = [
 export const genderStatuses = [
   { name: "female", title: "Female", value: 1 },
   { name: "male", title: "Male", value: 2 },
-  { name: "unknown", title: "Unknow", value: 3 }
+  { name: "unknown", title: "Unknown", value: 3 }
 ];
 export const assignedTo = [
   { status: "placeholder", title: "Assigned to:", value: "" },
@@ -42,7 +42,8 @@ export const columnsPerson = [
   { name: "middleName", title: "Middle name", type: "string", order: 3 },
   { name: "lastName", title: "Last name", type: "string", order: 4 },
   { name: "birthSurname", title: "Surname", type: "string", order: 5 },
-  { name: "legalLastName", title: "Legal last name", type: "string", order: 6 }
+  { name: "legalLastName", title: "Legal last", type: "string", order: 6 },
+  { name: "suffix", title: "Suffix", type: "string", order: 7 }
 ];
 
 export const columnsOrg = [
@@ -131,9 +132,10 @@ export const fieldsPerson = [
   {
     name: "gender",
     title: "Gender",
-    type: "gender"
+    uiType: "dropDown",
+    options: genderStatuses
   },
-  { name: "birthDate", title: "Date of birth", type: "date" },
+  { name: "birthDate", title: "Birth date (MMDDYYYY)", type: "date" },
   { name: "personalEmail", title: "Personal email", type: "email" },
   { name: "alternateEmail", title: "Alternate email", type: "email" },
   { name: "personalMobile", title: "Personal mobile", type: "phone" },
@@ -246,7 +248,7 @@ export const fieldsVendor = [
 ];
 export const fieldsDelivery = [
   { name: "attentionTo", title: "Attention to" },
-  { name: "deliveryContactNumber", title: "Delivery contact #" },
+  { name: "deliveryContactNumber", title: "Delivery phone #" },
   { name: "deliveryTrackingNumber", title: "Delivery tracking #" },
   {
     name: "confirmedDeliveryDate",

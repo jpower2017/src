@@ -28,14 +28,16 @@ class FormContainer extends Component {
   handleConfigOptions = (fields, config = null) => {
     console.table(config);
     const addConfig = (x, config) => {
-      if (config) {
+      console.log("field " + JSON.stringify(x));
+      console.log("config " + JSON.stringify(config));
+      if (x.loadConfig) {
         return { ...x, options: config };
       } else {
         return x;
       }
     };
 
-    return R.map(x => addConfig(x, this.props.config), fields);
+    return R.map(x => addConfig(x, config), fields);
   };
   render() {
     return (
@@ -95,8 +97,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 });
 
-const FormContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  FormContainer
-);
+const FormContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormContainer);
 
 export default FormContainer2;

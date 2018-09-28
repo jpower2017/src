@@ -497,6 +497,7 @@ class Nav extends Component {
     });
     const setInit = () => {
       const arr = castEachAsNmbr(this.props.preferences);
+      console.log("preferences arr length " + arr.length);
       arr.map(x => this.setObjProp("favorite", x, true));
       //let obj = R.find(R.propEq("id", arr[0]))(this.state.data);
       this.setCurrentSelection(arr[0]);
