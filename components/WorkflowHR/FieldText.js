@@ -30,7 +30,7 @@ class FieldText extends Component {
   format = (value, type) => {
     console.log("format " + [value, type]);
     if (!value) {
-      return;
+      return "";
     }
     switch (type) {
       case "phone":

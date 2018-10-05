@@ -174,6 +174,7 @@ const convertGroups = (obj, groups) => {
 };
 const convertGifts = (obj, gifts) => {
   const a = R.map(x => x.id, R.path(["giftHistory"], obj));
+  console.table();
   return R.filter(x => R.contains(x.id, a), gifts);
 };
 const convertRequests = (obj, requests) => {

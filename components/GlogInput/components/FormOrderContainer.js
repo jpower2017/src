@@ -80,8 +80,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   */
 });
 
-const FormOrderContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  FormOrderContainer
-);
+const FormOrderContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormOrderContainer);
 
 export default FormOrderContainer2;

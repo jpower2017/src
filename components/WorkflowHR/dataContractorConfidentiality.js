@@ -108,7 +108,7 @@ const subForms1 = [
       {
         name: "LegalEntity",
         title:
-          "Which legal entity is contractee (which or our legal entities pays the contractor)?"
+          "Which legal entity is contractee (which of our legal entities pays the contractor)?"
       },
       {
         name: "property",

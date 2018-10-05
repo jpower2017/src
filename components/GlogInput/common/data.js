@@ -13,17 +13,17 @@ export const statuses = [
   { status: "received", title: "Received", color: "#9E9E9E", value: 7 }
 ];
 export const registryStatuses = [
-  { name: "yes", title: "Yes", value: 1 },
-  { name: "no", title: "No", value: 0 }
+  { name: "Yes", title: "Yes", value: 1 },
+  { name: "No", title: "No", value: 2 }
 ];
 export const activeStatuses = [
-  { name: "true", title: "True", value: 1 },
-  { name: "false", title: "False", value: 0 }
+  { name: "True", title: "True", value: 1 },
+  { name: "False", title: "False", value: 2 }
 ];
 export const genderStatuses = [
-  { name: "female", title: "Female", value: 1 },
-  { name: "male", title: "Male", value: 2 },
-  { name: "unknown", title: "Unknown", value: 3 }
+  { name: "Female", title: "Female", value: 1 },
+  { name: "Male", title: "Male", value: 2 },
+  { name: "Unknown", title: "Unknown", value: 3 }
 ];
 export const assignedTo = [
   { status: "placeholder", title: "Assigned to:", value: "" },
@@ -84,7 +84,6 @@ export const parties = [
   { name: "group", title: "Groups", value: "groups" }
 ];
 export const events = [
-  { name: "getWell", title: "Get Well", value: 0 },
   { name: "justBecause", title: "Just Because", value: 1 },
   { name: "housewarming", title: "Housewarming", value: 2 },
   { name: "donation", title: "Donation", value: 3 },
@@ -122,7 +121,8 @@ export const events = [
   },
   { name: "valentinesDayECard", title: "Valentine's Day ECard", value: 32 },
   { name: "mothersDayECard", title: "mother's Day ECard", value: 33 },
-  { name: "funeral", title: "Funeral", value: 34 }
+  { name: "funeral", title: "Funeral", value: 34 },
+  { name: "getWell", title: "Get Well", value: 35 }
 ];
 
 export const fieldsPerson = [
@@ -248,7 +248,7 @@ export const fieldsVendor = [
 ];
 export const fieldsDelivery = [
   { name: "attentionTo", title: "Attention to" },
-  { name: "deliveryContactNumber", title: "Delivery phone #" },
+  { name: "deliveryContactNumber", title: "Delivery phone #", type: "phone" },
   { name: "deliveryTrackingNumber", title: "Delivery tracking #" },
   {
     name: "confirmedDeliveryDate",

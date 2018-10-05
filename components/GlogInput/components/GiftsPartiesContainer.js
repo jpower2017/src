@@ -38,6 +38,7 @@ class GiftsPartiesContainer extends Component {
   };
   onSelectRequest = (x, obj) => {
     console.log("GiftsPartiesContainer onSelectRequest obj: " + obj);
+
     /* props.request = gifts*/
     const gift = this.props.request;
     let newParties;
@@ -53,6 +54,7 @@ class GiftsPartiesContainer extends Component {
     };
     R.contains(x, R.map(x => x.id, tempParties)) ? remove() : add();
     gift.parties = newParties;
+    console.log("update Gift table from GiftParties");
     this.props.updateSecondary(gift, "gifts", x);
   };
   render() {
@@ -175,8 +177,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },*/
 });
 
-const GiftsPartiesContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  GiftsPartiesContainer
-);
+const GiftsPartiesContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GiftsPartiesContainer);
 
 export default GiftsPartiesContainer2;

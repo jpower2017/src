@@ -437,8 +437,87 @@ export const subForms2 = [
     ]
   }
 ];
+const subForms3 = [
+  {
+    name: "subform",
+    title: "",
+    fields: [
+      {
+        name: "DateOfHire",
+        title: "Date of hire",
+        type: "date",
+        required: true
+      },
+      { name: "JobTitle", title: "Job title", required: true },
 
+      {
+        name: "PTOHoursPerYear",
+        title: "PTO hours per year",
+        type: "number"
+      },
+      {
+        name: "OfferExpirationDate",
+        title: "Offer expiration date",
+        type: "date"
+      },
+      {
+        name: "IsManager",
+        title: "Is a manager",
+        uiType: "dd",
+        required: true,
+        uiOptions: [
+          { name: "", title: "Select: is a manager", value: "" },
+          { name: "one", title: "Yes", value: "Yes" },
+          {
+            name: "two",
+            title: "No",
+            value: "No"
+          }
+        ]
+      },
+      {
+        name: "IsCandidateViaAgency",
+        title: "Candidate found via agency",
+        uiType: "dd",
+        required: true,
+        uiOptions: [
+          { name: "", title: "Select candidate agency", value: "" },
+          { name: "one", title: "Yes", value: "Yes" },
+          {
+            name: "two",
+            title: "No",
+            value: "No"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: "subform",
+    title: "Preferred Name",
+    fields: [
+      { name: "txtFirstNamePreferred", title: "First lastName" },
+      { name: "txtMiddleInitialPreferred", title: "Middle initial" },
+      { name: "txtLastNamePreferred", title: "Last name" }
+    ]
+  },
+  {
+    name: "subform",
+    title: "Financial",
+    fields: [
+      {
+        name: "FinalCompensation",
+        title: "Final compensation",
+        type: "currency",
+        required: true
+      },
+      { name: "BonusPotential", title: "Bonus potential", type: "currency" },
+      { name: "SigningBonus", title: "Signing bonus", type: "currency" }
+    ]
+  }
+];
 export const forms = [
   { title: "Employee information", form: subForms1 },
-  { title: "two", form: subForms2 }
+  { title: "Position information", form: subForms2 },
+  { title: "Offer letter request", form: subForms3 }
 ];

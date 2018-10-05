@@ -26,15 +26,22 @@ export default class FieldDropDown extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log("  nextProps  " + JSON.stringify(nextProps));
+    console.log("nextProps.status " + nextProps.status);
+    this.setState({
+      status: nextProps.status
+    });
+    /*
     if (!nextProps.data) {
       return;
     }
+    
     this.setState({
       status: R.prop(
         "value",
         R.find(x => x.title == nextProps.data, nextProps.options)
       )
     });
+    */
   }
   handleChange = (event, index, value) => {
     //console.log("HandlechangeDD  value: " + value);

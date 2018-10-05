@@ -83,6 +83,16 @@ export const data1 = [
     favorite: false,
     endpoint: "/glogInput",
     allow: "Gift Log Admin"
+  },
+  {
+    id: 16,
+    name: "Iris calendar",
+    level: 1,
+    show: true,
+    leaf: true,
+    favorite: false,
+    endpoint: "/irisCalendar",
+    allow: "IrisPA"
   }
 ];
 

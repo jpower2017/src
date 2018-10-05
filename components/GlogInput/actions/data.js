@@ -5,7 +5,7 @@ export const person = {
   name: "",
   selected: true,
   submit: "",
-  gender: "",
+  gender: 1,
   personalMobile: "",
   birthDate: "",
   personalEmail: "",
@@ -28,7 +28,7 @@ export const gift = {
   description: "",
   giftNotes: "",
   sentiment: "",
-  assignedTo: "",
+  assignedTo: 1,
   selected: true,
   requests: [],
   parties: []
@@ -43,7 +43,7 @@ export const org = {
 };
 export const animal = {
   name: "",
-  type: "",
+  type: 1,
   notes: ""
 };
 export const group = {

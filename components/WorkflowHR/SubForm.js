@@ -20,8 +20,17 @@ class Subform extends Component {
   componentWillReceiveProps(nextProps) {
     console.log(" Subform CWRP " + nextProps.selection);
     console.log("CWRP nextprops.data " + nextProps.data);
+    console.log("SUBFORM CWRP nextprops.clear " + nextProps.clear);
+    nextProps.clear ? this.clear() : this.notClear();
     this.setState({ tab: nextProps.selection });
   }
+  clear = () => {
+    console.log("called clear f");
+    this.setState({ clear: true });
+  };
+  notClear = () => {
+    this.setState({ clear: false });
+  };
   handleChange = event => {
     this.setState({ saveEnabled: true });
     //  console.log(event.target.name);
@@ -31,6 +40,16 @@ class Subform extends Component {
   };
   change = (val, name) => {
     console.log("change " + [val, name]);
+  };
+  getTextInputData = foo => {
+    console.log("getTextInputData");
+    console.log(this.state.clear);
+    return !this.state.clear ? foo : null;
+  };
+  getDDInputData = (foo, bar) => {
+    console.log("getDDInputData");
+    console.log(this.state.clear);
+    return !this.state.clear ? foo : bar;
   };
   render() {
     const { data, inputData } = this.props;
@@ -68,11 +87,10 @@ class Subform extends Component {
                       >
                         <FieldDropDown
                           options={x.uiOptions}
-                          status={
-                            inputData[x.name]
-                              ? inputData[x.name]
-                              : x.uiOptions[0].name
-                          }
+                          status={this.getDDInputData(
+                            inputData[x.name],
+                            x.uiOptions[0].name
+                          )}
                           onselect={this.props.onselect}
                           required={x.required}
                           name={x.name}
@@ -90,7 +108,7 @@ class Subform extends Component {
                           obj={x}
                           change={this.props.onselect}
                           type={x.type}
-                          inputData={inputData[x.name]}
+                          inputData={this.getTextInputData(inputData[x.name])}
                         />
                       </div>
                     )

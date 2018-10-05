@@ -98,8 +98,29 @@ class FormDelivery extends Component {
   };
   handleNewLoc = (obj, node, bool) => {
     console.log("FormDelivery handleNewLoc " + [obj, node, bool]);
+    console.table(obj);
+
+    this.setState({
+      street: [
+        { name: "location1", title: R.prop("streetAddress1", obj), value: 0 }
+      ]
+    });
+    //  this.setState({ temp: [{ name: "location1", title: "temp", value: 0 }] });
+
     this.props.onAdd(obj, node, bool);
     this.changeGiftLocation(obj.id, "location");
+  };
+  getLocations = data => {
+    console.table(data);
+    if (!data.location) {
+      console.log("not data.location");
+      return;
+    }
+    let arrLoc = R.path(["location", "formattedAddress"], data);
+
+    const loc = `${arrLoc[0]}, ${arrLoc[1]}, ${arrLoc[2]}`;
+
+    return [{ name: "location1", title: loc, value: 0 }];
   };
 
   render() {
@@ -111,9 +132,11 @@ class FormDelivery extends Component {
             <div>
               <FieldDropDown
                 options={
-                  this.props.locations ? [...dd, ...this.props.locations] : dd
+                  this.getLocations(data)
+                    ? this.getLocations(data)
+                    : this.state.street
                 }
-                status={gift.location}
+                status={0}
                 onselect={value => this.changeGiftLocation(value, "location")}
               />
             </div>

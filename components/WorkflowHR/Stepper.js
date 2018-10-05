@@ -6,6 +6,8 @@ import FlatButton from "material-ui/FlatButton";
 import Form from "./Form";
 
 import * as R from "ramda";
+
+let to1;
 /**
  * A basic vertical non-linear implementation
  */
@@ -19,6 +21,9 @@ class VerticalNonLinear extends React.Component {
       stepIndexMax: this.props.data.length - 1
     };
     console.log("this.props.data length " + this.props.data.length);
+  }
+  componentWillUnmount() {
+    clearTimeout(to1);
   }
   /*
   requiredFormFields = data => {
@@ -43,16 +48,27 @@ class VerticalNonLinear extends React.Component {
       this.setState({ stepIndex: stepIndex - 1 });
     }
   };
+
   handleSubmit = () => {
     this.setState({ submitted: true });
     this.props.submit();
   };
+  setVars = () => {
+    this.setState({
+      stepIndex: 0,
+      submitted: false,
+      clear: true
+    });
+  };
+  reset = () => {
+    console.log("RESET called");
+    this.setState({ clear: false });
+  };
+
   handleClearAll = () => {
-    this.props.clearAll(),
-      this.setState({
-        stepIndex: 0,
-        submitted: false
-      });
+    this.props.clearAll();
+    this.setVars();
+    to1 = setTimeout(this.reset, 500);
   };
   showEmptyFieldHeader = arr => {
     return arr && arr.length ? "The following fields are not valid:" : "";
@@ -143,6 +159,7 @@ class VerticalNonLinear extends React.Component {
                       data={x}
                       onselect={this.props.onselect}
                       inputData={this.props.inputData}
+                      clear={this.state.clear}
                     />
                     {this.renderStepActions(i, emptyReqFields)}
                   </StepContent>

@@ -129,8 +129,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 });
 
-const FormContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  FormContainer
-);
+const FormContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormContainer);
 
 export default FormContainer2;

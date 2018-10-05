@@ -30,6 +30,7 @@ const urlGetUserList =
 /* check if person in FW database */
 const urlGetFWID =
   "https://workflow-qa.bluesprucecapital.net/cDevWorkflowRESTAPI/api/deUser/getUserIDFromExternalUserID?externalUserIdentification=";
+
 export const doesUserExist = async login => {
   const auth = Base64.encode(
     login + ":8D63-C786-B0CC-3C30-9D40-6ECF-9E84-3498"

@@ -19,7 +19,8 @@ class GiftsForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      createNew: this.props.action == "edit" ? true : false
+      createNew: this.props.action == "edit" ? true : false,
+      showRequest: true
     };
   }
   componentDidMount() {
@@ -92,6 +93,7 @@ class GiftsForm extends Component {
                   giftYear: this.state.giftYear,
                   status: this.state.status
                 }}
+                showRequestContainer={x => this.setState({ showRequest: x })}
               />
             </div>
 
@@ -101,12 +103,14 @@ class GiftsForm extends Component {
                 opacity: !this.state.createNew ? 0.3 : 1
               }}
             >
-              <GiftsPartiesContainer
-                onselect={x => this.onSelectParties(x)}
-                groups={this.props.groups}
-                multiSelect={true}
-                title={"Parties"}
-              />
+              <div style={{ opacity: !this.state.showRequest ? 0.3 : 1 }}>
+                <GiftsPartiesContainer
+                  onselect={x => this.onSelectParties(x)}
+                  groups={this.props.groups}
+                  multiSelect={true}
+                  title={"Parties"}
+                />
+              </div>
             </div>
             <div style={{ padding: "10px" }}>
               <div style={{ opacity: !this.state.createNew ? 0.3 : 1 }}>

@@ -55,8 +55,9 @@ export default class Events extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    //console.log("Events nextProps  " + JSON.stringify(nextProps));
     /*
-    console.log("Events nextProps  " + JSON.stringify(nextProps));
+  
     console.log("notes" + JSON.stringify(nextProps.gei.notes[0]));
     console.log(
       "this.props.gei.registryStatus " + this.props.gei.registryStatus
@@ -70,10 +71,10 @@ export default class Events extends Component {
     */
     this.setState({
       registryStatus:
-        this.props.gei.registryStatus == "Yes" ||
-        this.props.gei.registryStatus == 1
+        nextProps.gei.registryStatus == "Yes" ||
+        nextProps.gei.registryStatus == 1
           ? 1
-          : 0
+          : 2
     });
     if (nextProps.gei.notes[0] !== this.state.notes) {
       console.log("change notes  " + nextProps.gei.notes[0]);

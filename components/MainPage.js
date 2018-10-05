@@ -19,6 +19,7 @@ import TollPass from "./WorkflowHR/TollPass.js";
 import CC from "./WorkflowHR/CC.js";
 import GlogInput from "./GlogInput/components/Main";
 import QuickAccess from "./QuickAccess/FormContainer";
+import IrisCalendar from "./IrisCalendar/DatePickerContainer.js";
 
 class MainPage extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class MainPage extends Component {
           <Route path="/workflow/tollPass" component={TollPass} />
           <Route path="/workflow/cc" component={CC} />
           <Route path="/glogInput" component={GlogInput} />
+          <Route path="/irisCalendar" component={IrisCalendar} />
           <Route
             path="/workflow/dashboard"
             render={() => (

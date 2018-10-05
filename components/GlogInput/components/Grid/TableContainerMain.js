@@ -250,11 +250,27 @@ const clean = (instances, people, orgs, groups, animals, mainFilter = null) => {
   //return filterList(mainFilter, wholeList);
   return wholeList;
 };
-const clean2 = rawGEIs => {
+/*
+const convertRegistryStatus = r => {
+  console.log("r " + r);
+  let str;
+  switch (r) {
+    case 1:
+      str = ["Yes"];
+      break;
+    case 2:
+      str = ["No"];
+      break;
+    default:
+      str = r;
+  }
+};
+*/
+const clean2 = geis => {
   const newObj = obj => {
     return {
       ...obj,
-      id: obj.uuid,
+      id: obj.uuid ? obj.uuid : obj.id,
       date: `${obj.eventMonth}/${obj.eventDay}`,
       recipients: obj.eventPersons
         ? R.uniq(R.map(x => `${x.firstName} ${x.lastName}`, obj.eventPersons))
@@ -262,7 +278,7 @@ const clean2 = rawGEIs => {
       registry: obj.registryStatus
     };
   };
-  return R.map(x => newObj(x), rawGEIs);
+  return R.map(x => newObj(x), geis);
 };
 const sortByTimestamp = rows => {
   const createdSort = R.sortWith([R.descend(R.prop("createdTimestamp"))]);

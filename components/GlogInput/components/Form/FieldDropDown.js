@@ -6,9 +6,13 @@ import MenuItem from "material-ui/MenuItem";
 export default class FieldDropDown extends Component {
   constructor(props) {
     super(props);
-    this.state = { options: this.props.options, status: 0 };
+    this.state = { options: this.props.options, status: this.props.status };
     console.log("FDD options...");
     console.table(this.props.options);
+    console.log("FDD construct status " + this.props.status);
+  }
+  componentDidMount() {
+    this.state = { status: this.props.status };
   }
   handleChange = (event, index, value) => {
     console.log("HandlechangeDD  value: " + value);

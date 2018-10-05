@@ -21,6 +21,7 @@ class Form extends Component {
   componentWillReceiveProps(nextProps) {
     console.log(" FORM CWRP " + nextProps.selection);
     console.log("CWRP nextprops.data " + nextProps.data);
+    console.log("CWRP nextprops.clear " + nextProps.clear);
     this.setState({ tab: nextProps.selection });
   }
   handleChange = event => {
@@ -46,6 +47,7 @@ class Form extends Component {
               data={x}
               onselect={this.props.onselect}
               inputData={this.props.inputData}
+              clear={this.props.clear}
             />
           ))}
         </div>

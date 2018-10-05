@@ -20,7 +20,7 @@ import {
   removeFormatting
 } from "../utils/utils";
 
-import { events } from "../common/data";
+import { events, genderStatuses } from "../common/data";
 
 export const GLOG_ON_TYPE = "GLOG_ON_TYPE";
 export const GLOG_RECEIVE_ROWS = "GLOG_RECEIVE_ROWS";
@@ -177,6 +177,7 @@ export const addLocation = (payload, node, addID = true) => async (
   let newItem = await HTTP_GLOG.createLocation(token, newPayload);
   console.log("HTTP createLocation received");
   let id = R.prop("uuid", newItem.CreateLocation);
+  //  await HTTP_GLOG.removeGiftLocation(token, giftID, id);
   newItem = await HTTP_GLOG.createGiftLocation(token, giftID, id, {});
   console.log("HTTP_creategiftlocation");
   /* update gift... gift.location */
@@ -361,7 +362,7 @@ export const loadConfigs = () => async (dispatch, getState) => {
 
   let pas = R.find(x => x.name === "Personal Assistant", enums);
   let pasValues = pas.metaValues;
-  let counter = 0;
+  let counter = 1;
   let changeObj = obj => {
     return { ...obj, title: obj.name, value: counter++ };
   };
@@ -552,6 +553,17 @@ const formatDateYYMMDD = strDate => {
   let arrDate = strDate.split("/");
   return arrDate[2] + arrDate[1] + arrDate[0];
 };
+const validateDateYYMMDD = strDate => {
+  console.log(strDate);
+  console.log(typeof strDate);
+  let arrDate = strDate.split("/");
+  console.log("arrDate.length " + arrDate.length);
+  if (arrDate.length !== 3) {
+    return false;
+  }
+  console.log("str lngth" + String(arrDate[2]).length);
+  return String(arrDate[2]).length === 4 ? true : false;
+};
 
 export const updateForm = payload => async (dispatch, getState) => {
   const node = getState().glogInput.node;
@@ -579,11 +591,35 @@ export const updateForm = payload => async (dispatch, getState) => {
       ],
       payload
     );
+    /*
+    console.log(
+      R.prop(
+        "title",
+        R.find(x => x.value == R.prop("gender", x), genderStatuses)
+      )
+    );
+    httpPayload = {
+      ...httpPayload,
+      gender: R.prop(
+        "title",
+        R.find(x => x.value == R.prop("gender", x), genderStatuses)
+      )
+    };
+    */
+    /*
 
+    console.log(
+      "validate date  " + validateDateYYMMDD(R.prop("birthDate", httpPayload))
+    );
+    if (!validateDateYYMMDD(R.prop("birthDate", httpPayload))) {
+      return;
+    }
+    */
     httpPayload = {
       ...httpPayload,
       birthDate: formatDateYYMMDD(R.prop("birthDate", httpPayload))
     };
+
     const updatePerson = await HTTP.updatePerson(token, id, httpPayload);
     console.table(updatePerson);
   } else if (node === "orgs") {
@@ -704,6 +740,11 @@ export const ondelete = id => async (dispatch, getState) => {
   } else if (geiType == "requests") {
     gei.requests = R.filter(x => x.id !== id, gei.requests);
     dispatch(update(gei, "giftEventInstances"));
+    const removeGiftEventGiftRequest = await HTTP_GLOG.removeGiftEventGiftRequest(
+      token,
+      selectedRow,
+      id
+    );
   } else {
     gei.recipients = R.filter(x => x.id !== id, gei.recipients);
     dispatch(update(gei, "giftEventInstances"));
@@ -759,6 +800,9 @@ export const updateSecondary = (
 
   if (node === "requests") {
     let id = R.prop("id", payload);
+    console.log("ACTION Requests createGiftRequestGIft " + payload);
+    console.log(id);
+    console.log(x);
     newAttach = await HTTP_GLOG.createGiftRequestPerson(token, id, x);
   } else if (node === "gifts") {
     let id = R.prop("id", payload);
@@ -811,7 +855,7 @@ export const updateSecondary = (
     let giftID = getState().glogInput.searchID;
     let giftObj = R.find(x => x.id === giftID, getState().glogInput.gifts);
     let locationID = R.prop("location", giftObj);
-    let newPayload = R.omit(["id"], payload);
+    let newPayload = R.omit(["id", "uuid", "location"], payload);
     newPayload = {
       ...newPayload,
       confirmedDeliveryDate: formatDateYYMMDD(
@@ -921,14 +965,14 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     };
     return R.map(x => formatGiftObj(x), arrRequestGifts);
   };
-  const gifts = R.map(x => getGifts(x.requestGifts), requests);
+  const gifts = R.flatten(R.map(x => getGifts(x.requestGifts), requests));
   let allGifts = [];
   const formatObj = obj => {
     console.log("formatObj");
     console.log(JSON.stringify(obj));
     allGifts.push(obj);
-    if (obj[0]) {
-      return { id: obj[0].uuid, type: "gifts" };
+    if (obj) {
+      return { id: obj.uuid, type: "gifts" };
     } else {
       return { id: "", type: "gifts" };
     }
@@ -941,7 +985,7 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
   const newPayload = { ...gei, giftHistory: formatGiftHistory };
   dispatch(updateGiftInstance2(newPayload));
   const formatForGifts = obj => {
-    return { ...obj[0], id: obj.uuid };
+    return { ...obj, id: obj.uuid };
   };
   allGifts = R.map(x => formatForGifts(x), allGifts);
 
@@ -982,12 +1026,23 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     dispatch(add2(objFrmt, "deliveries", false));
     return d.uuid;
   };
+  /* USE DELIVERY DATA */
+  /*
+  const addToLocation = gift => {
+    console.log("addtoLocation ");
+    console.table(gift);
+    console.log(R.path(["delivery", "location", "formattedAddress"], gift));
+    console.log(R.path(["delivery", "location", "uuid"], gift));
+
+  };
+  */
   const addToTables = gift => {
     console.log("addToTables");
     /* add foreign key */
     let vendorID = addToVendor(gift);
     let orderID = addToOrder(gift);
     let deliveryID = addToDelivery(gift);
+    //  let locationID = addToLocation(gift);
     console.log("VOD ids " + [vendorID, orderID, deliveryID]);
     let newObj = {
       ...gift,
@@ -1036,22 +1091,27 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     const reqGifts = R.map(x => addFieldToObj(x), requests);
     console.table(reqGifts);
     let giftsWithRequestData = R.map(x => checkGifts(x, newObj.id), reqGifts);
-    giftsWithRequestData = R.map(x => x["0"], giftsWithRequestData);
-
+    console.table(giftsWithRequestData);
+    ////  giftsWithRequestData = R.map(x => x["0"], giftsWithRequestData);
+    giftsWithRequestData = R.flatten(giftsWithRequestData);
     console.table(giftsWithRequestData);
     const addRequestData = (giftObj, requestObjs) => {
       console.log("addRequestData");
       console.table(requestObjs);
-      if (!requestObjs[0]) {
+      if (!requestObjs) {
         return {
           ...giftObj,
           id: giftObj.uuid
         };
       }
       const id = R.prop("uuid", giftObj);
+      console.log("gift id " + id);
       const reqObj = R.find(x => x.uuid == id, requestObjs);
+      //  const reqObj = requestObjs[0];
       console.table(reqObj);
+      /* GET OBJ FROM REQOBJ ARRAY */
       console.log("giftobj uuid " + giftObj.uuid);
+      console.table(giftObj);
       return {
         ...giftObj,
         id: giftObj.uuid,
@@ -1070,6 +1130,7 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     );
   };
   console.log("next addtotables");
+  console.table(allGifts);
   R.map(x => addToTables(x), allGifts);
 };
 /* queryGiftEvent end*/
@@ -1131,8 +1192,9 @@ export const searchPerson = (str = "") => async (dispatch, getState) => {
   console.log("str length " + str.length);
   const token = getState().notifications.token;
   let newSearch = await HTTP_GLOG.searchPerson(token, str);
+  console.table(newSearch);
   let peps = R.map(x => changeLabel(x), newSearch.SearchPerson);
-  peps = filterBeginsWith(str, peps, "lastName");
+  //  peps = filterBeginsWith(str, peps, "lastName");
 
   const changeDate = obj => {
     console.log("changeDate f");

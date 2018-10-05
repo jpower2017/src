@@ -110,11 +110,11 @@ export const glogInput = (state = [], action) => {
       };
       return {
         ...state,
-        GEI_RAW: [...state.GEI_RAW, ...action.payload],
-        giftEventInstances: [
+        GEI_RAW: R.uniq([...state.GEI_RAW, ...action.payload]),
+        giftEventInstances: R.uniq([
           ...state.giftEventInstances,
           ...R.map(x => tweakData(x), action.payload)
-        ]
+        ])
       };
     case SET_VAR:
       return {
@@ -314,7 +314,7 @@ export const glogInput = (state = [], action) => {
 
       newRow = {
         ...thisRow,
-        giftHistory: [...arrGifts, { id: newGift, type: "gift" }]
+        giftHistory: [...arrGifts, { id: newGift, type: "gifts" }]
       };
       console.table(newRow);
       return {

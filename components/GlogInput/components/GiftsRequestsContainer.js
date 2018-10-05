@@ -5,10 +5,15 @@ import { addNew, onTypeGift, setSearchID, updateSecondary } from "../actions";
 import Parties from "./Parties";
 import ListSingleLevel from "./ListSingleLevel/ListSingleLevel";
 
+let to1;
+
 class GiftsRequestsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+  componentWillUnmount() {
+    clearTimeout(to1);
   }
   onselect = id => {
     console.log("return from GiftsPartiesContainer");
@@ -36,12 +41,19 @@ class GiftsRequestsContainer extends Component {
     //  console.table(rows);
     return rows;
   };
+  showThis = bool => {
+    console.log("showThis " + bool);
+    this.props.showRequestContainer(bool);
+  };
+
   onSelectRequest = (x, obj) => {
     console.log("onSelectRequest x,obj " + [x, JSON.stringify(obj)]);
     console.log(
       "giftRequestGiftPayload " +
         JSON.stringify(this.props.giftRequestGiftPayload)
     );
+    this.showThis(false);
+    to1 = setTimeout(() => this.showThis(true), 1000);
     let newRecips;
     const tempRequest = this.props.request;
     console.log(JSON.stringify(tempRequest));
@@ -65,9 +77,16 @@ class GiftsRequestsContainer extends Component {
     console.log(JSON.stringify(tempRequest));
     let newTempRequest = {
       ...tempRequest,
-      requests: [{...tempRequest.requests['0'], requestNotes: obj.requestNotes,...this.props.giftRequestGiftPayload }]
+      requests: [
+        {
+          ...tempRequest.requests["0"],
+          requestNotes: obj.requestNotes,
+          ...this.props.giftRequestGiftPayload
+        }
+      ]
     };
     console.log(JSON.stringify(newTempRequest));
+    console.log("update Gift table from GiftRequests");
     this.props.updateSecondary(
       newTempRequest,
       "gifts",
@@ -205,8 +224,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },*/
 });
 
-const GiftsRequestsContainer2 = connect(mapStateToProps, mapDispatchToProps)(
-  GiftsRequestsContainer
-);
+const GiftsRequestsContainer2 = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GiftsRequestsContainer);
 
 export default GiftsRequestsContainer2;

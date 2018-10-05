@@ -32,9 +32,28 @@ class Form extends Component {
     //  this.props.onNext();
     //this.props.onSave(this.state.data);
   };
-  getValue = z => {
+  getValue = (z, data) => {
+    console.log("data...");
+    console.table(data);
+    console.log("getValue " + JSON.stringify(z));
     let field = R.prop("name", z);
+    console.log("field " + field);
+    console.log(R.prop(field, this.props.data));
     return R.prop(field, this.props.data);
+  };
+  getValueDD = (z, data) => {
+    let v = this.getValue(z, data);
+    console.log("v " + v);
+    console.table(z);
+    console.table(z.options);
+    if (!z.options || v == "undefined") {
+      return;
+    }
+    if (Number(v)) {
+      return v;
+    }
+    console.log(R.prop("value", R.find(x => x.name == v, z.options)));
+    return R.prop("value", R.find(x => x.name == v, z.options));
   };
   childChange = (val, name) => {
     console.log("Form childChange ");
@@ -127,7 +146,11 @@ class Form extends Component {
                       </div>
                       <FieldDropDown
                         options={x.options}
-                        status={1}
+                        status={
+                          this.getValueDD(x, this.props.data)
+                            ? this.getValueDD(x, this.props.data)
+                            : 1
+                        }
                         //data={ }
                         onselect={value => this.childChange(value, x.name)}
                       />
@@ -135,7 +158,7 @@ class Form extends Component {
                   ) : (
                     <FieldText
                       obj={x}
-                      data={this.getValue(x)}
+                      data={this.getValue(x, this.props.data)}
                       change={this.childChange}
                       type={x.type}
                       multiLine={x.uiType}

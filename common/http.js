@@ -701,3 +701,28 @@ export const getModuleConfig = (jwt, name) => {
   });
   return apolloFetch({ query, variables }).then(res => res.data);
 };
+
+// mutation createPendingSubmission--WHAT TO CALL PENDINGINPUT??
+export const submitCalendar = (jwt, a, b) => {
+  console.log("HTTP submitCalendar");
+  const query = `
+     mutation createIrisCalendarSubmission($startDate:String,$endDate:String) {
+       CreateIrisCalendarSubmission(startDate:$startDate,endDate:$endDate)
+  }
+  `;
+  const variables = {
+    //input: { startDate: a, endDate: b }
+    startDate: startDate,
+    endDate: endDate
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
