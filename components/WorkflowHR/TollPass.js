@@ -23,7 +23,7 @@ class WorkflowHR extends Component {
   render() {
     return (
       <div>
-        <App forms={forms} config={config} />
+        <App forms={forms} config={config} authUserFW={false} />
       </div>
     );
   }

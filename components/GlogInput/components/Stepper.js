@@ -76,6 +76,9 @@ class VerticalNonLinear extends React.Component {
                 Order
               </StepButton>
               <StepContent>
+                <div style={{ color: "#990000" }}>
+                  Must select vendor BEFORE filling out the following fields:
+                </div>
                 <FormOrderContainer />
 
                 {this.renderStepActions(1)}

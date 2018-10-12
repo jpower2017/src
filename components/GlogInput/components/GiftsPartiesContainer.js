@@ -33,11 +33,15 @@ class GiftsPartiesContainer extends Component {
       rows = [...rows, { ...row.children[0], level: 1 }];
     };
     R.map(x => (x.children ? addRowAndChild(x) : x), rows);
-    //  console.table(rows);
+    console.table(rows);
     return rows;
   };
   onSelectRequest = (x, obj) => {
-    console.log("GiftsPartiesContainer onSelectRequest obj: " + obj);
+    console.log(
+      "GiftsPartiesContainer onSelectRequest obj: " + JSON.stringify(obj)
+    );
+    console.log("GPC x " + x);
+    let bRemove = false;
 
     /* props.request = gifts*/
     const gift = this.props.request;
@@ -51,11 +55,12 @@ class GiftsPartiesContainer extends Component {
     const remove = () => {
       console.log("remove");
       newParties = R.filter(y => y.id != x, tempParties);
+      bRemove = true;
     };
     R.contains(x, R.map(x => x.id, tempParties)) ? remove() : add();
     gift.parties = newParties;
     console.log("update Gift table from GiftParties");
-    this.props.updateSecondary(gift, "gifts", x);
+    this.props.updateSecondary(gift, "gifts", x, bRemove);
   };
   render() {
     return (
@@ -161,8 +166,12 @@ const mapStateToProps = (state, ownProps) => ({
     : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSecondary: (payload, node, assocID) => {
-    dispatch(updateSecondary(payload, node, assocID));
+  updateSecondary: (payload, node, assocID, bRemove) => {
+    console.log("updateSecondary. called from GPC ");
+    console.table(payload);
+    console.log("node & assocID " + [node, assocID]);
+    console.log("bREmove " + bRemove);
+    dispatch(updateSecondary(payload, node, assocID, null, bRemove));
   },
   onNew: payload => {
     dispatch(addNew(payload));

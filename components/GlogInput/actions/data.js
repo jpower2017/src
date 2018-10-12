@@ -20,7 +20,8 @@ export const person = {
   suffix: "",
   birthSurname: "",
   notes: "",
-  alternateEmail: ""
+  alternateEmail: "",
+  deathDate: ""
 };
 
 export const gift = {

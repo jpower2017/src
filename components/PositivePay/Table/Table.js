@@ -54,7 +54,7 @@ export default class Table extends React.Component {
   }
   setDiffDoc = (newRows, rows) => {
     const dd = R.map(x => x.uuid, R.difference(newRows, rows));
-    console.log("dd length : " + dd.length);
+    console.log("diffence length : " + dd.length);
     /*IF ALL NEW THEN TAB SELECTED NEW BANK, SO DONT SHOW FADE IN */
     return dd.length >= 10 ? [] : dd;
   };

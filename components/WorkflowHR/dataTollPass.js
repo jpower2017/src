@@ -11,7 +11,6 @@ const subForms1 = [
         required: true,
         uiType: "dd",
         uiOptions: [
-          { name: "", title: "Select Toll Pass Type", value: "" },
           {
             name: "New Toll Pass",
             title: "New Toll Pass",
@@ -31,7 +30,6 @@ const subForms1 = [
         required: true,
         uiType: "dd",
         uiOptions: [
-          { name: "", title: "Select Work Location", value: "" },
           {
             name: "houstonInvOffice",
             title: "Houston Investment Office",
@@ -75,7 +73,6 @@ const subForms1 = [
         uiType: "dd",
         required: true,
         uiOptions: [
-          { name: "", title: "Is it a temporary plate?", value: "" },
           { name: "one", title: "Yes", value: "Yes" },
           {
             name: "two",

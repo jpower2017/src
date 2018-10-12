@@ -80,7 +80,7 @@ export const getGiftEvent = (jwt, id) => {
         prefix,
         suffix,
         notes,
-
+        deathDate
       }
       eventGroups{
         uuid,
@@ -170,7 +170,7 @@ export const createGiftEvent = (jwt, login) => {
     eventDay: "01",
     eventMonth: "01",
     eventType: "01",
-    recurring: "Yes",
+    recurring: true,
     registryStatus: "Yes",
     active: true
   };
@@ -1042,6 +1042,27 @@ export const removeGiftEventGiftRequest = (
   const variables = {
     giftEventUUID: giftEventUUID,
     giftRequestUUID: giftRequestUUID
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
+export const removeGiftPerson = (jwt, giftUUID, personUUID) => {
+  console.log("HTTP removeGiftPerson ");
+  const query = `
+       mutation removeGiftPerson($giftUUID:String,$personUUID:String) {
+        RemoveGiftPerson(giftUUID:$giftUUID,personUUID:$personUUID)  }`;
+  const variables = {
+    giftUUID: giftUUID,
+    personUUID: personUUID
   };
   const apolloFetch = createApolloFetch({ uri });
   apolloFetch.use(({ request, options }, next) => {

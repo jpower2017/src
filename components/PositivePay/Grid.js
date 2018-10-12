@@ -32,6 +32,9 @@ export default class Grid extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     //  console.log("Grid nextProps  " + JSON.stringify(nextProps));
+    console.log("Grid nextprops.bankOne");
+    console.table(nextProps.bankOne);
+    //  console.log("nextprops.bankSelection " + nextProps.bankSelection);
     this.setState({
       rows:
         this.state.tab === "Bank of America - New York"
@@ -43,6 +46,7 @@ export default class Grid extends React.Component {
     });
   }
   componentDidMount() {
+    console.log("GRID CDM");
     window.addEventListener("resize", () =>
       this.setState({ width: Math.max(355, window.innerWidth - 280) })
     );
@@ -61,14 +65,23 @@ export default class Grid extends React.Component {
   }
 
   handleChangeTabs = value => {
+    console.log("handleChangeTabs value " + value);
+    console.log(
+      "state rows " + this.state.rows === this.props.bankOne
+        ? this.props.bankTwo
+        : this.state.rows === this.props.bankTwo
+          ? this.props.bankThree
+          : this.props.bankOne
+    );
+
+    const getRows = [
+      { name: "Bank of America - New York", f: this.props.bankOne },
+      { name: "Bank of America - Texas", f: this.props.bankTwo },
+      { name: "CoBiz Bank", f: this.props.bankThree }
+    ];
     this.setState({
       tab: value,
-      rows:
-        this.state.rows === this.props.bankOne
-          ? this.props.bankTwo
-          : this.state.rows === this.props.bankTwo
-            ? this.props.bankThree
-            : this.props.bankOne
+      rows: R.prop("f", R.find(x => x.name == value, getRows))
     });
     this.props.bankSelection(value);
   };
@@ -77,7 +90,7 @@ export default class Grid extends React.Component {
   };
 
   renderTab = value => {
-    Log("Grid renderTab " + [value, this.state.tab]);
+    console.log("Grid renderTab " + [value, this.state.tab]);
     const sty = (a, b) => {
       return a == b
         ? {

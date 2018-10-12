@@ -31,12 +31,6 @@ const subForms1 = [
         uiType: "dd",
         uiOptions: [
           {
-            name: "",
-            title:
-              "Is there a contract in place or will there be a signed contract in place?",
-            value: ""
-          },
-          {
             name: "Yes",
             title: "Yes",
             value: "Yes"
@@ -61,11 +55,6 @@ const subForms1 = [
         uiType: "dd",
         uiOptions: [
           {
-            name: "",
-            title: "Corporate Function or Property/Family Function",
-            value: ""
-          },
-          {
             name: "Corporate Function",
             title: "Corporate Function",
             value: "Corporate Function"
@@ -82,12 +71,8 @@ const subForms1 = [
         title: "Which family member is primarily contracting?",
         type: "familyMember",
         uiType: "dd",
+        required: true,
         uiOptions: [
-          {
-            name: "",
-            title: "Which family member is primarily contracting?",
-            value: ""
-          },
           {
             name: "Mrs. and/or Mr. Smith",
             title: "Mrs. and/or Mr. Smith",
@@ -102,13 +87,13 @@ const subForms1 = [
             name: "Mrs. and/or Mr. Smith/Swibel",
             title: "Mrs. and/or Mr. Smith/Swibel",
             value: "Mrs. and/or Mr. Smith/Swibel"
-          }
+          },
+          { name: "Corporate", title: "Corporate", value: "Corporate" }
         ]
       },
       {
         name: "LegalEntity",
-        title:
-          "Which legal entity is contractee (which of our legal entities pays the contractor)?"
+        title: "Which of our legal entities pays the contractor?"
       },
       {
         name: "property",
@@ -121,12 +106,6 @@ const subForms1 = [
         uiType: "dd",
         required: true,
         uiOptions: [
-          {
-            name: "",
-            title:
-              "Will the contractor have direct or potential access to confidential family information?",
-            value: ""
-          },
           {
             name: "one",
             title:

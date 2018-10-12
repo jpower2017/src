@@ -703,7 +703,7 @@ export const getModuleConfig = (jwt, name) => {
 };
 
 // mutation createPendingSubmission--WHAT TO CALL PENDINGINPUT??
-export const submitCalendar = (jwt, a, b) => {
+export const submitCalendar = (jwt, startDate, endDate) => {
   console.log("HTTP submitCalendar");
   const query = `
      mutation createIrisCalendarSubmission($startDate:String,$endDate:String) {

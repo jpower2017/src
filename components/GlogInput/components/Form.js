@@ -11,18 +11,19 @@ class FormOrder extends Component {
     this.state = {
       saveEnabled: false,
       dataSource: [],
-      searchText: this.props.data["name"],
+      searchText: this.props.data ? this.props.data["name"] : "",
       vendors: []
     };
   }
   componentDidMount() {
-    console.log("FORM CDM name: " + this.props.data["name"]);
-    this.state = { data: this.props.data, searchText: this.props.data["name"] };
+    this.state = {
+      data: this.props.data,
+      searchText: this.props.data ? this.props.data["name"] : ""
+    };
   }
   componentWillReceiveProps(nextProps) {
     console.log("CWRP");
-    console.log(JSON.stringify(nextProps.searchText));
-    console.log("name " + nextProps.data["name"]);
+
     if (this.state.vendors) {
       //return;
     }
@@ -79,26 +80,24 @@ class FormOrder extends Component {
             fields.map(
               (x, i) =>
                 x.uiType === "dropDown" ? (
-                  data.status && (
-                    <div>
-                      <div
-                        style={{
-                          color: "#DF5C33",
-                          fontSize: "small",
-                          marginLeft: "4px",
-                          marginTop: "10px"
-                        }}
-                      >
-                        {x.title}
-                      </div>
-                      <FieldDropDown
-                        options={this.props.statuses}
-                        status={data.status}
-                        //data={ }
-                        onselect={value => this.childChange(value, "status")}
-                      />
+                  <div>
+                    <div
+                      style={{
+                        color: "#DF5C33",
+                        fontSize: "small",
+                        marginLeft: "4px",
+                        marginTop: "10px"
+                      }}
+                    >
+                      {x.title}
                     </div>
-                  )
+                    <FieldDropDown
+                      options={this.props.statuses}
+                      status={data.status}
+                      //data={ }
+                      onselect={value => this.childChange(value, "status")}
+                    />
+                  </div>
                 ) : x.uiType === "autoComplete" ? (
                   <AutoComplete
                     hintText="Search organizations"

@@ -85,7 +85,7 @@ export const startRequest = () => ({
   type: BANK_START_REQUEST
 });
 export const getData = bRefresh => async (dispatch, getState) => {
-  Log("PP ACTION GETDATA");
+  console.log("PP ACTION GETDATA");
   console.log("ACTION bRefresh " + bRefresh);
   const token = getState().notifications.token;
   const login = getState().notifications.login;
@@ -117,6 +117,7 @@ export const getData = bRefresh => async (dispatch, getState) => {
 
   /* if not REFRESH, then INIT **/
   if (!bRefresh) {
+    console.log("NOT bREFRESH " + bankOneName);
     dispatch(submitBankSelection(bankOneName));
   }
 };
@@ -264,7 +265,7 @@ export const submitSelectedBank = (x, n) => ({
 });
 
 export const submitBankSelection = x => async (dispatch, getState) => {
-  Log("ACTION submitBankSelection " + [x]);
+  console.log("ACTION submitBankSelection " + [x]);
   let uuid =
     x === "Bank of America - New York"
       ? getState().banks.bankOneUUID

@@ -15,19 +15,17 @@ class FormContainer extends Component {
   render() {
     return (
       <div>
-        {this.props.data ? (
-          <FormDelivery
-            fields={this.getFields("delivery")}
-            data={this.props.data}
-            onSave={this.props.onSave}
-            onSaveGiftLocation={this.props.onSaveGiftLocation}
-            locations={this.props.locations}
-            giftID={this.props.giftID}
-            onType={this.props.onType}
-            onAdd={this.props.onAdd}
-            gift={this.props.gift}
-          />
-        ) : null}
+        <FormDelivery
+          fields={this.getFields("delivery")}
+          data={this.props.data ? this.props.data : []}
+          onSave={this.props.onSave}
+          onSaveGiftLocation={this.props.onSaveGiftLocation}
+          locations={this.props.locations}
+          giftID={this.props.giftID}
+          onType={this.props.onType}
+          onAdd={this.props.onAdd}
+          gift={this.props.gift}
+        />
       </div>
     );
   }

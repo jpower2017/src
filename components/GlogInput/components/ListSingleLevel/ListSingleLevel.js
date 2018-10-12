@@ -46,9 +46,10 @@ export default class ListSingleLevel extends Component {
     this.props.onselect(x, obj);
   }
   bHighlight = (id, selected, objRequest, requestID, field = "recipients") => {
-    console.log(
+    /*console.log(
       "bHighlight " + [id, selected, JSON.stringify(objRequest), requestID]
     );
+    */
     let show = "";
     if (requestID === id) {
       return true;
@@ -97,7 +98,9 @@ export default class ListSingleLevel extends Component {
               label={
                 x.name
                   ? x.name
-                  : x.lastName ? `${x.firstName} ${x.lastName}` : x.requestNotes
+                  : x.lastName
+                    ? `${x.firstName} ${x.lastName}`
+                    : x.requestNotes
               }
               onselect={(x, obj) => this.onselect(x, obj)}
               bHighlight={this.bHighlight(

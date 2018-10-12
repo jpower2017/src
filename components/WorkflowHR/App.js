@@ -32,8 +32,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.checkUser(this.props.login);
+    const user = this.props.authUserFW ? this.props.login : "admin";
+    this.checkUser(user);
+    /* GET SUPERVISOR  WAS FOR HR WORKFLOW */
+    /*
     getSupervisors2(this.props.login);
+    */
   }
 
   checkUser = async login => {

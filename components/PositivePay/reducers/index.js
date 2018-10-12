@@ -84,26 +84,26 @@ export const banks = (state = [], action) => {
         bankTwoName: action.bankTwoName
       };
     case RECEIVE_BANK_THREE:
-      console.log("REDUCER RECEIVE_BANK_THREE");
-      console.log("action.banks " + JSON.stringify(action.bankThree));
+      //  console.log("REDUCER RECEIVE_BANK_THREE");
+      //  console.log("action.banks " + JSON.stringify(action.bankThree));
       return {
         ...state,
         bankThree: action.bankThree ? addFields(action.bankThree) : []
       };
     case BANK_THREE_UUID:
-      Log("PP BANK_THREE_UUID ");
+      console.log("PP BANK_THREE_UUID " + action.bankThreeUUID);
       return {
         ...state,
         bankThreeUUID: action.bankThreeUUID
       };
     case BANK_THREE_NAME:
-      Log("PP BANK_THREE NAME ");
+      console.log("PP BANK_THREE NAME " + action.bankThreeName);
       return {
         ...state,
         bankThreeName: action.bankThreeName
       };
     case BANK_SELECTION:
-      Log(
+      console.log(
         "REDUCER BANK SELECTION " +
           [action.selectedBankName, action.selectedBankUUID]
       );

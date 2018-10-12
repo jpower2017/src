@@ -43,7 +43,8 @@ export default class Events extends Component {
 
     this.state = {
       searchText: this.props.gei.eventType[0],
-      registryStatus: this.props.gei.registryStatus
+      registryStatus: this.props.gei.registryStatus,
+      activeStatus: this.props.gei.activeStatus
       /* to do set state of notes so that its not jumping around on edit....but this requires refreshing notes textbox on new gei */
       //  notes: this.props.gei.notes
     };
@@ -55,7 +56,7 @@ export default class Events extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("Events nextProps  " + JSON.stringify(nextProps));
+    //  console.log("Events nextProps  " + JSON.stringify(nextProps));
     /*
   
     console.log("notes" + JSON.stringify(nextProps.gei.notes[0]));
@@ -73,6 +74,12 @@ export default class Events extends Component {
       registryStatus:
         nextProps.gei.registryStatus == "Yes" ||
         nextProps.gei.registryStatus == 1
+          ? 1
+          : 2,
+      activeStatus:
+        nextProps.gei.active[0] == "True" ||
+        nextProps.gei.active == true ||
+        nextProps.gei.active[0] == 1
           ? 1
           : 2
     });
@@ -128,6 +135,12 @@ export default class Events extends Component {
     let newState = this.state.registryStatus == "Yes" ? "No" : "Yes";
     this.setState({ registryStatus: newState });
     this.props.onRegistry(newState);
+  };
+  onActive = () => {
+    console.log("onActive");
+    let newState = this.state.activeStatus == "True" ? "False" : "True";
+    this.setState({ activeStatus: newState });
+    this.props.onActive(newState);
   };
   render() {
     const { gei } = this.props;
@@ -199,7 +212,7 @@ export default class Events extends Component {
             <div style={{ color: "#DF5C33", fontSize: "small" }}>Active</div>
             <FieldDropDown
               options={activeStatuses}
-              status={gei.active ? 1 : 0}
+              status={this.state.activeStatus}
               //data={ }
               onselect={this.props.onActive}
             />

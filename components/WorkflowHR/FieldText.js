@@ -85,7 +85,11 @@ class FieldText extends Component {
           marginLeft: "20px",
           height: "100px"
         }}
-        floatingLabelStyle={{ color: "#222" }}
+        floatingLabelStyle={{
+          color: "#222",
+          fontSize: "24px",
+          fontWeight: "bold"
+        }}
       />
     );
   }

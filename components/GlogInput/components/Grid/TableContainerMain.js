@@ -266,20 +266,41 @@ const convertRegistryStatus = r => {
   }
 };
 */
+/*
+recipients: obj.eventPersons
+  ? R.uniq(R.map(x => `${x.firstName} ${x.lastName}`, obj.eventPersons))
+  : [""],
+  */
 const clean2 = geis => {
+  const combineRecips = (persons, animals) => {
+    let peps = [""];
+    let anims = [""];
+    if (persons) {
+      peps = R.uniq(R.map(x => `${x.firstName} ${x.lastName}`, persons));
+    }
+    if (animals) {
+      anims = R.uniq(R.map(x => x.name, animals));
+    }
+    return [...peps, ...anims];
+  };
   const newObj = obj => {
     return {
       ...obj,
       id: obj.uuid ? obj.uuid : obj.id,
       date: `${obj.eventMonth}/${obj.eventDay}`,
-      recipients: obj.eventPersons
-        ? R.uniq(R.map(x => `${x.firstName} ${x.lastName}`, obj.eventPersons))
+      recipients: combineRecips(obj.eventPersons, obj.eventAnimals)
+        ? combineRecips(obj.eventPersons, obj.eventAnimals)
         : [""],
       registry: obj.registryStatus
     };
   };
   return R.map(x => newObj(x), geis);
 };
+
+const filterByMonth = (geis, month) => {
+  return R.filter(x => x.eventMonth == month, geis);
+};
+
 const sortByTimestamp = rows => {
   const createdSort = R.sortWith([R.descend(R.prop("createdTimestamp"))]);
   return createdSort(rows);
@@ -293,11 +314,18 @@ const mapStateToProps = (state, ownProps) => ({
   gifts: state.glogInput.gifts ? state.glogInput.gifts : null,
   //rows: state.glogInput.GEI_RAW ? clean2(state.glogInput.GEI_RAW) : null,
   rows: state.glogInput.giftEventInstances
-    ? clean2(state.glogInput.giftEventInstances)
+    ? filterByMonth(
+        clean2(state.glogInput.giftEventInstances),
+        state.glogInput.mainFilter
+      )
     : null,
   totalRows: state.glogInput.giftEventInstances
-    ? state.glogInput.giftEventInstances.length
+    ? filterByMonth(
+        clean2(state.glogInput.giftEventInstances),
+        state.glogInput.mainFilter
+      ).length
     : null
+  //  mainFilter: state.glogInput.mainFilter ? state.glogInput.mainFilter : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getDataForComp: x => {

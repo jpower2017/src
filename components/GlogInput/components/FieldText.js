@@ -52,7 +52,10 @@ class FieldText extends Component {
     }
   };
   validate = (value, type) => {
-    //console.log("switch : " + [type, value]);
+    console.log("validate switch : " + [type, value]);
+    if (!value) {
+      return true;
+    }
     switch (type) {
       case "phone":
         return value.replace(/[-,(,)]/g, "").length != 10;

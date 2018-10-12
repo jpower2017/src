@@ -24,20 +24,18 @@ class FormContainer extends Component {
   render() {
     return (
       <div>
-        {this.props.data ? (
-          <Form
-            fields={this.getFields("vendor")}
-            data={this.props.data}
-            onSave={this.props.onSave}
-            bubbleUp={this.props.onSearchText}
-            searchText={this.props.searchText}
-            //  onHandle={this.props.addSearch}
-            //  onHandle2={this.props.addSearch2}
+        <Form
+          fields={this.getFields("vendor")}
+          data={this.props.data}
+          onSave={this.props.onSave}
+          bubbleUp={this.props.onSearchText}
+          searchText={this.props.searchText}
+          //  onHandle={this.props.addSearch}
+          //  onHandle2={this.props.addSearch2}
 
-            //  title={this.props.title}
-            //onNew={() => this.props.onNew(this.props.node)}
-          />
-        ) : null}
+          //  title={this.props.title}
+          //onNew={() => this.props.onNew(this.props.node)}
+        />
       </div>
     );
   }

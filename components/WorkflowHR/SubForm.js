@@ -4,6 +4,7 @@ import * as R from "ramda";
 import RaisedButton from "material-ui/RaisedButton";
 import FieldText from "./FieldText";
 import FieldDropDown from "./FieldDropDown";
+import { orange500, blue500 } from "material-ui/styles/colors";
 
 class Subform extends Component {
   constructor(props) {
@@ -51,6 +52,9 @@ class Subform extends Component {
     console.log(this.state.clear);
     return !this.state.clear ? foo : bar;
   };
+  getRequiredAsterik = bool => {
+    return bool ? "*" : null;
+  };
   render() {
     const { data, inputData } = this.props;
     return (
@@ -85,6 +89,17 @@ class Subform extends Component {
                           margin: "9px"
                         }}
                       >
+                        <div
+                          style={{
+                            padding: "20px",
+                            fontSize: "20px"
+                          }}
+                        >
+                          <strong>
+                            {x.title}
+                            {this.getRequiredAsterik(x.required)}
+                          </strong>
+                        </div>
                         <FieldDropDown
                           options={x.uiOptions}
                           status={this.getDDInputData(

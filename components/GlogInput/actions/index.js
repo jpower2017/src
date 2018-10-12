@@ -154,6 +154,7 @@ export const addLocation = (payload, node, addID = true) => async (
   getState
 ) => {
   console.log("ACTION addLocation ");
+  console.log("node : " + node);
   console.table(payload);
   const token = getState().notifications.token;
   const giftID = getState().glogInput.searchID;
@@ -176,15 +177,28 @@ export const addLocation = (payload, node, addID = true) => async (
   );
   let newItem = await HTTP_GLOG.createLocation(token, newPayload);
   console.log("HTTP createLocation received");
-  let id = R.prop("uuid", newItem.CreateLocation);
+  console.log("placeID " + R.prop("placeID", payload));
+  //let id = R.prop("uuid", newItem.CreateLocation);
+  let id = R.prop("placeID", payload);
   //  await HTTP_GLOG.removeGiftLocation(token, giftID, id);
+
   newItem = await HTTP_GLOG.createGiftLocation(token, giftID, id, {});
   console.log("HTTP_creategiftlocation");
   /* update gift... gift.location */
   let giftObj = R.find(x => x.id === giftID, getState().glogInput.gifts);
   let newGiftObj = { ...giftObj, location: id };
   dispatch(update(newGiftObj, "gifts"));
-
+  console.log("deliveryID " + R.prop("delivery", newGiftObj));
+  const deliveryID = R.prop("delivery", newGiftObj);
+  console.table(
+    R.find(x => x.id == deliveryID, getState().glogInput.deliveries)
+  );
+  const objDelivery = R.find(
+    x => x.id == deliveryID,
+    getState().glogInput.deliveries
+  );
+  const locationForDelivery = { ...objDelivery, location: newPayload };
+  dispatch(add2(locationForDelivery, "deliveries", false));
   dispatch(add2(payload, node, addID));
 };
 
@@ -274,22 +288,6 @@ export const addNew = (payload = null) => async (dispatch, getState) => {
 
   let newobj2 = { ...newobj, id: id };
 
-  /* change to update
-  let newItem = await HTTP_GLOG.createOrganization(token);
-  let orgID = R.prop("uuid", newItem.CreateOrganization);
-  let newPayload = R.pick(
-  ["orderStatus", "orderNumber", "orderDate"],
-  payload
-  );
-
-  newAttach = await HTTP_GLOG.createGiftVendor(
-  token,
-  giftID,
-  orgID,
-  newPayload
-  );
-  */
-
   if (node === "gifts") {
     //let newItem = await HTTP_GLOG.createOrganization(token);
     orgID = uuidv4();
@@ -362,11 +360,14 @@ export const loadConfigs = () => async (dispatch, getState) => {
 
   let pas = R.find(x => x.name === "Personal Assistant", enums);
   let pasValues = pas.metaValues;
-  let counter = 1;
+  let counter = 2;
   let changeObj = obj => {
     return { ...obj, title: obj.name, value: counter++ };
   };
+  /* change order...unknown first */
+
   pasValues = R.map(x => changeObj(x), pasValues);
+  pasValues = [...pasValues, { name: "Unknown", value: 1, title: "Unknown" }];
   dispatch(setConfig("personalAssistants", pasValues));
 
   let animalTypes = R.find(x => x.name === "Animal Type", enums);
@@ -499,6 +500,8 @@ export const GEI_add_recip = () => async (dispatch, getState) => {
     await HTTP_GLOG.createGiftEventGroup(token, login, gei, id);
   } else if (node === "orgs") {
     await HTTP_GLOG.createGiftEventOrganization(token, login, gei, id);
+  } else if (node === "animals") {
+    await HTTP_GLOG.createGiftEventAnimal(token, login, gei, id);
   }
 
   dispatch(GEI_add_recip2());
@@ -514,7 +517,10 @@ export const updateGiftInstance = payload => async (dispatch, getState) => {
   const convertStatus = n => (n == 1 || n == "Yes" ? "Yes" : "No");
   let newPayload = {
     ...payload,
-    registryStatus: convertStatus(payload.registryStatus)
+    registryStatus: convertStatus(payload.registryStatus),
+    active: payload.active == 1 ? true : false,
+    recurring:
+      payload.recurring == 1 || payload.recurring == true ? true : false
   };
   newPayload = R.pick(
     [
@@ -550,8 +556,12 @@ export const update = (payload, node) => ({
 
 const formatDateYYMMDD = strDate => {
   console.log("date " + strDate);
+  if (!strDate) {
+    return;
+  }
   let arrDate = strDate.split("/");
-  return arrDate[2] + arrDate[1] + arrDate[0];
+  console.log("formatedDate " + arrDate[2] + arrDate[0] + arrDate[1]);
+  return arrDate[2] + arrDate[0] + arrDate[1];
 };
 const validateDateYYMMDD = strDate => {
   console.log(strDate);
@@ -587,37 +597,30 @@ export const updateForm = payload => async (dispatch, getState) => {
         "submit",
         "worksAt",
         "worksFor",
-        "worksIn"
+        "worksIn",
+        "uuid"
       ],
       payload
     );
-    /*
-    console.log(
-      R.prop(
-        "title",
-        R.find(x => x.value == R.prop("gender", x), genderStatuses)
-      )
-    );
-    httpPayload = {
-      ...httpPayload,
-      gender: R.prop(
-        "title",
-        R.find(x => x.value == R.prop("gender", x), genderStatuses)
-      )
-    };
-    */
-    /*
 
-    console.log(
-      "validate date  " + validateDateYYMMDD(R.prop("birthDate", httpPayload))
-    );
-    if (!validateDateYYMMDD(R.prop("birthDate", httpPayload))) {
-      return;
-    }
-    */
+    const getGenderName = n => {
+      if (!n) {
+        return { name: "Unknown", value: 3 };
+      }
+      const genderJSON = [
+        { name: "Female", value: 1 },
+        { name: "Male", value: 2 },
+        { name: "Unknown", value: 3 }
+      ];
+      if (!!R.find(x => x.value == n, genderJSON)) {
+        return R.prop("name", R.find(x => x.value == n, genderJSON));
+      }
+    };
     httpPayload = {
       ...httpPayload,
-      birthDate: formatDateYYMMDD(R.prop("birthDate", httpPayload))
+      birthDate: formatDateYYMMDD(R.prop("birthDate", httpPayload)),
+      gender: getGenderName(R.prop("gender", httpPayload)),
+      deathDate: formatDateYYMMDD(R.prop("deathDate", httpPayload))
     };
 
     const updatePerson = await HTTP.updatePerson(token, id, httpPayload);
@@ -642,7 +645,8 @@ export const updateForm = payload => async (dispatch, getState) => {
     httpPayload = R.pick(["registryStatus", "requestNotes", "active"], payload);
     httpPayload = {
       ...httpPayload,
-      registryStatus: String(httpPayload.registryStatus[0])
+      registryStatus: httpPayload.registryStatus == 1 ? "Yes" : "No",
+      active: httpPayload.active == 1 ? true : false
     };
     console.table(httpPayload);
     const updateRequest = await HTTP_GLOG.updateGiftRequest(
@@ -662,24 +666,39 @@ export const updateForm = payload => async (dispatch, getState) => {
     const defaultTo0 = R.defaultTo("$0");
     httpPayload = {
       ...httpPayload,
-      value: removeFormatting(defaultTo0(R.prop("value", httpPayload)))
+      value: Number(removeFormatting(defaultTo0(R.prop("value", httpPayload))))
     };
     /* change dropdown values from int to string */
     console.log("ACTION assignedTo == " + R.prop("assignedTo", httpPayload));
     console.table(personalAssts);
     let assignedTo = R.prop(
       "title",
-      R.find(x => x.value == R.prop("assignedTo", httpPayload), personalAssts)
+      R.find(
+        x =>
+          x.value == R.prop("assignedTo", httpPayload) ||
+          x.name == R.prop("assignedTo", httpPayload),
+        personalAssts
+      )
     );
     httpPayload = { ...httpPayload, assignedTo: assignedTo };
     const updateRequest = await HTTP_GLOG.updateGift(token, id, httpPayload);
   } else if (node == "animals") {
     console.log("ACTION if animals update");
-    httpPayload = R.pick(["name", "type"], payload);
-    let type = R.prop(
-      "title",
+    console.table(payload);
+    httpPayload = R.pick(["name", "type", "notes"], payload);
+    httpPayload = { type: 0, ...httpPayload };
+    console.table(httpPayload);
+    console.table(animalTypes);
+    console.log(R.prop("type", httpPayload));
+    /*get string of animal type */
+    console.table(
       R.find(x => x.value == R.prop("type", httpPayload), animalTypes)
     );
+    let type = R.prop(
+      "name",
+      R.find(x => x.value == R.prop("type", httpPayload), animalTypes)
+    );
+
     httpPayload = { ...httpPayload, type: type };
     const updateAnimal = await HTTP_GLOG.updateAnimal(token, id, httpPayload);
     console.table(updateAnimal);
@@ -786,11 +805,15 @@ export const updateSecondary = (
   payload,
   node,
   x = null,
-  giftReqGiftPayload = null
+  giftReqGiftPayload = null,
+  bRemove = false
 ) => async (dispatch, getState) => {
   let newAttach;
   console.log("ACTION updateSecondary " + JSON.stringify(payload));
   console.log("ACTION updateSecondary  node param " + node);
+  console.log("x " + x);
+  console.log("giftReqGiftPayload " + JSON.stringify(giftReqGiftPayload));
+  console.log("bRemove " + bRemove);
   const token = getState().notifications.token;
   const geis = getState().glogInput.giftEventInstances;
   const geID = getState().glogInput.selectedRow;
@@ -809,21 +832,37 @@ export const updateSecondary = (
     console.log("selection ID " + x);
     console.log("giftID " + id);
     const requestsID = R.map(x => x.id, requests);
-    let status = R.prop("status", giftReqGiftPayload);
+    let status = giftReqGiftPayload
+      ? R.prop("status", giftReqGiftPayload)
+      : null;
     const parseGRG = obj => {
       console.log("parseGRG obj " + JSON.stringify(obj));
-      let val = obj.status == 1 ? "No" : "Yes";
-      return { ...obj, status: val };
+      if (obj && !!R.prop("status", obj)) {
+        let val = obj.status == 1 ? "No" : "Yes";
+        return { ...obj, status: val };
+      } else {
+        return { ...obj, status: "" };
+      }
     };
     if (R.contains(x, requestsID)) {
-      newAttach = await HTTP_GLOG.createGiftRequestGift(
-        token,
-        x,
-        id,
-        parseGRG(giftReqGiftPayload)
-      );
+      console.log("ACTION call HTTP_GLOG.createGiftRequestGift");
+      if (!bRemove) {
+        newAttach = await HTTP_GLOG.createGiftRequestGift(
+          token,
+          x,
+          id,
+          parseGRG(giftReqGiftPayload)
+        );
+      } else {
+        newAttach = await HTTP_GLOG.removeGiftRequestGift(token, x, id);
+      }
     } else {
-      newAttach = await HTTP_GLOG.createGiftPerson(token, id, x);
+      console.log("ACTION CALL + HTTP_GLOG.createGiftPerson ");
+      if (!bRemove) {
+        newAttach = await HTTP_GLOG.createGiftPerson(token, id, x);
+      } else {
+        newAttach = await HTTP_GLOG.removeGiftPerson(token, id, x);
+      }
     }
     //  dispatch(addGiftRequestGift(x, id, parseGRG(giftReqGiftPayload)));
     dispatch(
@@ -843,7 +882,7 @@ export const updateSecondary = (
     let vendorID = R.prop("vendor", giftObj);
     let newPayload = R.omit(["status", "id", "uuid", "organization"], {
       ...payload,
-      orderStatus: `${payload.status}`
+      orderStatus: `Received`
     });
     newPayload = {
       ...newPayload,
@@ -852,9 +891,17 @@ export const updateSecondary = (
     HTTP_GLOG.updateGiftVendor(token, giftID, vendorID, newPayload);
   } else if (node === "deliveries") {
     console.log("ACTION deliveries");
+    console.table(payload);
+    let locationID;
     let giftID = getState().glogInput.searchID;
     let giftObj = R.find(x => x.id === giftID, getState().glogInput.gifts);
-    let locationID = R.prop("location", giftObj);
+    if (payload.location) {
+      locationID = R.prop("uuid", payload.location);
+    } else {
+      locationID = giftObj.location;
+      console.log("LOCATION ID on else " + locationID);
+    }
+
     let newPayload = R.omit(["id", "uuid", "location"], payload);
     newPayload = {
       ...newPayload,
@@ -941,13 +988,37 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
       id: obj.uuid
     };
   };
+  // input is YYYYMMDD
+  const formatDateMMDDYYYY = strDate => {
+    if (!strDate) {
+      return;
+    }
+    console.log(
+      "formatDateMMDDYYYY " +
+        strDate.slice(4, 6) +
+        strDate.slice(6, 8) +
+        strDate.slice(0, 4)
+    );
+    return strDate.slice(4, 6) + strDate.slice(6, 8) + strDate.slice(0, 4);
+  };
+  const changeDateKey = person => {
+    return {
+      ...person,
+      birthDate: formatDateMMDDYYYY(R.prop("birthDate", person)),
+      deathDate: formatDateMMDDYYYY(R.prop("deathDate", person))
+    };
+  };
   R.map(
-    x => dispatch(add2(addKeyID(x), "people", false)),
+    x => dispatch(add2(addKeyID(changeDateKey(x)), "people", false)),
     ge.GiftEvent.eventPersons
   );
   R.map(
     x => dispatch(add2(addKeyID(x), "orgs", false)),
     ge.GiftEvent.eventOrganizations
+  );
+  R.map(
+    x => dispatch(add2(addKeyID(x), "animals", false)),
+    ge.GiftEvent.eventAnimals
   );
   /*  add to  gifthistory in GEI  and gifts table */
   const requests = ge.GiftEvent.eventGiftRequests;
@@ -1012,7 +1083,12 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     if (!gv) {
       return;
     }
-    let objFrmt = { ...gv, id: gv.uuid };
+    let objFrmt = {
+      ...gv,
+      id: gv.uuid,
+      orderDate: formatDateMMDDYYYY(gv.orderDate)
+    };
+
     dispatch(add2(objFrmt, "orders", false));
     return gv.uuid;
   };
@@ -1022,7 +1098,11 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
     if (!d) {
       return;
     }
-    let objFrmt = { ...d, id: d.uuid };
+    let objFrmt = {
+      ...d,
+      id: d.uuid,
+      confirmedDeliveryDate: formatDateMMDDYYYY(d.confirmedDeliveryDate)
+    };
     dispatch(add2(objFrmt, "deliveries", false));
     return d.uuid;
   };
@@ -1124,9 +1204,30 @@ export const queryGiftEvent = id => async (dispatch, getState) => {
         ]
       };
     };
+    const addGiftParties = obj => {
+      const eventPersons = ge.GiftEvent.eventPersons;
+      const parseUUID = x => {
+        return { id: x.uuid };
+      };
+      const parties = R.map(x => parseUUID(x), eventPersons);
 
+      return { ...obj, parties: parties };
+    };
+    console.table(addRequestData(newObj, giftsWithRequestData));
+    console.table(addGiftParties(addRequestData(newObj, giftsWithRequestData)));
+
+    /*   TOOOOODOO  ATTACH TO GIFT ON TUES */
+    /*
     dispatch(
       add2(addRequestData(newObj, giftsWithRequestData), "gifts", false)
+    );
+    */
+    dispatch(
+      add2(
+        addGiftParties(addRequestData(newObj, giftsWithRequestData)),
+        "gifts",
+        false
+      )
     );
   };
   console.log("next addtotables");

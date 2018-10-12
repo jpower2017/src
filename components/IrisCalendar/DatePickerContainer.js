@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as R from "ramda";
 import { connect } from "react-redux";
-//import { submitCalendar } from "./actions";
+import { submitCalendar } from "./actions";
 import { getEndPoints } from "../../utils/utils";
 import DateRangePicker from "./MyDateRangePicker";
 
@@ -14,7 +14,7 @@ class DatePickerContainer extends Component {
   }
   onSubmit = (start, end) => {
     console.log("DatePickerContainer onSubmit start end " + [start, end]);
-    this.props.submitCalendar(start, end);
+    this.props.onselect(start, end);
   };
   render() {
     return (
@@ -24,6 +24,8 @@ class DatePickerContainer extends Component {
             onSubmit={this.onSubmit}
             color={"#DF5C33"}
             rangeColors={["#DF5C33"]}
+            response={this.props.response}
+            disabled={!this.props.loaded}
           />
         ) : (
           <div>Loading...</div>
@@ -35,11 +37,13 @@ class DatePickerContainer extends Component {
 const mapStateToProps = (state, ownProps) => ({
   allowed: state.notifications.user
     ? R.contains("Iris PA", getEndPoints(state.notifications.user.roles))
-    : null
+    : null,
+  response: state.irisCalendar.response ? state.irisCalendar.response : null,
+  loaded: state.irisCalendar.loaded ? state.irisCalendar.loaded : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onselect: (startDate, endDate) => {
-    //  dispatch(submitCalendar(startDate, endDate));
+    dispatch(submitCalendar(startDate, endDate));
   }
 });
 

@@ -86,13 +86,13 @@ export const data1 = [
   },
   {
     id: 16,
-    name: "Iris calendar",
+    name: "Mrs. Smith's Calendar",
     level: 1,
     show: true,
     leaf: true,
     favorite: false,
     endpoint: "/irisCalendar",
-    allow: "IrisPA"
+    allow: "Iris PA"
   }
 ];
 

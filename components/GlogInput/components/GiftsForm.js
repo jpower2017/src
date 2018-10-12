@@ -84,17 +84,19 @@ class GiftsForm extends Component {
               <Paper>
                 <GiftsExtraContainer bubbleUp={this.change} />
               </Paper>
-              <GiftsRequestsContainer
-                onselect={x => this.onSelectParties(x)}
-                groups={this.props.requests}
-                multiSelect={true}
-                title={"Requests"}
-                giftRequestGiftPayload={{
-                  giftYear: this.state.giftYear,
-                  status: this.state.status
-                }}
-                showRequestContainer={x => this.setState({ showRequest: x })}
-              />
+              <div style={{ opacity: !this.state.giftYear ? 0.3 : 1 }}>
+                <GiftsRequestsContainer
+                  onselect={x => this.onSelectParties(x)}
+                  groups={this.props.requests}
+                  multiSelect={true}
+                  title={"Requests"}
+                  giftRequestGiftPayload={{
+                    giftYear: this.state.giftYear,
+                    status: this.state.status
+                  }}
+                  showRequestContainer={x => this.setState({ showRequest: x })}
+                />
+              </div>
             </div>
 
             <div
@@ -103,7 +105,7 @@ class GiftsForm extends Component {
                 opacity: !this.state.createNew ? 0.3 : 1
               }}
             >
-              <div style={{ opacity: !this.state.showRequest ? 0.3 : 1 }}>
+              <div style={{ opacity: !this.state.giftYear ? 0.3 : 1 }}>
                 <GiftsPartiesContainer
                   onselect={x => this.onSelectParties(x)}
                   groups={this.props.groups}

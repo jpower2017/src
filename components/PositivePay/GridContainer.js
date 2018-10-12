@@ -94,7 +94,7 @@ const mapStateToProps = (state, ownProps) => ({
         getEndPoints(state.notifications.user.roles)
       )
     : null,
-  loaded: state.banks.bankOne ? state.banks.loaded : false
+  loaded: state.banks.loaded ? state.banks.loaded : false
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getDataForComp: x => {

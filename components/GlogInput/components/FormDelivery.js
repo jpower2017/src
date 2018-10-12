@@ -175,6 +175,9 @@ class FormDelivery extends Component {
             </div>
           )}
         </div>
+        <div style={{ marginTop: "20px", color: "#990000" }}>
+          Must select location BEFORE entering following fields:
+        </div>
         {fields.map(x => (
           <FieldText
             obj={x}

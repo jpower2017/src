@@ -26,6 +26,7 @@ class ContractorConfidentiality extends Component {
           forms={forms}
           config={config}
           extraData={this.props.initiatorName}
+          authUserFW={false}
         />
       </div>
     );
@@ -33,7 +34,7 @@ class ContractorConfidentiality extends Component {
 }
 const mapStateToProps = (state, ownProps) => ({
   initiatorName: {
-    initiatorName: `${state.notifications.user.firstName} ${
+    formCompletedBy: `${state.notifications.user.firstName} ${
       state.notifications.user.lastName
     }`
   }

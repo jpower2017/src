@@ -18,8 +18,8 @@ class Form extends Component {
     this.state = { data: this.props.data };
   }
   componentWillReceiveProps(nextProps) {
-    console.log(" FORM CWRP " + nextProps.selection);
-    console.log("CWRP nextprops.data " + nextProps.data);
+    //console.log(" FORM CWRP " + nextProps.selection);
+    console.log("FORM CWRP nextprops.data " + nextProps.data);
     this.setState({ tab: nextProps.selection });
   }
   handleChange = event => {
@@ -33,32 +33,37 @@ class Form extends Component {
     //this.props.onSave(this.state.data);
   };
   getValue = (z, data) => {
-    console.log("data...");
-    console.table(data);
-    console.log("getValue " + JSON.stringify(z));
     let field = R.prop("name", z);
     console.log("field " + field);
-    console.log(R.prop(field, this.props.data));
-    return R.prop(field, this.props.data);
+    let fld = R.prop(field, this.props.data);
+    console.log("fld " + fld);
+    if (fld === 0) {
+      return "0";
+    }
+    if (fld === true) {
+      return "True";
+    } else if (fld === false) {
+      return "false";
+    }
+    return fld;
   };
   getValueDD = (z, data) => {
     let v = this.getValue(z, data);
     console.log("v " + v);
-    console.table(z);
-    console.table(z.options);
+    console.log("z.options " + JSON.stringify(z.options));
     if (!z.options || v == "undefined") {
       return;
     }
     if (Number(v)) {
       return v;
     }
-    console.log(R.prop("value", R.find(x => x.name == v, z.options)));
-    return R.prop("value", R.find(x => x.name == v, z.options));
+    if (!v) {
+      console.log("here !");
+      return 0;
+    }
+    return R.prop("value", R.find(x => x.name == String(v), z.options));
   };
   childChange = (val, name) => {
-    console.log("Form childChange ");
-    console.log("val name : " + [val, name]);
-    console.log(JSON.stringify({ ...this.state.data, [name]: val }));
     //console.log("this.props.data " + this.props.data);
     let newObj = { ...this.props.data, [name]: val };
     if (name == "firstName") {
@@ -87,8 +92,6 @@ class Form extends Component {
     this.props.onHandle2();
   };
   showOptions = options => {
-    console.log("showOptions");
-    console.log(JSON.stringify(options));
     return options;
   };
   render() {

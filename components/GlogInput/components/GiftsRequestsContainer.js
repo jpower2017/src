@@ -52,6 +52,7 @@ class GiftsRequestsContainer extends Component {
       "giftRequestGiftPayload " +
         JSON.stringify(this.props.giftRequestGiftPayload)
     );
+    let bRemove = false;
     this.showThis(false);
     to1 = setTimeout(() => this.showThis(true), 1000);
     let newRecips;
@@ -68,6 +69,7 @@ class GiftsRequestsContainer extends Component {
     const remove = () => {
       console.log("remove");
       newRecips = R.filter(y => y.id != x, tempRequest.requests);
+      bRemove = true;
     };
     R.contains(x, R.map(x => x.id, tempRequest.requests)) ? remove() : add();
     //  console.log(R.contains(x, R.map(x => x.id, tempRequest.recipients)));
@@ -91,7 +93,8 @@ class GiftsRequestsContainer extends Component {
       newTempRequest,
       "gifts",
       x,
-      this.props.giftRequestGiftPayload
+      this.props.giftRequestGiftPayload,
+      bRemove
     );
   };
   render() {
@@ -136,10 +139,12 @@ const getGiftRequestID = arrRequest => {
 };
 const convertRequests = (obj, requests) => {
   console.log("convertRequests");
+  const sortRequestNotes = R.sortWith([R.ascend(R.prop("requestNotes"))]);
+
   const a = R.map(x => x.id, R.path(["requests"], obj));
   console.table(a);
   console.table(R.filter(x => R.contains(x.id, a), requests));
-  return R.filter(x => R.contains(x.id, a), requests);
+  return sortRequestNotes(R.filter(x => R.contains(x.id, a), requests));
 };
 const mapStateToProps = (state, ownProps) => ({
   selection: state.glogInput.searchID ? state.glogInput.searchID : null,
@@ -208,8 +213,16 @@ const mapStateToProps = (state, ownProps) => ({
     : null
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSecondary: (payload, node, assocID, giftRequestGiftPayload) => {
-    dispatch(updateSecondary(payload, node, assocID, giftRequestGiftPayload));
+  updateSecondary: (
+    payload,
+    node,
+    assocID,
+    giftRequestGiftPayload,
+    bRemove
+  ) => {
+    dispatch(
+      updateSecondary(payload, node, assocID, giftRequestGiftPayload, bRemove)
+    );
   },
   onNew: payload => {
     dispatch(addNew(payload));

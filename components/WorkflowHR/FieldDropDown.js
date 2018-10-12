@@ -58,7 +58,10 @@ export default class FieldDropDown extends Component {
       x => (
         <MenuItem
           value={x.value}
-          primaryText={this.props.required ? x.title + "*" : x.title}
+          primaryText={this.props.required ? x.title : x.title}
+          style={{
+            fontSize: "20px"
+          }}
         />
       ),
       this.state.options
@@ -73,10 +76,12 @@ export default class FieldDropDown extends Component {
           value={this.state.status}
           onChange={this.handleChange}
           style={{
-            padding: "0px",
+            marginTop: "10px",
+            //padding: "0px",
             //fontSize: "large",
-            minWidth: "280px",
-            height: "100px"
+            fontSize: "20px",
+            minWidth: "480px",
+            height: "60px"
           }}
         >
           {this.showItems()}

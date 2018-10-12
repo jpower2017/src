@@ -18,7 +18,7 @@ export const registryStatuses = [
 ];
 export const activeStatuses = [
   { name: "True", title: "True", value: 1 },
-  { name: "False", title: "False", value: 2 }
+  { name: "false", title: "False", value: 2 }
 ];
 export const genderStatuses = [
   { name: "Female", title: "Female", value: 1 },
@@ -144,7 +144,8 @@ export const fieldsPerson = [
   { name: "prefix", title: "Prefix" },
   { name: "suffix", title: "Suffix" },
   { name: "birthSurname", title: "Birth surname" },
-  { name: "notes", title: "Notes", uiType: "textArea" }
+  { name: "notes", title: "Notes", uiType: "textArea" },
+  { name: "deathDate", title: "Date of death (MMDDYYYY)", type: "date" }
 ];
 export const fieldsOrgs = [
   {
@@ -257,7 +258,7 @@ export const fieldsDelivery = [
   }
 ];
 export const fieldsOrder = [
-  { name: "status", title: "Order status", uiType: "dropDown" },
+  //  { name: "status", title: "Order status", uiType: "dropDown" },
   { name: "orderNumber", title: "Order number" },
   { name: "orderDate", title: "Order date", type: "date" },
   { name: "vendorRepresentativeName", title: "Vendor rep name" },
