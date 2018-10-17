@@ -984,6 +984,27 @@ export const removeGiftRequestGift = (jwt, giftRequestUUID, giftUUID) => {
   return apolloFetch({ query, variables }).then(res => res.data);
 };
 
+export const removeGift = (jwt, giftUUID) => {
+  console.log("HTTP removeGift ");
+
+  const query = `
+       mutation removeGift($giftUUID:String) {
+        RemoveGift( giftUUID:$giftUUID)  }`;
+  const variables = {
+    giftUUID: giftUUID
+  };
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}; // Create the headers object if needed.
+    }
+    options.headers["x-auth-jwt"] = jwt;
+    options.credentials = "include";
+    next();
+  });
+  return apolloFetch({ query, variables }).then(res => res.data);
+};
+
 export const removeGiftEventPerson = (jwt, giftEventUUID, personUUID) => {
   console.log("HTTP removeGiftEventPerson ");
   const query = `

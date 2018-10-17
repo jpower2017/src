@@ -250,22 +250,22 @@ const clean = (instances, people, orgs, groups, animals, mainFilter = null) => {
   //return filterList(mainFilter, wholeList);
   return wholeList;
 };
-/*
+
 const convertRegistryStatus = r => {
-  console.log("r " + r);
+  console.log("r " + r + "typeof " + typeof r);
   let str;
   switch (r) {
     case 1:
-      str = ["Yes"];
+      str = "Yes";
       break;
     case 2:
-      str = ["No"];
+      str = "No";
       break;
     default:
       str = r;
   }
 };
-*/
+
 /*
 recipients: obj.eventPersons
   ? R.uniq(R.map(x => `${x.firstName} ${x.lastName}`, obj.eventPersons))
@@ -298,7 +298,10 @@ const clean2 = geis => {
 };
 
 const filterByMonth = (geis, month) => {
-  return R.filter(x => x.eventMonth == month, geis);
+  const getID = obj => {
+    return obj.id;
+  };
+  return R.uniqBy(getID, R.filter(x => x.eventMonth == month, geis));
 };
 
 const sortByTimestamp = rows => {

@@ -26,10 +26,10 @@ class FormContainer extends Component {
     this.props.bubbleNew();
   };
   handleConfigOptions = (fields, config = null) => {
-    console.table(config);
+    //  console.table(config);
     const addConfig = (x, config) => {
-      console.log("field " + JSON.stringify(x));
-      console.log("config " + JSON.stringify(config));
+      //  console.log("field " + JSON.stringify(x));
+      //  console.log("config " + JSON.stringify(config));
       if (x.loadConfig) {
         return { ...x, options: config };
       } else {

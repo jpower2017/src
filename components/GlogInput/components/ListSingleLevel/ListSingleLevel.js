@@ -31,6 +31,7 @@ export default class ListSingleLevel extends Component {
   }
   componentDidMount() {}
   onselect(x, obj) {
+    console.log("onselect x,obj " + x + " " + obj);
     if (this.state.multiSelect) {
       console.log("contains " + R.contains(x, this.state.selected));
       let arr = this.state.selected;
@@ -46,10 +47,39 @@ export default class ListSingleLevel extends Component {
     this.props.onselect(x, obj);
   }
   bHighlight = (id, selected, objRequest, requestID, field = "recipients") => {
-    /*console.log(
+    console.log(
+      "bHighlight " + [id, selected, requestID, JSON.stringify(objRequest)]
+    );
+
+    let show = "";
+    if (requestID === id) {
+      return true;
+    }
+
+    if (selected && !this.props.request) {
+      if (id == selected) {
+        return true;
+      }
+    }
+
+    if (!objRequest || !objRequest[field]) {
+      console.log("HERE?");
+      return;
+    }
+    const recips = R.path([field], objRequest);
+    console.log("recips " + JSON.stringify(recips));
+    const arr = R.map(x => x.id, recips);
+    console.log(JSON.stringify(arr));
+    show = R.contains(id, arr);
+
+    return show;
+  };
+  /*
+  bHighlight = (id, selected, objRequest, requestID, field = "recipients") => {
+    console.log(
       "bHighlight " + [id, selected, JSON.stringify(objRequest), requestID]
     );
-    */
+
     let show = "";
     if (requestID === id) {
       return true;
@@ -67,9 +97,28 @@ export default class ListSingleLevel extends Component {
     const recips = R.path([field], objRequest);
     console.log("recips " + JSON.stringify(recips));
     const arr = R.map(x => x.id, recips);
-    show = R.contains(id, arr);
+    //show = R.contains(id, arr);
 
-    return show;
+    console.log("show and id " + show + "  " + id);
+    return id == selected;
+  };
+  */
+  bHighlight2 = (rn, giftObj) => {
+    console.log("x " + rn);
+    console.table(giftObj);
+    if (giftObj) {
+      console.log(JSON.stringify(R.prop("requests", giftObj)));
+      const request = R.prop("requests", giftObj);
+      if (request.length) {
+        const requestNote = R.prop("requestNotes", request[0]);
+        if (requestNote == rn) {
+          console.log("true requestNote == rn");
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
   };
   render() {
     const { data, request, requestID } = this.props;
@@ -103,13 +152,18 @@ export default class ListSingleLevel extends Component {
                     : x.requestNotes
               }
               onselect={(x, obj) => this.onselect(x, obj)}
-              bHighlight={this.bHighlight(
-                x.id,
-                this.state.selected,
-                request,
-                requestID,
-                this.props.field
-              )}
+              // highlight(x.requestnotes,props.gift)
+              bHighlight={
+                this.props.gift
+                  ? this.bHighlight2(x.requestNotes, request)
+                  : this.bHighlight(
+                      x.id,
+                      this.state.selected,
+                      request,
+                      requestID,
+                      this.props.field
+                    )
+              }
             />
           ))}
         </div>

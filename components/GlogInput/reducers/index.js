@@ -170,6 +170,7 @@ export const glogInput = (state = [], action) => {
       };
     case GLOG_UPDATE_GIFTREQUEST_GIFT:
       console.log("REDUCER GLOG_GIFTREQUEST_GIFT_AD");
+      console.log("action.payload " + action.payload);
 
       let selectedObj = R.find(x => x.id === action.id, state.requests);
       let newObj = {

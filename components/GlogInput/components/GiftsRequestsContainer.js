@@ -58,7 +58,7 @@ class GiftsRequestsContainer extends Component {
     let newRecips;
     const tempRequest = this.props.request;
     console.log(JSON.stringify(tempRequest));
-    console.log(JSON.stringify(this.props.requests));
+    //console.log(JSON.stringify(this.props.requests));
     const add = () => {
       console.log("add");
       console.log(JSON.stringify(obj));
@@ -71,6 +71,9 @@ class GiftsRequestsContainer extends Component {
       newRecips = R.filter(y => y.id != x, tempRequest.requests);
       bRemove = true;
     };
+    console.log(
+      "CONTAINS " + R.contains(x, R.map(x => x.id, tempRequest.requests))
+    );
     R.contains(x, R.map(x => x.id, tempRequest.requests)) ? remove() : add();
     //  console.log(R.contains(x, R.map(x => x.id, tempRequest.recipients)));
 
@@ -109,6 +112,7 @@ class GiftsRequestsContainer extends Component {
             multiSelect={true}
             request={this.props.request}
             field={"requests"}
+            gift={true}
           />
         ) : (
           <div>no requests yet</div>

@@ -28,7 +28,7 @@ export default class ListRow extends React.Component {
   }
   componentDidMount() {}
   componentWillReceiveProps(nextProps) {
-    console.log("Row componentWillReceiveProps " + JSON.stringify(nextProps));
+    //  console.log("Row componentWillReceiveProps " + JSON.stringify(nextProps));
   }
   toggle() {
     console.log("  toggle id " + this.props.data.id);

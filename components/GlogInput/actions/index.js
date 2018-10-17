@@ -682,6 +682,7 @@ export const updateForm = payload => async (dispatch, getState) => {
     );
     httpPayload = { ...httpPayload, assignedTo: assignedTo };
     const updateRequest = await HTTP_GLOG.updateGift(token, id, httpPayload);
+    dispatch(addSearch2());
   } else if (node == "animals") {
     console.log("ACTION if animals update");
     console.table(payload);
@@ -750,12 +751,15 @@ export const ondelete = id => async (dispatch, getState) => {
     console.table(giftObj);
     //const giftRequestID = R.prop("requests", giftObj)[0].id;
     console.log("giftRequestID " + giftRequestID);
-    console.log(R.prop("id", giftObj.requests[0]));
+    //  console.log(R.prop("id", giftObj.requests[0]));
+    /*
     const removeGiftRequestGift = await HTTP_GLOG.removeGiftRequestGift(
       token,
       R.prop("id", giftObj.requests[0]),
       id
     );
+    */
+    const removeGift = await HTTP_GLOG.removeGift(token, id);
   } else if (geiType == "requests") {
     gei.requests = R.filter(x => x.id !== id, gei.requests);
     dispatch(update(gei, "giftEventInstances"));
@@ -766,6 +770,7 @@ export const ondelete = id => async (dispatch, getState) => {
     );
   } else {
     gei.recipients = R.filter(x => x.id !== id, gei.recipients);
+    gei.eventPersons = R.filter(x => x.id !== id, gei.eventPersons);
     dispatch(update(gei, "giftEventInstances"));
     console.log("ondelete geiType : " + geiType);
     if (geiType === "people") {
@@ -832,6 +837,12 @@ export const updateSecondary = (
     console.log("selection ID " + x);
     console.log("giftID " + id);
     const requestsID = R.map(x => x.id, requests);
+
+    console.log("remove this request " + requestsID);
+    const removeGRG = async (x, id) => {
+      await HTTP_GLOG.removeGiftRequestGift(token, x, id);
+    };
+    R.map(x => removeGRG(x, id), requestsID);
     let status = giftReqGiftPayload
       ? R.prop("status", giftReqGiftPayload)
       : null;
@@ -846,6 +857,8 @@ export const updateSecondary = (
     };
     if (R.contains(x, requestsID)) {
       console.log("ACTION call HTTP_GLOG.createGiftRequestGift");
+      console.log("giftReqGiftPayload");
+      console.log(giftReqGiftPayload);
       if (!bRemove) {
         newAttach = await HTTP_GLOG.createGiftRequestGift(
           token,
@@ -858,9 +871,9 @@ export const updateSecondary = (
       }
     } else {
       console.log("ACTION CALL + HTTP_GLOG.createGiftPerson ");
-      if (!bRemove) {
+      if (!bRemove && x) {
         newAttach = await HTTP_GLOG.createGiftPerson(token, id, x);
-      } else {
+      } else if (x) {
         newAttach = await HTTP_GLOG.removeGiftPerson(token, id, x);
       }
     }

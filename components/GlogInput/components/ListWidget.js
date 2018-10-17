@@ -110,22 +110,27 @@ const ListWidget = props => {
   const formatGiftYear = str => {
     return str ? `${str}:   ` : "";
   };
-  const getSubText = (arrField1, arrField2) => {
+  const getSubText = (arrField1, arrField2 = null) => {
     let str = "";
     str = arrField1
       ? R.map(
           x =>
             x.name
               ? x.name
-              : x.lastName ? `${x.firstName} ${x.lastName}` : x.requestNotes,
+              : x.lastName
+                ? `${x.firstName} ${x.lastName}`
+                : x.requestNotes,
           arrField1
         )
       : "";
-    str += arrField2
-      ? R.map(x => formatGiftYear(x.giftYear) + x.requestNotes, arrField2)
-      : "";
-    //return str.toString().slice(0, -1);
-    return str;
+    if (!arrField2) {
+      return str.toString();
+    } else {
+      str += arrField2
+        ? R.map(x => formatGiftYear(x.giftYear) + x.requestNotes, arrField2)
+        : "";
+      return str.replace(/,/g, "");
+    }
 
     //return R.map(x => x.name, obj[field1]);
   };
