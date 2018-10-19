@@ -555,11 +555,17 @@ export const update = (payload, node) => ({
 });
 
 const formatDateYYMMDD = strDate => {
-  console.log("date " + strDate);
+  console.log("date strDate: " + strDate);
   if (!strDate) {
     return;
   }
   let arrDate = strDate.split("/");
+  if (arrDate.length == 1) {
+    console.log("arrDate length = 1");
+    let newDt = strDate.slice(4, 8) + strDate.slice(0, 2) + strDate.slice(2, 4);
+    console.log("newDt " + newDt);
+    return newDt;
+  }
   console.log("formatedDate " + arrDate[2] + arrDate[0] + arrDate[1]);
   return arrDate[2] + arrDate[0] + arrDate[1];
 };
@@ -839,10 +845,7 @@ export const updateSecondary = (
     const requestsID = R.map(x => x.id, requests);
 
     console.log("remove this request " + requestsID);
-    const removeGRG = async (x, id) => {
-      await HTTP_GLOG.removeGiftRequestGift(token, x, id);
-    };
-    R.map(x => removeGRG(x, id), requestsID);
+
     let status = giftReqGiftPayload
       ? R.prop("status", giftReqGiftPayload)
       : null;
@@ -859,16 +862,18 @@ export const updateSecondary = (
       console.log("ACTION call HTTP_GLOG.createGiftRequestGift");
       console.log("giftReqGiftPayload");
       console.log(giftReqGiftPayload);
-      if (!bRemove) {
-        newAttach = await HTTP_GLOG.createGiftRequestGift(
-          token,
-          x,
-          id,
-          parseGRG(giftReqGiftPayload)
-        );
-      } else {
-        newAttach = await HTTP_GLOG.removeGiftRequestGift(token, x, id);
-      }
+      const removeGRG = async (x, id) => {
+        console.log("removeGiftRequestGift 1");
+        await HTTP_GLOG.removeGiftRequestGift(token, x, id);
+      };
+      R.map(x => removeGRG(x, id), requestsID);
+      //  if (!bRemove) {
+      newAttach = await HTTP_GLOG.createGiftRequestGift(
+        token,
+        x,
+        id,
+        parseGRG(giftReqGiftPayload)
+      );
     } else {
       console.log("ACTION CALL + HTTP_GLOG.createGiftPerson ");
       if (!bRemove && x) {
@@ -1310,23 +1315,41 @@ export const searchPerson = (str = "") => async (dispatch, getState) => {
   let peps = R.map(x => changeLabel(x), newSearch.SearchPerson);
   //  peps = filterBeginsWith(str, peps, "lastName");
 
-  const changeDate = obj => {
+  const changeDateBirth = obj => {
     console.log("changeDate f");
     console.log(!!obj.birthDate);
     if (!obj.birthDate) {
       return obj;
     }
-    const d = obj.birthDate;
+    let d = obj.birthDate;
     let newDate = "";
     if (obj.birthDate.length === 8) {
       newDate = d.slice(4, 6) + d.slice(6, 8) + d.slice(0, 4);
     } else if (obj.birthDate.length === 6) {
       newDate = d.slice(2, 4) + d.slice(4, 6) + d.slice(0, 2);
     }
+
     return { ...obj, birthDate: newDate };
   };
-  console.table(R.map(x => changeDate(x), peps));
-  peps = R.map(x => changeDate(x), peps);
+  const changeDateDeath = obj => {
+    console.log("changeDate f");
+    console.log(!!obj.birthDate);
+
+    if (!obj.deathDate) {
+      return obj;
+    }
+    let d = obj.deathDate;
+    let newDate2 = "";
+    if (obj.deathDate.length === 8) {
+      newDate2 = d.slice(4, 6) + d.slice(6, 8) + d.slice(0, 4);
+    } else if (obj.deathDate.length === 6) {
+      newDate2 = d.slice(2, 4) + d.slice(4, 6) + d.slice(0, 2);
+    }
+    return { ...obj, deathDate: newDate2 };
+  };
+
+  peps = R.map(x => changeDateBirth(x), peps);
+  peps = R.map(x => changeDateDeath(x), peps);
   dispatch(searchText(peps));
 };
 export const searchGroup = (str = "") => async (dispatch, getState) => {

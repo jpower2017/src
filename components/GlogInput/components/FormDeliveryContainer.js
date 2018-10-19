@@ -25,6 +25,7 @@ class FormContainer extends Component {
           onType={this.props.onType}
           onAdd={this.props.onAdd}
           gift={this.props.gift}
+          deliveryAddresses={this.props.deliveryAddresses}
         />
       </div>
     );
@@ -56,8 +57,8 @@ const getLocations = (obj, locations, gifts) => {
   const arrGifts = R.map(x => x.id, obj.giftHistory);
   const filteredGifts = R.filter(x => R.contains(x.id, arrGifts), gifts);
   console.table(filteredGifts);
+  let counter = 0;
   const getLocs = gift => {
-    let counter = 0;
     const deliv = R.prop("delivery", gift);
     if (!deliv) {
       return;
@@ -79,6 +80,40 @@ const getLocations = (obj, locations, gifts) => {
     return;
   }
   return locs;
+};
+const getDeliveries = (obj, deliveries, gifts) => {
+  console.log("getetDeliveries");
+  console.table(deliveries);
+  const arrGifts = R.map(x => x.id, obj.giftHistory);
+  const filteredGifts = R.filter(x => R.contains(x.id, arrGifts), gifts);
+  console.table(filteredGifts);
+  let counter = 0;
+  const getLocs = gift => {
+    const deliv = R.prop("delivery", gift);
+    console.log("deliv " + deliv);
+    if (!deliv) {
+      return;
+    } else {
+      let d = R.find(x => x.id == deliv, deliveries);
+      console.table(d);
+      if (!R.prop("location", d)) {
+        return;
+      }
+      return {
+        name: R.prop("uuid", R.prop("location", d)),
+        title: R.path(["location", "formattedAddress"], d)[0],
+        value: counter++
+      };
+    }
+
+    return { name: "test", title: "testing", value: counter++ };
+  };
+  let locs = R.map(x => getLocs(x), filteredGifts);
+  console.table(locs);
+  if (!locs[0]) {
+    return;
+  }
+  return R.filter(x => x != undefined, locs);
 };
 
 const getValues = arrObj => {
@@ -107,6 +142,14 @@ const mapStateToProps = (state, ownProps) => ({
       state.glogInput.giftEventInstances
     ),
     state.glogInput.locations,
+    state.glogInput.gifts
+  ),
+  deliveryAddresses: getDeliveries(
+    R.find(
+      x => x.id == state.glogInput.selectedRow,
+      state.glogInput.giftEventInstances
+    ),
+    state.glogInput.deliveries,
     state.glogInput.gifts
   )
 

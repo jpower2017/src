@@ -738,7 +738,8 @@ export const searchPerson = (jwt, str) => {
       legalLastName,
       suffix,
       prefix,
-      notes
+      notes,
+      deathDate
     }
   }
 `;

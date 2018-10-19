@@ -92,18 +92,8 @@ class FormDelivery extends Component {
     this.setState({ saveEnabled: true });
   };
   changeGiftLocation = (val, name) => {
-    console.log("changeGiftLocation " + [val, name]);
     this.setState({ data: { ...this.props.gift, [name]: val } });
     this.props.onSaveGiftLocation({ ...this.props.gift, [name]: val });
-    this.setState({ saveEnabled: true });
-  };
-  changeDD = (val, name) => {
-    console.log("changeDD " + [val, name]);
-    const objSelect = R.find(x => x.value == val, this.props.deliveryAddresses);
-    this.setState({
-      data: { ...this.props.gift, [name]: R.prop("name", objSelect) }
-    });
-    ///  this.props.onSaveGiftLocation({ ...this.props.gift, [name]:  R.prop('name',objSelect) } });
     this.setState({ saveEnabled: true });
   };
   handleNewLoc = (obj, node, bool) => {
@@ -115,7 +105,7 @@ class FormDelivery extends Component {
         { name: "location1", title: R.prop("streetAddress1", obj), value: 0 }
       ]
     });
-    // // this.setState({ temp: [{ name: "location1", title: "temp", value: 0 }] });
+    //  this.setState({ temp: [{ name: "location1", title: "temp", value: 0 }] });
 
     this.props.onAdd(obj, node, bool);
     this.changeGiftLocation(obj.id, "location");
@@ -133,39 +123,6 @@ class FormDelivery extends Component {
 
     return [{ name: "location1", title: loc, value: 0 }];
   };
-  getAllAddresses = rows => {
-    console.log("testLocs");
-    console.table(rows);
-    const createRows = (x, i) => {
-      if (!x) {
-        console.log("not data.location");
-        return {};
-      }
-      let arrLoc = R.path(["location", "formattedAddress"], x);
-      if (arrLoc && arrLoc.length) {
-        const loc = `${arrLoc[0]}, ${arrLoc[1]}, ${arrLoc[2]}`;
-        return { name: `location${i}`, title: loc, value: i };
-      }
-    };
-    const mapIndexed = R.addIndex(R.map);
-    console.table(mapIndexed((x, i) => createRows(x, i), rows));
-    return mapIndexed((x, i) => createRows(x, i), rows);
-  };
-  getGiftAddressValue = (addresses, data) => {
-    console.log("getGiftAddress");
-    console.table(data);
-    console.table(addresses);
-    //return 0;
-    let arrLoc = R.path(["location", "formattedAddress"], data);
-    if (!arrLoc) {
-      return null;
-    }
-    //const loc = `${arrLoc[0]}, ${arrLoc[1]}, ${arrLoc[2]}`;
-    const loc = arrLoc[0];
-    console.table(R.find(x => x.title == arrLoc[0], addresses));
-    console.log(R.prop("value", R.find(x => x.title == loc, addresses)));
-    return R.prop("value", R.find(x => x.title == loc, addresses));
-  };
 
   render() {
     const {
@@ -181,17 +138,13 @@ class FormDelivery extends Component {
         <div style={{ border: "1px solid #bbb" }}>
           <div style={{ display: "flex", alignItem: "flex-end" }}>
             <div>
-              {deliveryAddresses && (
-                <FieldDropDown
-                  options={
-                    deliveryAddresses
-                      ? deliveryAddresses
-                      : [{ name: "location1", title: "", value: 0 }]
-                  }
-                  status={this.getGiftAddressValue(deliveryAddresses, data)}
-                  onselect={value => this.changeDD(value, "location")}
-                />
-              )}
+              <FieldDropDown
+                options={
+                  deliveryAddresses ? deliveryAddresses : this.state.street
+                }
+                status={0}
+                onselect={value => this.changeGiftLocation(value, "location")}
+              />
             </div>
 
             <div style={{ margin: "10px 20px 0px 0px" }}>

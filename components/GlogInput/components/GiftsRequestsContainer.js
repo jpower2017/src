@@ -52,6 +52,7 @@ class GiftsRequestsContainer extends Component {
       "giftRequestGiftPayload " +
         JSON.stringify(this.props.giftRequestGiftPayload)
     );
+    this.props.bubbleUp();
     let bRemove = false;
     this.showThis(false);
     to1 = setTimeout(() => this.showThis(true), 1000);

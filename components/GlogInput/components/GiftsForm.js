@@ -45,6 +45,10 @@ class GiftsForm extends Component {
     this.setState({ [name]: val });
     //  this.props.change(name, val);
   };
+  bubbleUp = () => {
+    console.log("bubbleUp");
+    this.setState({ showParties: true });
+  };
   render() {
     const { title, muiTheme, action, data } = this.props;
     return (
@@ -86,6 +90,7 @@ class GiftsForm extends Component {
               </Paper>
               <div style={{ opacity: !this.state.giftYear ? 0.3 : 1 }}>
                 <GiftsRequestsContainer
+                  bubbleUp={this.bubbleUp}
                   onselect={x => this.onSelectParties(x)}
                   groups={this.props.requests}
                   multiSelect={true}
@@ -105,7 +110,12 @@ class GiftsForm extends Component {
                 opacity: !this.state.createNew ? 0.3 : 1
               }}
             >
-              <div style={{ opacity: !this.state.giftYear ? 0.3 : 1 }}>
+              <div
+                style={{
+                  opacity:
+                    !this.state.giftYear || !this.state.showParties ? 0.3 : 1
+                }}
+              >
                 <GiftsPartiesContainer
                   onselect={x => this.onSelectParties(x)}
                   groups={this.props.groups}
